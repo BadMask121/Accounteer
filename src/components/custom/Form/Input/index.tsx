@@ -1,6 +1,7 @@
 import React from 'react';
 import {Item, Label, Input} from 'native-base';
 import {Dimensions} from 'react-native';
+import {app} from '@src/helpers/constants';
 function FormInput({
   handleChange,
   name,
@@ -28,7 +29,7 @@ function FormInput({
         {...props}
         style={{
           textAlign: 'center',
-          fontFamily: 'Gilroy-Medium',
+          fontFamily: app.primaryFontMedium,
           lineHeight: 15,
           fontSize: 15,
           height: 70,

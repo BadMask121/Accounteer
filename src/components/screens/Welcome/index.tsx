@@ -42,7 +42,7 @@ export default props => {
             style={{
               alignItems: 'center',
               textAlign: 'center',
-              fontFamily: 'Gilroy-Regular',
+              fontFamily: app.primaryFontRegular,
               lineHeight: 25,
             }}>
             Connecting you to the best car wash vendors near you, giving you the

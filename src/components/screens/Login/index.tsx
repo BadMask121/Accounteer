@@ -38,7 +38,7 @@ export default () => {
             style={{
               justifyContent: 'flex-end',
               alignSelf: 'center',
-              fontFamily: 'Gilroy-Light',
+              fontFamily: app.primaryFontLight,
             }}>
             or
           </Text>
@@ -87,7 +87,7 @@ export default () => {
                   marginTop: 20,
                   marginBottom: 30,
                 }}
-                textStyle={{fontFamily: 'Gilroy-Bold'}}
+                textStyle={{fontFamily: app.primaryFontBold}}
                 onPress={handleSubmit}
                 text="Log in"
               />

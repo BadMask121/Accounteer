@@ -41,7 +41,7 @@ export default (props: Props) => {
       )}
       <Text
         style={{
-          fontFamily: 'Gilroy-Bold',
+          fontFamily: app.primaryFontBold,
           textTransform: 'capitalize',
           ...style.textStyle,
           ...props.textStyle,

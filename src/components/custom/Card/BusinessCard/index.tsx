@@ -45,7 +45,7 @@ export default (props: Props) => {
               style={{
                 width: 150,
                 fontSize: 20,
-                fontFamily: 'Gilroy-Bold',
+                fontFamily: app.primaryFontBold,
                 color: '#4E4D50',
               }}>
               {props.name}
@@ -53,7 +53,7 @@ export default (props: Props) => {
             <Text
               style={{
                 marginTop: 1,
-                fontFamily: 'Gilroy-Medium',
+                fontFamily: app.primaryFontMedium,
                 color: '#55D2C4',
               }}>
               {props.location}
@@ -79,7 +79,7 @@ export default (props: Props) => {
               />
               <Text
                 style={{
-                  fontFamily: 'Gilroy-Light',
+                  fontFamily: app.primaryFontLight,
                   color: '#55D2C4',
                   fontSize: 14,
                   alignItems: 'flex-end',

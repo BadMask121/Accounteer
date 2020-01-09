@@ -6,7 +6,7 @@ const style = {
   title: {
     color: app.primaryColorDark,
     fontSize: 40,
-    fontFamily: 'Gilroy-Bold',
+    fontFamily: app.primaryFontBold,
     marginLeft: 10,
   },
 };
