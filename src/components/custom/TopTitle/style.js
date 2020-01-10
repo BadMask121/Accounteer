@@ -1,13 +1,13 @@
 import {app} from '@src/helpers/constants';
 const style = {
   titleContainer: {
-    flex: 0.8,
+    flex: 1,
   },
   title: {
-    color: app.primaryColorDark,
     fontSize: 40,
-    fontFamily: app.primaryFontBold,
     marginLeft: 10,
+    color: app.primaryColorDark,
+    fontFamily: app.primaryFontBold,
   },
 };
 

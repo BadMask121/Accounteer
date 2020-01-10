@@ -1,13 +1,15 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text} from 'native-base';
 import {Image, KeyboardAvoidingView, Animated, Easing} from 'react-native';
-import {Dimensions} from 'react-native';
+import {Dimensions, FlatList} from 'react-native';
 import * as BoxShadow from 'react-native-shadow';
+import RippleView from '';
 import {Formik} from 'formik';
 import TopTitle from '@custom/TopTitle';
 import FormInput from '@custom/Form/Input';
+import SubPanel from '@custom/Panel/SubPanel';
 import style from './style';
-import CardList from 'components/custom/CardList';
+import ListDashboardContent from 'components/custom/List/ListDashboardContent';
 
 export default props => {
   const [state, setstate] = useState({
@@ -37,35 +39,19 @@ export default props => {
   return (
     <KeyboardAvoidingView style={style.container}>
       <Animated.View style={[style.topTitle, {flex: state.flex}]}>
-        <TopTitle labelSize={state.labelSize} title="Find Car Wash" />
-        <View style={style.inputForm}>
-          <Formik
-            initialValues={{search: ''}}
-            onSubmit={values => console.log(values)}>
-            {({handleChange, handleBlur, handleSubmit, values}) => (
-              <View>
-                <FormInput
-                  rounded
-                  inputViewStyle={{
-                    borderColor: '#e1fbff',
-                    backgroundColor: '#e1fbff',
-                  }}
-                  handleChange={handleChange}
-                  name="search"
-                  placeholder="Search for car wash"
-                  submitting={false}
-                />
-              </View>
-            )}
-          </Formik>
-        </View>
+        <TopTitle labelSize={state.labelSize} title="Dashboard" />
       </Animated.View>
+
+      <View style={style.subTitleContainer}>
+        <View style={style.userFullNameContainer}>
+          <Text style={style.userFullName}>
+            Hello {props.firstName + props.lastName || 'Ace Corps'}
+          </Text>
+        </View>
+        <SubPanel />
+      </View>
       <View style={{flex: 1}}>
-        <CardList
-          handlePageScroll={handlePageScroll}
-          {...props}
-          loading={true}
-        />
+        <ListDashboardContent {...{handlePageScroll}} />
       </View>
     </KeyboardAvoidingView>
   );

@@ -7,16 +7,16 @@ import TopTitle from '@custom/TopTitle';
 import FormInput from '@custom/Form/Input';
 import {app} from '@src/helpers/constants';
 import style from './style';
-export default () => {
+export default props => {
   return (
     <KeyboardAvoidingView style={style.container}>
       <View style={style.loginOptions}>
-        <TopTitle title="Log in" />
+        <TopTitle title="Log In" />
         <Button
           icon="facebook"
           iconSize={20}
           iconColor="#fff"
-          text="Log in with Facebook"
+          text="Sign in with Facebook"
         />
         <Button
           buttonStyle={{
@@ -32,11 +32,10 @@ export default () => {
         />
         <View
           style={{
-            marginTop: 10,
+            flex: 0.5,
           }}>
           <Text
             style={{
-              justifyContent: 'flex-end',
               alignSelf: 'center',
               fontFamily: app.primaryFontLight,
             }}>
@@ -88,7 +87,7 @@ export default () => {
                   marginBottom: 30,
                 }}
                 textStyle={{fontFamily: app.primaryFontBold}}
-                onPress={handleSubmit}
+                onPress={() => props.handleSubmit()}
                 text="Log in"
               />
 

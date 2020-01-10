@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text} from 'native-base';
 import {Image, Dimensions, TouchableHighlight} from 'react-native';
 import Button from 'components/custom/Button';
-import StarRating from '@lib/react-native-star-rating';
+// import StarRating from '@lib/react-native-star-rating';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {app} from '@src/helpers/constants';
 import style from './style';
@@ -88,13 +88,6 @@ export default (props: Props) => {
                 1 km away
               </Text>
             </View>
-            <StarRating
-              disabled={false}
-              maxStars={5}
-              rating={props.rating}
-              fullStarColor="#67CDBF"
-              starSize={22}
-            />
           </View>
         </View>
         <View style={style.cardBookContainer}>

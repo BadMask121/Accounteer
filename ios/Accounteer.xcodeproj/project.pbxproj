@@ -42,6 +42,7 @@
 		16D38B5229BF4CBE9F788A59 /* Gilroy-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8B3C0E16F1FD44EC80B1DF71 /* Gilroy-Light.ttf */; };
 		4AA84115146A47CFBB759BA4 /* Gilroy-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 479FDAC4616246408E2F7FAB /* Gilroy-Medium.ttf */; };
 		32D2B6946DA947E38E239AA7 /* Gilroy-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2F6522C265EE43689D1DECBD /* Gilroy-Regular.ttf */; };
+		BB8BD31211C54C0AB23D55D0 /* logoOnly.png in Resources */ = {isa = PBXBuildFile; fileRef = 28B732927AA9425CB28852A6 /* logoOnly.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -103,6 +104,7 @@
 		8B3C0E16F1FD44EC80B1DF71 /* Gilroy-Light.ttf */ = {isa = PBXFileReference; name = "Gilroy-Light.ttf"; path = "../assets/fonts/Gilroy-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		479FDAC4616246408E2F7FAB /* Gilroy-Medium.ttf */ = {isa = PBXFileReference; name = "Gilroy-Medium.ttf"; path = "../assets/fonts/Gilroy-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		2F6522C265EE43689D1DECBD /* Gilroy-Regular.ttf */ = {isa = PBXFileReference; name = "Gilroy-Regular.ttf"; path = "../assets/fonts/Gilroy-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		28B732927AA9425CB28852A6 /* logoOnly.png */ = {isa = PBXFileReference; name = "logoOnly.png"; path = "../assets/images/logoOnly.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -239,6 +241,7 @@
 				8B3C0E16F1FD44EC80B1DF71 /* Gilroy-Light.ttf */,
 				479FDAC4616246408E2F7FAB /* Gilroy-Medium.ttf */,
 				2F6522C265EE43689D1DECBD /* Gilroy-Regular.ttf */,
+				28B732927AA9425CB28852A6 /* logoOnly.png */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -406,6 +409,7 @@
 				16D38B5229BF4CBE9F788A59 /* Gilroy-Light.ttf in Resources */,
 				4AA84115146A47CFBB759BA4 /* Gilroy-Medium.ttf in Resources */,
 				32D2B6946DA947E38E239AA7 /* Gilroy-Regular.ttf in Resources */,
+				BB8BD31211C54C0AB23D55D0 /* logoOnly.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

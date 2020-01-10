@@ -56,11 +56,11 @@ export default props => {
                 marginBottom: 20,
                 backgroundColor: app.primaryColor,
               }}
-              text="Find car wash near by"
-              icon="location-arrow"
+              text="Create An Accounteer"
+              icon="user-circle"
               iconColor="#fff"
               iconSize={20}
-              onPress={() => props.navigation.navigate('HomePage')}
+              onPress={() => props.navigation.navigate('Signup')}
             />
           </View>
           <View>

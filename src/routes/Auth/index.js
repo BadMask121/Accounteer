@@ -3,7 +3,7 @@ import {createStackNavigator} from 'react-navigation-stack';
 import {createSharedElementStackNavigator} from 'react-navigation-shared-element';
 
 import Welcome from '../../components/screens/Welcome';
-import {Login, Signup, Profile, HomePage} from '../../containers';
+import {Login, Signup, Profile, Dashboard} from '../../containers';
 const index = values =>
   createStackNavigator(
     {
@@ -19,8 +19,8 @@ const index = values =>
       Signup: {
         screen: props => <Signup {...props} {...values} />,
       },
-      HomePage: {
-        screen: props => <HomePage {...props} {...values} />,
+      Dashboard: {
+        screen: props => <Dashboard {...props} {...values} />,
       },
       Profile: {
         screen: props => <Profile {...props} {...values} />,
@@ -42,7 +42,7 @@ const index = values =>
           fontWeight: 'bold',
         },
       },
-      initialRouteName: 'Welcome',
+      initialRouteName: 'Dashboard',
     },
   );
 

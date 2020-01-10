@@ -1,6 +1,6 @@
 import Login from './Login';
 import Signup from './Signup';
-import HomePage from './HomePage';
+import Dashboard from './Dashboard';
 import Profile from './Profile';
 
-export {HomePage, Profile, Login, Signup};
+export {Dashboard, Profile, Login, Signup};

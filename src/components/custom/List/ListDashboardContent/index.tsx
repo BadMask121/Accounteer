@@ -6,11 +6,33 @@ import {
   FlatList,
   TouchableHighlight,
   Animated,
+  SectionList,
 } from 'react-native';
 import {ActivityIndicator} from 'react-native';
-import {data} from '../../../helpers/dummydata';
+import {data} from '@src/helpers/dummydata';
 import {app} from '@src/helpers/constants';
-const BusinessCard = lazy(() => import('../Card/BusinessCard'));
+import ListContent from './ListContent';
+import style from './style';
+const BusinessCard = lazy(() => import('@custom/Card/BusinessCard'));
+
+const DATA = [
+  {
+    title: 'Businesses',
+    data: [...data],
+  },
+  {
+    title: 'Invoices',
+    data: ['French Fries', 'Onion Rings', 'Fried Shrimps'],
+  },
+  {
+    title: 'Offers',
+    data: ['Water', 'Coke', 'Beer'],
+  },
+  {
+    title: 'Purchases',
+    data: ['Water', 'Coke', 'Beer'],
+  },
+];
 
 export default ({loading, handlePageScroll, ...props}) => {
   const [state, setstate] = useState({
@@ -45,14 +67,14 @@ export default ({loading, handlePageScroll, ...props}) => {
 
   return (
     <Suspense fallback={renderFooter()}>
-      <View style={{flex: 1, padding: 5}}>
-        <Animated.FlatList
-          data={data}
-          renderItem={({item, index, separators}) => (
-            <BusinessCard key={item.id} {...item} {...props} />
+      <View style={style.sectionContainer}>
+        <SectionList
+          sections={DATA}
+          keyExtractor={(item, index) => index}
+          renderItem={({item}) => <ListContent />}
+          renderSectionHeader={({section: {title}}) => (
+            <Text style={style.sectionTitle}>{title}</Text>
           )}
-          keyExtractor={item => item.id.toString()}
-          ListFooterComponent={renderFooter}
           scrollEventThrottle={1}
           {...{onScroll}}
         />
