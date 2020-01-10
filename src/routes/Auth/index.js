@@ -42,7 +42,7 @@ const index = values =>
           fontWeight: 'bold',
         },
       },
-      initialRouteName: 'Dashboard',
+      initialRouteName: 'Welcome',
     },
   );
 

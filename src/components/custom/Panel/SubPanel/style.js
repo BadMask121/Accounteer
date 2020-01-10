@@ -21,12 +21,14 @@ const style = {
   businessPurchaseContainerTitle: {
     fontSize: 30,
     color: 'rgba(255,255,255, 0.8)',
-    fontFamily: app.primaryFontMedium,
+    alignSelf: 'center',
+    fontFamily: app.primaryFontBold,
   },
   businessPurchaseContainerAmount: {
     fontSize: 30,
+    alignSelf: 'center',
     color: 'rgba(218,202,255, 0.5)',
-    fontFamily: app.primaryFontRegular,
+    fontFamily: app.primaryFontMedium,
   },
 };
 

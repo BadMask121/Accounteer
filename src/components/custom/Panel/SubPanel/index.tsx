@@ -11,11 +11,12 @@ interface Props {
 }
 export default props => {
   return (
-    <RippleView rippleDuration={1000} style={style.businessPurchaseContainer}>
+    <RippleView
+      rippleDuration={1000}
+      rippleOpacity={0.05}
+      style={style.businessPurchaseContainer}>
       <View style={{flex: 0.7, justifyContent: 'space-evenly'}}>
-        <Text style={style.businessPurchaseContainerTitle}>
-          All Business Purchase
-        </Text>
+        <Text style={style.businessPurchaseContainerTitle}>{props.title}</Text>
         <Text style={style.businessPurchaseContainerAmount}>
           {props.currency || 'N'}
           {props.totalPurchaseInAllBusiness || '200,000,000,000.00'}

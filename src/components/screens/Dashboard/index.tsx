@@ -48,7 +48,7 @@ export default props => {
             Hello {props.firstName + props.lastName || 'Ace Corps'}
           </Text>
         </View>
-        <SubPanel />
+        <SubPanel title="All Business Purchases" />
       </View>
       <View style={{flex: 1}}>
         <ListDashboardContent {...{handlePageScroll}} />
