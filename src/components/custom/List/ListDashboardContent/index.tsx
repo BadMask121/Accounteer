@@ -11,33 +11,12 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import RippleView from 'react-native-material-ripple';
 import {ActivityIndicator} from 'react-native';
-import {data} from '@src/helpers/dummydata';
 import {app} from '@src/helpers/constants';
 import ListContent from '../../Card/ListCard';
 import style from './style';
-
 const ListCard = lazy(() => import('@custom/Card/ListCard'));
 
-const DATA = [
-  {
-    title: 'Businesses',
-    data: [...data],
-  },
-  {
-    title: 'Invoices',
-    data: ['French Fries', 'Onion Rings', 'Fried Shrimps'],
-  },
-  {
-    title: 'Offers',
-    data: ['Water', 'Coke', 'Beer'],
-  },
-  {
-    title: 'Purchases',
-    data: ['Water', 'Coke', 'Beer'],
-  },
-];
-
-export default ({loading, handlePageScroll, ...props}) => {
+export default ({loading, handlePageScroll, data, ...props}) => {
   const [state, setstate] = useState({
     scrollY: new Animated.Value(0),
   });
@@ -72,7 +51,7 @@ export default ({loading, handlePageScroll, ...props}) => {
     <Suspense fallback={renderFooter()}>
       <View style={style.sectionContainer}>
         <SectionList
-          sections={DATA}
+          sections={data}
           keyExtractor={(item, index) => index}
           renderItem={({item}) => (
             <ListCard {...{props}}>

@@ -11,6 +11,26 @@ import SubPanel from '@custom/Panel/SubPanel';
 import style from './style';
 import ListDashboardContent from 'components/custom/List/ListDashboardContent';
 
+import {data} from '@src/helpers/dummydata';
+const DATA = [
+  {
+    title: 'Businesses',
+    data: [...data],
+  },
+  {
+    title: 'Invoices',
+    data: ['French Fries', 'Onion Rings', 'Fried Shrimps'],
+  },
+  {
+    title: 'Offers',
+    data: ['Water', 'Coke', 'Beer'],
+  },
+  {
+    title: 'Purchases',
+    data: ['Water', 'Coke', 'Beer'],
+  },
+];
+
 export default props => {
   const [state, setstate] = useState({
     flex: new Animated.Value(0.3),
@@ -51,7 +71,7 @@ export default props => {
         <SubPanel title="All Business Purchases" />
       </View>
       <View style={{flex: 1}}>
-        <ListDashboardContent {...{handlePageScroll}} />
+        <ListDashboardContent {...{handlePageScroll}} data={DATA} />
       </View>
     </KeyboardAvoidingView>
   );
