@@ -1,18 +1,35 @@
 import React from 'react';
-import {createSwitchNavigator} from 'react-navigation';
-import {createSharedElementStackNavigator} from 'react-navigation-shared-element';
-import {SplashScreen} from '../../components/screens';
-import {createAppContainer} from 'react-navigation';
+import {createStackNavigator} from 'react-navigation-stack';
+import {BusinessDashboard, Dashboard} from '../../containers';
 
-const Navigator = createSwitchNavigator(
-  {
-    SplashScreen: {
-      screen: props => <SplashScreen {...props} />,
+const index = values =>
+  createStackNavigator(
+    {
+      Dashboard: {
+        screen: props => <Dashboard {...props} {...values} />,
+      },
+      BusinessDashboard: {
+        screen: props => <BusinessDashboard {...props} {...values} />,
+        navigationOptions: ({navigation}) => ({
+          headerShown: false,
+        }),
+      },
     },
-  },
-  {
-    headerMode: 'none',
-    initialRouteName: 'SplashScreen',
-  },
-);
-export default createAppContainer(Navigator);
+    {
+      defaultNavigationOptions: {
+        headerStyle: {
+          backgroundColor: '#fff',
+          elevation: 0,
+        },
+        headerTintColor: 'gray',
+        headerBackTitle: null,
+        headerTitle: () => null,
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      },
+      initialRouteName: 'Dashboard',
+    },
+  );
+
+export default index;

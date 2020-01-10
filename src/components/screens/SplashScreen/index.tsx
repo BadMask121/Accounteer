@@ -16,7 +16,12 @@ export default props => {
       getStarted();
     }, 1000);
   }, []);
-  const getStarted = () => props.navigation.navigate(app.ROUTES.AUTH);
+  const getStarted = () =>
+    props.navigation.navigate(app.ROUTES.BUSINESS_DASHBOARD, {
+      payload: {
+        image: require('@assets/images/logo.png'),
+      },
+    });
 
   return (
     <View style={style.container}>

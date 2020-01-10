@@ -1,9 +1,9 @@
 import React from 'react';
 import {createStackNavigator} from 'react-navigation-stack';
-import {createSharedElementStackNavigator} from 'react-navigation-shared-element';
-
 import Welcome from '../../components/screens/Welcome';
-import {Login, Signup, BusinessDashboard, Dashboard} from '../../containers';
+import {Login, Signup} from '../../containers';
+import AppNavigation from '../App';
+
 const index = values =>
   createStackNavigator(
     {

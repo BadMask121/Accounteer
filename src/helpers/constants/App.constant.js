@@ -10,6 +10,7 @@ const AppContants = {
   findWashHeight: 150,
 
   ROUTES: {
+    APP: 'App',
     AUTH: 'Auth',
     SPLASHSCREEEN: 'SplashScreen',
     WELCOME: 'Welcome',
