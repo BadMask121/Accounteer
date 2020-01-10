@@ -16,7 +16,7 @@ export default props => {
           icon="facebook"
           iconSize={20}
           iconColor="#fff"
-          text="Signup with Facebook"
+          text="Sign Up with Facebook"
         />
         <Button
           buttonStyle={{

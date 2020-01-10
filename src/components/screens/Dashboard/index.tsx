@@ -12,14 +12,33 @@ import style from './style';
 import ListDashboardContent from 'components/custom/List/ListDashboardContent';
 
 import {data} from '@src/helpers/dummydata';
+
+const otherdata = [
+  {
+    title: '22 Awaiting Payment',
+    amount: '300,000,000.000',
+    currency: 'NG',
+  },
+  {
+    title: '90 Overdue',
+    amount: '400,000,000.000',
+    currency: 'USD',
+  },
+  {
+    title: '09 Draft',
+    amount: '300,000,000.000',
+    currency: 'EU',
+  },
+];
+
 const DATA = [
+  {
+    title: 'Invoices',
+    data: [...otherdata],
+  },
   {
     title: 'Businesses',
     data: [...data],
-  },
-  {
-    title: 'Invoices',
-    data: ['French Fries', 'Onion Rings', 'Fried Shrimps'],
   },
   {
     title: 'Offers',
@@ -71,7 +90,11 @@ export default props => {
         <SubPanel title="All Business Purchases" />
       </View>
       <View style={{flex: 1}}>
-        <ListDashboardContent {...{handlePageScroll}} data={DATA} />
+        <ListDashboardContent
+          {...{handlePageScroll}}
+          {...{props}}
+          data={DATA}
+        />
       </View>
     </KeyboardAvoidingView>
   );

@@ -5,6 +5,7 @@ import {Transition} from 'react-navigation-fluid-transitions';
 import * as Animatable from 'react-native-animatable';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import style from './style';
+import {app} from '@src/helpers/constants';
 
 export default props => {
   const height: number = Dimensions.get('screen').height;
@@ -15,7 +16,7 @@ export default props => {
       getStarted();
     }, 1000);
   }, []);
-  const getStarted = () => props.navigation.navigate('Auth');
+  const getStarted = () => props.navigation.navigate(app.ROUTES.AUTH);
 
   return (
     <View style={style.container}>
@@ -37,19 +38,6 @@ export default props => {
           }}
         />
       </Animatable.View>
-      {/* <Animatable.View
-        useNativeDriver
-        animation="fadeInUp"
-        delay={500}
-        duration={900}
-        style={style.arrowContainer}>
-        <Icon
-          name="arrow-right"
-          size={40}
-          color="#1565c0"
-          light
-          onPress={getStarted}></Icon>
-      </Animatable.View> */}
     </View>
   );
 };

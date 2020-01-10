@@ -8,6 +8,18 @@ const AppContants = {
   primaryFontLight: 'Gilroy-Light',
 
   findWashHeight: 150,
+
+  ROUTES: {
+    AUTH: 'Auth',
+    SPLASHSCREEEN: 'SplashScreen',
+    WELCOME: 'Welcome',
+    LOGIN: 'Login',
+    SIGNUP: 'Signup',
+    DASHBOARD: 'Dashboard',
+    BUSINESS_DASHBOARD: 'BusinessDashboard',
+    CREATE_BUSINESS: 'CreateBusiness',
+    CREATE_INVOICES: 'CreateInvoices',
+  },
 };
 
 export default AppContants;

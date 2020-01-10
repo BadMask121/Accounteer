@@ -60,7 +60,7 @@ export default props => {
               icon="user-circle"
               iconColor="#fff"
               iconSize={20}
-              onPress={() => props.navigation.navigate('Signup')}
+              onPress={() => props.navigation.navigate(app.ROUTES.SIGNUP)}
             />
           </View>
           <View>
@@ -72,7 +72,7 @@ export default props => {
                 color: '#000',
               }}
               text="Login Account"
-              onPress={() => props.navigation.push('Login')}
+              onPress={() => props.navigation.navigate(app.ROUTES.LOGIN)}
             />
           </View>
         </View>

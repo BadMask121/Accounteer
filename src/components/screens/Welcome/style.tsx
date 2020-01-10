@@ -19,6 +19,7 @@ const style = {
   },
   infoShort: {
     flex: 0.3,
+    margin: 10,
     alignItems: 'center',
   },
   info: {

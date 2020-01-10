@@ -7,7 +7,7 @@ export default props => {
       rippleCenter={true}
       rippleDuration={600}
       rippleOpacity={0.03}
-      style={style.ListCardContainer}
+      style={[style.ListCardContainer, {...props.cardStyle}]}
       {...props}>
       {props.children}
     </RippleView>
