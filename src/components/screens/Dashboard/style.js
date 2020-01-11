@@ -4,6 +4,10 @@ const style = {
     flex: 1,
     backgroundColor: '#fff',
   },
+  topHeader: {
+    height: 50,
+    backgroundColor: '#fff',
+  },
   topTitle: {},
   inputForm: {},
 

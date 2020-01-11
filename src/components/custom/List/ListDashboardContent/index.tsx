@@ -13,6 +13,7 @@ import RippleView from 'react-native-material-ripple';
 import {ActivityIndicator} from 'react-native';
 import {app} from '@src/helpers/constants';
 import style from './style';
+import {NavigationActions} from 'react-navigation';
 const ListCard = lazy(() => import('@custom/Card/ListCard'));
 
 interface Props {
@@ -154,7 +155,7 @@ const DashbordContent = React.memo(
                         Route = ROUTES.CREATE_BUSINESS;
                         break;
                       case 'Invoices':
-                        Route = ROUTES.CREATE_INVOICES;
+                        Route = ROUTES.CREATE_INVOICE;
                         break;
                       case 'Offers':
                         Route = '';
@@ -166,7 +167,7 @@ const DashbordContent = React.memo(
                       default:
                         break;
                     }
-                    return props.navigation.navigate(Route);
+                    return props.navigation.navigate('CreateInvoice');
                   }}>
                   <Icon name="plus" size={20} color={app.primaryColorLight} />
                 </RippleView>

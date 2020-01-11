@@ -1,36 +1,40 @@
 import React from 'react';
-import {createStackNavigator} from 'react-navigation-stack';
-import {Dashboard} from '../../containers';
+import {createDrawerNavigator} from 'react-navigation-drawer';
+import {createAppContainer} from 'react-navigation';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import BusinessRoute from './BusinessRoute';
-
-const index = values =>
-  createStackNavigator(
-    {
-      Dashboard: {
-        screen: props => <Dashboard {...props} {...values} />,
+import {Dashboard} from '../../containers';
+const index = createDrawerNavigator(
+  {
+    Dashboard: {
+      screen: props => <Dashboard {...props} />,
+      navigationOptions: ({}) => ({
+        drawerIcon: () => <Icon name="camera" size={20} color="#000" />,
+      }),
+    },
+    BusinessRoute: {
+      screen: BusinessRoute,
+      navigationOptions: ({navigation}) => ({
+        headerShown: false,
+      }),
+    },
+  },
+  {
+    drawerPosition: 'left',
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: '#fff',
+        elevation: 0,
       },
-      BusinessRoute: {
-        screen: BusinessRoute,
-        navigationOptions: ({navigation}) => ({
-          headerShown: false,
-        }),
+      headerTintColor: 'gray',
+      headerBackTitle: null,
+      headerTitle: () => null,
+      headerTitleStyle: {
+        fontWeight: 'bold',
       },
     },
-    {
-      defaultNavigationOptions: {
-        headerStyle: {
-          backgroundColor: '#fff',
-          elevation: 0,
-        },
-        headerTintColor: 'gray',
-        headerBackTitle: null,
-        headerTitle: () => null,
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
-      },
-      initialRouteName: 'Dashboard',
-    },
-  );
+    initialRouteName: 'Dashboard',
+  },
+);
 
-export default index;
+export default createAppContainer(index);

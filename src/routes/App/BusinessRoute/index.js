@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import {Invoice, BusinessDashboard} from '../../../containers';
 import {app} from '@src/helpers/constants';
 
-const {ViewInvoice} = Invoice;
+const {ViewInvoice, CreateInvoice} = Invoice;
 const index = createBottomTabNavigator(
   {
     BusinessDashboard: {
@@ -29,6 +29,20 @@ const index = createBottomTabNavigator(
       navigationOptions: ({navigation}) => ({
         headerShown: false,
         title: 'Invoice',
+        tabBarIcon: ({focused}) => (
+          <Icon
+            name="receipt"
+            size={24}
+            color={focused ? '#fdf' : 'rgba(255,255,255,0.5)'}
+          />
+        ),
+      }),
+    },
+    CreateInvoice: {
+      screen: props => <CreateInvoice {...props} />,
+      navigationOptions: ({navigation}) => ({
+        headerShown: false,
+        title: 'CreateInvoice',
         tabBarIcon: ({focused}) => (
           <Icon
             name="receipt"

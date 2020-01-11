@@ -10,42 +10,12 @@ import style from './style';
 export default props => {
   return (
     <KeyboardAvoidingView style={style.container}>
-      <View style={style.loginOptions}>
-        <TopTitle title="Sign Up" />
-        <Button
-          icon="facebook"
-          iconSize={20}
-          iconColor="#fff"
-          text="Sign Up with Facebook"
-        />
-        <Button
-          buttonStyle={{
-            backgroundColor: '#fff',
-          }}
-          textStyle={{
-            color: '#000',
-          }}
-          icon="google"
-          iconSize={20}
-          iconColor="#000"
-          text="Sign Up with Google"
-        />
-        <View
-          style={{
-            flex: 0.5,
-          }}>
-          <Text
-            style={{
-              alignSelf: 'center',
-              fontFamily: app.primaryFontLight,
-            }}>
-            or
-          </Text>
-        </View>
+      <View style={{flex: 1}}>
+        <TopTitle title="New Invoice" />
       </View>
       <View
         style={{
-          flex: 1.5,
+          flex: 1,
         }}>
         <Formik
           initialValues={{email: ''}}

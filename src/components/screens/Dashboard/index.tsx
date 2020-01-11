@@ -1,18 +1,25 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text} from 'native-base';
-import {Image, KeyboardAvoidingView, Animated, Easing} from 'react-native';
-import {Dimensions, FlatList} from 'react-native';
+import {
+  Image,
+  KeyboardAvoidingView,
+  Animated,
+  Easing,
+  StatusBar,
+} from 'react-native';
+import {Dimensions, FlatList, TouchableOpacity} from 'react-native';
 import * as BoxShadow from 'react-native-shadow';
 import RippleView from '';
 import {Formik} from 'formik';
 import TopTitle from '@custom/TopTitle';
-import FormInput from '@custom/Form/Input';
 import SubPanel from '@custom/Panel/SubPanel';
 import style from './style';
 import ListDashboardContent from 'components/custom/List/ListDashboardContent';
 
 import {data} from '@src/helpers/dummydata';
 import {app} from '@src/helpers/constants';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+
 const otherdata = [
   {
     title: '22 Awaiting Payment',
@@ -77,8 +84,34 @@ export default props => {
 
   return (
     <KeyboardAvoidingView style={style.container}>
+      <StatusBar
+        hidden
+        translucent
+        backgroundColor="transparent"
+        barStyle="dark-content"
+        animated
+        showHideTransition="fade"
+      />
+
+      <TouchableOpacity style={{flex: 0.15}}>
+        <Animated.View
+          style={[
+            style.topHeader,
+            {position: 'absolute', width: Dimensions.get('screen').width},
+          ]}>
+          <View style={{flex: 1, marginLeft: 10, justifyContent: 'center'}}>
+            <Icon
+              name="user-circle"
+              size={30}
+              color="rgba(0,0,0,0.5)"
+              style={{justifyContent: 'center'}}
+              onPress={() => props.navigation.toggleDrawer()}
+            />
+          </View>
+        </Animated.View>
+      </TouchableOpacity>
       <Animated.View style={[style.topTitle, {flex: state.flex}]}>
-        <TopTitle labelSize={state.labelSize} title="Dashboard" />
+        <TopTitle labelSize={state.labelSize} title="Dashboard" {...{props}} />
       </Animated.View>
 
       <View style={style.subTitleContainer}>

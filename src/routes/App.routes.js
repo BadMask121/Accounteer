@@ -11,7 +11,7 @@ const Navigation = createSharedElementStackNavigator(
     SplashScreen: {
       screen: props => <SplashScreen {...props} />,
     },
-    App: AppNavigation(),
+    App: AppNavigation,
     Auth: AuthNavigation(),
   },
   {

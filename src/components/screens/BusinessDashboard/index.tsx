@@ -94,9 +94,15 @@ export default props => {
               width,
               height,
             }}>
-            <View style={[style.titleContainer, {width: width / 1.6}]}>
+            <View style={[style.titleContainer, {width}]}>
+              <Icon
+                name="arrow-left"
+                size={20}
+                color="rgba(255,255,255,0.6)"
+                onPress={() => props.navigation.navigate(app.ROUTES.DASHBOARD)}
+              />
               <Text style={style.titleText}>Ace Corps</Text>
-              <Icon name="ellipsis-v" size={20} color="#fff" />
+              <Icon name="ellipsis-v" size={20} color="rgba(255,255,255,0.6)" />
             </View>
           </View>
 
