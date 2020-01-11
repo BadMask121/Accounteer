@@ -12,7 +12,7 @@ import style from './style';
 import ListDashboardContent from 'components/custom/List/ListDashboardContent';
 
 import {data} from '@src/helpers/dummydata';
-
+import {app} from '@src/helpers/constants';
 const otherdata = [
   {
     title: '22 Awaiting Payment',
@@ -84,13 +84,18 @@ export default props => {
       <View style={style.subTitleContainer}>
         <View style={style.userFullNameContainer}>
           <Text style={style.userFullName}>
-            Hello {props.firstName + props.lastName || 'Ace Corps'}
+            Hello {props.firstName + props.lastName || 'Emakpor Jeffrey'}
           </Text>
         </View>
-        <SubPanel title="All Business Purchases" />
+        <SubPanel
+          title="All Business Purchases"
+          style={{backgroundColor: app.primaryColorDark}}
+        />
       </View>
       <View style={{flex: 1}}>
         <ListDashboardContent
+          flexStart={0.3}
+          flexEnd={0.1}
           {...{handlePageScroll}}
           {...{props}}
           data={DATA}

@@ -1,5 +1,6 @@
 const AppContants = {
   primaryColorDark: '#03099E',
+  primaryColorDarker: '#000080',
   primaryColor: '#181DB8',
   primaryColorLight: '#353BC9',
   primaryFontBold: 'Gilroy-Bold',
@@ -18,6 +19,7 @@ const AppContants = {
     SIGNUP: 'Signup',
     DASHBOARD: 'Dashboard',
     BUSINESS_DASHBOARD: 'BusinessDashboard',
+    BUSINESS_ROUTE: 'BusinessRoute',
     CREATE_BUSINESS: 'CreateBusiness',
     CREATE_INVOICES: 'CreateInvoices',
   },
