@@ -33,6 +33,38 @@ const style = {
     justifyContent: 'center',
     zIndex: 1,
   },
+  inputContainer: {
+    flexDirection: 'row',
+  },
+  input: {
+    fontSize: 15,
+    borderColor: '#fff',
+    borderBottomColor: '#000',
+  },
+  leftIcon: {
+    position: 'absolute',
+    left: 15,
+    top: 10,
+  },
+  rightIcon: {
+    position: 'absolute',
+    top: 10,
+    right: 0,
+  },
+  dateContainer: {
+    margin: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  dateTitleStyle: {
+    fontSize: 13,
+    color: 'rgba(0,0,0,0.4)',
+    fontFamily: app.primaryFontMedium,
+  },
+  dateStyle: {
+    fontFamily: app.primaryFontBold,
+    color: 'rgba(0,0,0,0.7)',
+  },
 };
 
 export default style;
