@@ -1,17 +1,33 @@
 import React from 'react';
 import {View, Text} from 'native-base';
-import {KeyboardAvoidingView, TouchableOpacity} from 'react-native';
+import {KeyboardAvoidingView, Dimensions, TouchableOpacity} from 'react-native';
 import {Formik} from 'formik';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import {FloatingAction} from 'react-native-floating-action';
 import Button from '@custom/Button';
 import TopTitle from '@custom/TopTitle';
 import FormInput from '@custom/Form/Input';
 import {app} from '@src/helpers/constants';
 import style from './style';
+
 export default props => {
   return (
     <KeyboardAvoidingView style={style.container}>
-      <View style={{flex: 1}}>
-        <TopTitle title="New Invoice" />
+      <View
+        style={{
+          flex: 0.3,
+          marginTop: 30,
+          width: Dimensions.get('screen').width,
+        }}>
+        <View style={style.titleContainer}>
+          <TopTitle title="New Invoice" />
+          <View style={style.attachmentIcon}>
+            <View style={style.attachmentNumber}>
+              <Text style={style.attachmentNumberText}>1</Text>
+            </View>
+            <Icon name="paperclip" size={20} color={app.primaryColor} />
+          </View>
+        </View>
       </View>
       <View
         style={{
