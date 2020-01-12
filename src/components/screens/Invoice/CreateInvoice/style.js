@@ -39,6 +39,8 @@ const style = {
   input: {
     fontSize: 15,
     borderColor: '#fff',
+    // borderBottomRightRadius: 5,
+    // borderBottomLeftRadius: 5,
     borderBottomColor: '#000',
   },
   leftIcon: {
@@ -64,6 +66,23 @@ const style = {
   dateStyle: {
     fontFamily: app.primaryFontBold,
     color: 'rgba(0,0,0,0.7)',
+  },
+  descriptionArea: {
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+    marginTop: 20,
+    shadowOpacity: 0.1,
+    shadowOffset: {
+      height: 0,
+      width: 1,
+    },
+    shadowRadius: 1,
+    elevation: 1,
+  },
+  saveBtn: {
+    marginTop: 20,
+    borderRadius: 5,
+    backgroundColor: '#fff',
   },
 };
 

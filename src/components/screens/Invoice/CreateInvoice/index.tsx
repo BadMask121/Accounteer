@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, Input} from 'native-base';
+import {View, Text, Input, Textarea} from 'native-base';
 import {
   KeyboardAvoidingView,
   Dimensions,
@@ -70,8 +70,29 @@ const index = props => {
     </View>
   );
 
+  const TitleTop = () => (
+    <View
+      style={{
+        flex: 1,
+        marginTop: 30,
+        width,
+      }}>
+      <View style={style.titleContainer}>
+        <TopTitle title="New Invoice" />
+        <View style={style.attachmentIcon}>
+          <View style={style.attachmentNumber}>
+            <Text style={style.attachmentNumberText}>1</Text>
+          </View>
+          <Icon name="paperclip" size={20} color={app.primaryColor} />
+        </View>
+      </View>
+    </View>
+  );
+
+  //format our issued and due date
   const format = (year, month, day) => `${year}/${month}/${day}`;
 
+  //set the dates
   const setDate = (event, date) => {
     date = state.isIssue
       ? {
@@ -86,6 +107,8 @@ const index = props => {
       ...date,
     }));
   };
+
+  // toggle date
   const showDateTime = (mode, isIssue) =>
     setstate(prev => ({
       ...prev,
@@ -98,33 +121,9 @@ const index = props => {
 
   return (
     <KeyboardAvoidingView style={style.container}>
-      <ScrollView
-        alwaysBounceVertical
-        automaticallyAdjustContentInsets
-        bouncesZoom>
-        <View
-          style={{
-            flex: 0.1,
-            marginTop: 30,
-            width,
-          }}>
-          <View style={style.titleContainer}>
-            <TopTitle title="New Invoice" />
-            <View style={style.attachmentIcon}>
-              <View style={style.attachmentNumber}>
-                <Text style={style.attachmentNumberText}>1</Text>
-              </View>
-              <Icon name="paperclip" size={20} color={app.primaryColor} />
-            </View>
-          </View>
-        </View>
-        <FloatingAction
-          showBackground={false}
-          actions={action}
-          onPressItem={name => {
-            console.log(`selected button: ${name}`);
-          }}
-        />
+      <View alwaysBounceVertical automaticallyAdjustContentInsets bouncesZoom>
+        <TitleTop />
+
         <View
           style={{
             flex: 1,
@@ -134,7 +133,7 @@ const index = props => {
             initialValues={{email: ''}}
             onSubmit={values => console.log(values)}>
             {({handleChange, handleBlur, handleSubmit, values}) => (
-              <View>
+              <ScrollView>
                 {
                   <AutoInput
                     noDataText="Please add clients"
@@ -218,43 +217,107 @@ const index = props => {
                     )}
                   />
                 }
-                <View style={{marginTop: 10}}>
+                <View style={{marginTop: 30, marginBottom: 50}}>
                   <TopTitle
                     title="Items"
                     textStyle={{fontSize: 25, color: 'rgba(0,0,0,0.7)'}}
                   />
-                  <View>
+                  <View style={{flexDirection: 'row', flexShrink: 0.1}}>
                     <AutoInput
                       placeholder="Add Items"
                       autoCorrect={false}
+                      inputStyle={{...style.input, width: width / 2 - 20}}
                       renderIcon={() => (
                         <Icon
-                          name="align-left"
+                          name="cart-plus"
                           size={15}
                           color={app.primaryColorDark}
-                          style={style.leftIcon}
+                          style={{...style.leftIcon, top: 20}}
                         />
                       )}
                     />
-                    <AutoInput placeholder="Reference" autoCorrect={false} />
+                    <View style={{alignItems: 'center'}}>
+                      <Text
+                        style={{
+                          ...style.dateTitleStyle,
+                          color: 'rgba(0,0,0,0.7)',
+                        }}>
+                        Quantity
+                      </Text>
+                      <AutoInput
+                        placeholder="1.0"
+                        inputStyle={{...style.input, width: width / 2}}
+                        autoCorrect={false}
+                      />
+                    </View>
+                  </View>
+                  <Textarea
+                    placeholder="Description"
+                    style={style.descriptionArea}
+                  />
+                  <View style={{marginTop: 15}}>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                        marginBottom: 5,
+                      }}>
+                      <Text style={{fontFamily: app.primaryFontMedium}}>
+                        Tax
+                      </Text>
+                      <Text
+                        style={{
+                          color: 'rgba(0,0,0,0.6)',
+                        }}>
+                        0.00
+                      </Text>
+                    </View>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                      }}>
+                      <Text style={{fontFamily: app.primaryFontMedium}}>
+                        Total ex. tax
+                      </Text>
+                      <Text
+                        style={{
+                          color: 'rgba(0,0,0,0.6)',
+                        }}>
+                        0.00
+                      </Text>
+                    </View>
                   </View>
                 </View>
-
+                <FloatingAction
+                  distanceToEdge={{vertical: 120, horizontal: 10}}
+                  showBackground={false}
+                  actions={action}
+                  onPressItem={name => {
+                    console.log(`selected button: ${name}`);
+                  }}
+                />
+                <Button
+                  disable={!true}
+                  buttonStyle={style.saveBtn}
+                  textStyle={{fontFamily: app.primaryFontBold, color: '#000'}}
+                  onPress={() => props.handleSubmit()}
+                  text="Save"
+                />
                 <Button
                   disable={!true}
                   buttonStyle={{
-                    marginTop: 20,
-                    marginBottom: 30,
+                    borderRadius: 5,
                   }}
                   textStyle={{fontFamily: app.primaryFontBold}}
                   onPress={() => props.handleSubmit()}
-                  text="Create Account"
+                  text="Save And Approve"
                 />
-              </View>
+              </ScrollView>
             )}
           </Formik>
         </View>
-      </ScrollView>
+      </View>
     </KeyboardAvoidingView>
   );
 };
