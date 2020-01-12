@@ -12,6 +12,7 @@ export default class AuthState extends Container<any | Object> {
       isLoggedIn: true,
     });
   };
+
   setLoginPayload = async payload => {
     await this.setState(prev => ({
       ...prev,

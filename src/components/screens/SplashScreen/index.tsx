@@ -6,18 +6,19 @@ import * as Animatable from 'react-native-animatable';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import style from './style';
 import {app} from '@src/helpers/constants';
+import subscribe from '@src/subscriber';
 
-export default props => {
+const index = props => {
   const height: number = Dimensions.get('screen').height;
   const width: number = Dimensions.get('screen').width;
 
   useEffect(() => {
+    props.appstate.setLoading(false);
     setTimeout(() => {
       getStarted();
     }, 1000);
   }, []);
   const getStarted = () =>
-    // app.ROUTES.AUTH
     props.navigation.navigate(app.ROUTES.AUTH, {
       payload: {
         image: require('@assets/images/logo.png'),
@@ -47,3 +48,5 @@ export default props => {
     </View>
   );
 };
+
+export default subscribe(index);
