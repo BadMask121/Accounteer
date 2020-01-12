@@ -37,6 +37,11 @@ const style = {
     height: 40,
     maxHeight: 50,
   },
+  headerInfoButtonText: {
+    alignItems: 'center',
+    textAlign: 'center',
+    color: '#fff',
+  },
   headerMiscIcon: {
     flex: 0.2,
     flexDirection: 'row',
@@ -80,6 +85,7 @@ const style = {
     fontSize: 14,
     color: 'rgba(0,0,0,0.7)',
     fontFamily: app.primaryFontMedium,
+    paddingTop: 5,
   },
   rowBetween: {
     flexDirection: 'row',

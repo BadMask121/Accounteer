@@ -144,7 +144,6 @@ export default props => {
             width: '15%',
             borderBottomRightRadius: 10,
             borderTopRightRadius: 10,
-            marginLeft: 10,
           }}>
           <Icon name="trash" size={20} color="#fff" />
         </View>
@@ -185,9 +184,7 @@ export default props => {
             <Text
               style={{
                 ...style.headerInfoText,
-                alignItems: 'center',
-                textAlign: 'center',
-                color: '#fff',
+                ...style.headerInfoButtonText,
               }}>
               Paid
             </Text>
@@ -199,7 +196,12 @@ export default props => {
         </View>
       </View>
       <View style={{flex: 2, zIndex: 1}}>
-        <ScrollView contentContainerStyle={style.contentContainer}>
+        <ScrollView
+          automaticallyAdjustContentInsets
+          alwaysBounceVertical
+          alwaysBounceHorizontal
+          contentContainerStyle={{paddingBottom: 10, padding: 5}}
+          style={style.contentContainer}>
           <CompanySection />
           <AttachmentSection />
           <ItemSection />
