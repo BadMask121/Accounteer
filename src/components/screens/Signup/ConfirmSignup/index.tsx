@@ -67,7 +67,7 @@ export default ({handleSubmit, ...props}: Props) => {
                   secureTextEntry
                 />
                 <Button
-                  disable={!true}
+                  disable={values.password !== values.confirmpassword}
                   buttonStyle={{
                     marginTop: 20,
                     marginBottom: 30,

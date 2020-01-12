@@ -14,6 +14,7 @@ class index extends Component {
   handleSubmit = async values => {
     this.appstate.setSubmitting(true);
     await this.authstate.setSignupPayload(values);
+    console.log(this.authstate.signup(values));
   };
   render() {
     return <ConfirmSignup handleSubmit={this.handleSubmit} {...this.props} />;

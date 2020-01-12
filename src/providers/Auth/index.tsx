@@ -1,9 +1,11 @@
 import React from 'react';
 import {Container} from 'unstated';
 import {AUTH_STATE} from '../intialState';
+import FirebaseAuthentication from './Authentication';
 export default class AuthState extends Container<any | Object> {
-  constructor(props) {
+  constructor(props, private auth: FirebaseAuthentication) {
     super(props);
+    this.auth = new FirebaseAuthentication();
   }
   state = AUTH_STATE;
 
@@ -31,5 +33,9 @@ export default class AuthState extends Container<any | Object> {
         ...payload,
       },
     });
+  };
+
+  signup = async values => {
+    return await this.auth.signup(values);
   };
 }
