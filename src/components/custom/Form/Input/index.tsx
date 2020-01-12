@@ -1,24 +1,30 @@
 import React from 'react';
-import {Item, Label, Input} from 'native-base';
-import {Dimensions} from 'react-native';
+import {Item, Label, Input, Text, Icon} from 'native-base';
+import {Dimensions, Platform} from 'react-native';
 import {app} from '@src/helpers/constants';
+import style from './style';
+interface Props {
+  handleChange?: Function;
+  name: string;
+  placeholder?: string;
+  submitting?: Boolean;
+  inputViewStyle?: Object;
+  error?: Boolean;
+  valid?: Boolean;
+}
 function FormInput({
   handleChange,
   name,
   placeholder,
   submitting,
   inputViewStyle,
+  error,
+  valid,
   ...props
 }) {
   return (
     <Item
-      style={{
-        ...inputViewStyle,
-        height: 50,
-        marginBottom: 15,
-        marginLeft: 10,
-        marginRight: 10,
-      }}
+      style={{...style.inputContainer, ...inputViewStyle}}
       {...props}
       floatingLabel>
       <Input
@@ -26,16 +32,31 @@ function FormInput({
         placeholder={placeholder}
         placeholderTextColor="rgba(0,0,0,0.5)"
         disabled={submitting || false}
+        style={style.inputStyle}
         {...props}
-        style={{
-          textAlign: 'center',
-          fontFamily: app.primaryFontMedium,
-          lineHeight: 15,
-          fontSize: 15,
-          height: 70,
-          marginBottom: 10,
-        }}
       />
+
+      {typeof valid !== 'undefined' || typeof error !== 'undefined' ? (
+        <Icon
+          name={
+            valid
+              ? Platform.OS === 'ios'
+                ? 'ios-checkmark-circle'
+                : 'md-checkmark-circle'
+              : !valid && error
+              ? Platform.OS === 'ios'
+                ? 'ios-warning'
+                : 'md-warning'
+              : ''
+          }
+          style={{
+            top: -5,
+            color: valid ? app.primaryColor : !valid || error ? 'red' : '',
+          }}
+        />
+      ) : (
+        <></>
+      )}
     </Item>
   );
 }

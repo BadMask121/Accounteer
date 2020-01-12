@@ -1,7 +1,7 @@
 import React from 'react';
 import {Container} from 'unstated';
 import {APP_STATE} from '../intialState';
-export default class AppState extends Container {
+export default class AppState extends Container<any | Object> {
   constructor(props) {
     super(props);
   }
@@ -9,6 +9,7 @@ export default class AppState extends Container {
 
   setLoading = condition => {
     this.setState({
+      ...this.state,
       isLoading: condition,
     });
   };
@@ -19,8 +20,9 @@ export default class AppState extends Container {
     });
   };
 
-  setSubmitting = condition => {
+  setSubmitting = (condition: Boolean) => {
     this.setState({
+      ...this.state,
       isLoading: condition,
       submitting: condition,
     });

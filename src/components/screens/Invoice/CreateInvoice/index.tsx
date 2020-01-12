@@ -37,6 +37,9 @@ const action = [
     position: 1,
   },
 ];
+
+// TODO check if user is coming from busines dashboard and add an dropdown to select which business user wants
+// add invoice to
 const index = props => {
   const [state, setstate] = useState({
     mode: 'date',

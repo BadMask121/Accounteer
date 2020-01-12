@@ -1,4 +1,3 @@
-import {app} from '@src/helpers/constants';
 const style = {
   container: {
     flex: 1,
@@ -10,10 +9,6 @@ const style = {
   inputStyle: {
     borderRadius: 5,
     borderColor: 'lightblue',
-  },
-  orStyle: {
-    alignSelf: 'center',
-    fontFamily: app.primaryFontLight,
   },
 };
 

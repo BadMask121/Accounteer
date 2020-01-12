@@ -2,6 +2,12 @@ import {app} from '@src/helpers/constants';
 
 const style = {
   sectionContainer: {flex: 1, margin: 10},
+  sectionHeader: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
   sectionTitle: {
     fontSize: 30,
     color: app.primaryColor,

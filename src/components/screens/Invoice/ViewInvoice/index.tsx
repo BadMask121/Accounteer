@@ -14,7 +14,9 @@ import FormInput from '@custom/Form/Input';
 import {app} from '@src/helpers/constants';
 import style from './style';
 import {FloatingAction} from 'react-native-floating-action';
-export default props => {
+
+interface Props {}
+export default ({...props}: Props) => {
   // sections to render
   const CompanySection = () => (
     <View style={style.contentSection}>

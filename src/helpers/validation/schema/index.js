@@ -1,0 +1,75 @@
+import * as yup from 'yup';
+import {app} from '../../constants';
+
+const loginValidationSchema = yup.object().shape({
+  email: yup
+    .string()
+    .label('Email')
+    .email('Enter a valid email')
+    .required('Please enter a registered email'),
+  password: yup
+    .string()
+    .label('Password')
+    .required('A password is required')
+    .min(
+      app.passwordMinLength,
+      `Passwords must have at least ${app.passwordMinLength} characters`,
+    )
+    .matches(
+      /^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{4,}$/,
+      'Passwords must contain at least 1 upper case letter, 1 number, 1 lower case letter and 1 special character (!@#$&*)',
+    ),
+});
+
+const signupValidationSchema = yup.object().shape({
+  firstname: yup
+    .string()
+    .label('First Name')
+    .required('Please enter your given name'),
+  lastname: yup
+    .string()
+    .label('Last Name')
+    .required('Please enter your surname'),
+  organisationname: yup
+    .string()
+    .label('Organisation Name')
+    .required('Please enter your organisation name'),
+  email: yup
+    .string()
+    .label('Email')
+    .email('Enter a valid email')
+    .required('Please enter a registered email'),
+});
+
+const confirmSignupValidationSchema = yup.object().shape({
+  password: yup
+    .string()
+    .label('Password')
+    .required('A password is required')
+    .min(
+      app.passwordMinLength,
+      `Passwords must have at least ${app.passwordMinLength} characters`,
+    )
+    .matches(
+      /^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{4,}$/,
+      'Passwords must contain at least 1 upper case letter, 1 number, 1 lower case letter and 1 special character (!@#$&*)',
+    ),
+  confirmpassword: yup
+    .string()
+    .label('Password')
+    .required('A password is required')
+    .min(
+      app.passwordMinLength,
+      `Passwords must have at least ${app.passwordMinLength} characters`,
+    )
+    .matches(
+      /^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{4,}$/,
+      'Passwords must contain at least 1 upper case letter, 1 number, 1 lower case letter and 1 special character (!@#$&*)',
+    ),
+});
+
+export {
+  loginValidationSchema,
+  signupValidationSchema,
+  confirmSignupValidationSchema,
+};

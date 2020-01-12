@@ -134,13 +134,7 @@ const DashbordContent = React.memo(
               return <View></View>;
             }}
             renderSectionHeader={({section: {title}}) => (
-              <View
-                style={{
-                  flex: 1,
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                }}>
+              <View style={style.sectionHeader}>
                 <Text style={style.sectionTitle}>{title}</Text>
                 <RippleView
                   style={{
@@ -167,7 +161,7 @@ const DashbordContent = React.memo(
                       default:
                         break;
                     }
-                    return props.navigation.navigate('CreateInvoice');
+                    return props.navigation.navigate(Route);
                   }}>
                   <Icon name="plus" size={20} color={app.primaryColorLight} />
                 </RippleView>

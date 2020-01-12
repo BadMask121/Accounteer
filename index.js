@@ -2,8 +2,15 @@
  * @format
  */
 
+import React from 'react';
 import {AppRegistry} from 'react-native';
-import App from './src/App';
+import {Provider} from 'unstated';
+import AppComponent from './src/App';
 import {name as appName} from './app.json';
 
+const App = () => (
+  <Provider>
+    <AppComponent />
+  </Provider>
+);
 AppRegistry.registerComponent(appName, () => App);
