@@ -50,6 +50,7 @@
 		F8519183F6944D249CE6AFFC /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 54FB15C137D04F318F226154 /* Foundation.ttf */; };
 		FACEBF4B161D7AE272482C43 /* libPods-Accounteer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ED07439EFED0A95BB1C560CA /* libPods-Accounteer.a */; };
 		FD5BAA8000CB4486945C5FF7 /* Roboto_medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A5C22B4B391F4377B8FED7A7 /* Roboto_medium.ttf */; };
+		CE553FDF43A74F2B93FE52F2 /* send.png in Resources */ = {isa = PBXBuildFile; fileRef = 22884B8928494163BB2FFA9D /* send.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -140,6 +141,7 @@
 		F40F28E823C85E6B007A522D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F41A97B023C8B08400A37DA6 /* BVLinearGradient.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BVLinearGradient.xcodeproj; path = "../node_modules/react-native-linear-gradient/BVLinearGradient.xcodeproj"; sourceTree = "<group>"; };
 		F86E4FE2DD5D48C89C18D896 /* logo.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = logo.png; path = ../assets/images/logo.png; sourceTree = "<group>"; };
+		22884B8928494163BB2FFA9D /* send.png */ = {isa = PBXFileReference; name = "send.png"; path = "../assets/images/send.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -254,6 +256,7 @@
 				479FDAC4616246408E2F7FAB /* Gilroy-Medium.ttf */,
 				2F6522C265EE43689D1DECBD /* Gilroy-Regular.ttf */,
 				28B732927AA9425CB28852A6 /* logoOnly.png */,
+				22884B8928494163BB2FFA9D /* send.png */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -512,6 +515,7 @@
 				4AA84115146A47CFBB759BA4 /* Gilroy-Medium.ttf in Resources */,
 				32D2B6946DA947E38E239AA7 /* Gilroy-Regular.ttf in Resources */,
 				BB8BD31211C54C0AB23D55D0 /* logoOnly.png in Resources */,
+				CE553FDF43A74F2B93FE52F2 /* send.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

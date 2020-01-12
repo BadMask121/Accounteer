@@ -17,8 +17,8 @@ export default props => {
     }, 1000);
   }, []);
   const getStarted = () =>
-    // app.ROUTES.DASHBOARD
-    props.navigation.navigate('CreateInvoice', {
+    // app.ROUTES.AUTH
+    props.navigation.navigate('Invoices', {
       payload: {
         image: require('@assets/images/logo.png'),
       },

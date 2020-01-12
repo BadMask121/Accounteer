@@ -22,6 +22,8 @@ const AppContants = {
     BUSINESS_ROUTE: 'BusinessRoute',
     CREATE_BUSINESS: 'CreateBusiness',
     CREATE_INVOICE: 'CreateInvoice',
+    VIEW_INVOICE: 'ViewInvoice',
+    INVOICES: 'Invoices',
   },
 };
 

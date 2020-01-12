@@ -40,12 +40,12 @@ const otherdata = [
 
 const DATA = [
   {
-    title: 'Invoices',
-    data: [...otherdata],
-  },
-  {
     title: 'Businesses',
     data: [...data],
+  },
+  {
+    title: 'Invoices',
+    data: [...otherdata],
   },
   {
     title: 'Offers',

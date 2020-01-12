@@ -49,6 +49,13 @@ const style = {
     bottom: 0,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 5,
     elevation: 5,
   },
 };

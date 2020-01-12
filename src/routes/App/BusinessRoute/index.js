@@ -6,7 +6,38 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import {Invoice, BusinessDashboard} from '../../../containers';
 import {app} from '@src/helpers/constants';
 
-const {ViewInvoice, CreateInvoice} = Invoice;
+const {ViewInvoice, CreateInvoice, Invoices} = Invoice;
+
+const InvoicesRoute = createAppContainer(
+  createStackNavigator(
+    {
+      Invoices: {
+        screen: props => <Invoices {...props} />,
+        navigationOptions: ({navigation}) => ({
+          headerShown: false,
+          title: 'Invoices',
+        }),
+      },
+      ViewInvoice: {
+        screen: props => <ViewInvoice {...props} />,
+        navigationOptions: ({navigation}) => ({
+          headerShown: false,
+          title: 'ViewInvoice',
+        }),
+      },
+      CreateInvoice: {
+        screen: props => <CreateInvoice {...props} />,
+        navigationOptions: ({navigation}) => ({
+          headerShown: false,
+          title: 'CreateInvoice',
+        }),
+      },
+    },
+    {
+      defaultNavigationOptions: {},
+    },
+  ),
+);
 const index = createBottomTabNavigator(
   {
     BusinessDashboard: {
@@ -23,26 +54,11 @@ const index = createBottomTabNavigator(
         ),
       }),
     },
-
-    ViewInvoice: {
-      screen: props => <ViewInvoice {...props} />,
+    Invoices: {
+      screen: InvoicesRoute,
       navigationOptions: ({navigation}) => ({
         headerShown: false,
-        title: 'Invoice',
-        tabBarIcon: ({focused}) => (
-          <Icon
-            name="receipt"
-            size={24}
-            color={focused ? '#fdf' : 'rgba(255,255,255,0.5)'}
-          />
-        ),
-      }),
-    },
-    CreateInvoice: {
-      screen: props => <CreateInvoice {...props} />,
-      navigationOptions: ({navigation}) => ({
-        headerShown: false,
-        title: 'CreateInvoice',
+        title: 'Invoices',
         tabBarIcon: ({focused}) => (
           <Icon
             name="receipt"
@@ -56,7 +72,7 @@ const index = createBottomTabNavigator(
       screen: props => <ViewInvoice {...props} />,
       navigationOptions: ({navigation}) => ({
         headerShown: false,
-        title: 'Offer',
+        title: 'Offers',
         tabBarIcon: ({focused}) => (
           <Icon
             name="box"
@@ -70,7 +86,7 @@ const index = createBottomTabNavigator(
       screen: props => <ViewInvoice {...props} />,
       navigationOptions: ({navigation}) => ({
         headerShown: false,
-        title: 'Purchase',
+        title: 'Purchases',
         tabBarIcon: ({focused}) => (
           <Icon
             name="money-bill-wave"
@@ -85,6 +101,13 @@ const index = createBottomTabNavigator(
     defaultNavigationOptions: {
       headerStyle: {
         backgroundColor: '#fff',
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 1,
+        },
+        shadowOpacity: 0.3,
+        shadowRadius: 1,
         elevation: 1,
       },
       headerTintColor: 'gray',

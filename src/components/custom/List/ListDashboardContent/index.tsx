@@ -151,7 +151,7 @@ const DashbordContent = React.memo(
                   onPress={() => {
                     let Route = '';
                     switch (title) {
-                      case 'Business':
+                      case 'Businesses':
                         Route = ROUTES.CREATE_BUSINESS;
                         break;
                       case 'Invoices':
