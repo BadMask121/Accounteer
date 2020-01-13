@@ -1,18 +1,80 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text} from 'native-base';
-import {Image, Dimensions, Animated, StatusBar} from 'react-native';
-// import {Bo} from 'react-native-shadow'
+import {Image, Dimensions, Animated, StatusBar, Easing} from 'react-native';
 
 import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import style from './style';
-import TopTitle from '@custom/TopTitle';
 import {app} from '@src/helpers/constants';
+import {data} from '@src/helpers/dummydata';
+import SubPanel from 'components/custom/Panel/SubPanel';
+import ListDashboardContent from 'components/custom/List/ListDashboardContent';
+import {ScrollView} from 'react-native-gesture-handler';
 
+const otherdata = [
+  {
+    title: '22 Awaiting Payment',
+    amount: '300,000,000.000',
+    currency: 'NG',
+  },
+  {
+    title: '90 Overdue',
+    amount: '400,000,000.000',
+    currency: 'USD',
+  },
+  {
+    title: '09 Draft',
+    amount: '300,000,000.000',
+    currency: 'EU',
+  },
+];
+
+const DATA = [
+  {
+    title: 'Invoices',
+    data: [...otherdata],
+  },
+  {
+    title: 'Offers',
+    data: ['Water', 'Coke', 'Beer'],
+  },
+  {
+    title: 'Purchases',
+    data: ['Water', 'Coke', 'Beer'],
+  },
+];
+
+// change image payload to state
 export default props => {
   const payload = props.navigation.state.params;
   const {width} = Dimensions.get('screen');
   const {height} = Dimensions.get('screen');
+  const detailsHeight = height / 1.35;
+
+  const [state, setstate] = useState({
+    flex: new Animated.Value(0.8),
+    labelSize: new Animated.Value(40),
+  });
+
+  const handlePageScroll = (flex, labelSize) => {
+    setstate(prev => ({
+      flex,
+      labelSize,
+    }));
+  };
+  useEffect(() => {
+    Animated.timing(state.labelSize, {
+      toValue: 200,
+      easing: Easing.back(),
+      duration: 2000,
+    }).start();
+
+    Animated.timing(state.flex, {
+      toValue: 200,
+      duration: 2000,
+    }).start();
+  }, []);
 
   return (
     <View style={style.container}>
@@ -23,18 +85,26 @@ export default props => {
         animated
         showHideTransition="fade"
       />
+
       <Animated.View style={style.headerContainer}>
-        {/* <TopTitle style={style.headerTitle}>Booking</TopTitle> */}
         <View style={style.imageContainer}>
-          <View style={{...style.imageOverlay, width, height}}>
-            <Text></Text>
+          <View
+            style={{
+              ...style.imageOverlay,
+              width,
+              height,
+            }}>
+            <View style={[style.titleContainer, {width: width / 1.6}]}>
+              <Text style={style.titleText}>Ace Corps</Text>
+              <Icon name="ellipsis-v" size={20} color="#fff" />
+            </View>
           </View>
+
           <Image
-            source={payload.image}
+            source={typeof payload !== 'undefined' && payload.image}
             style={{
               ...style.image,
               width,
-              resizeMode: 'cover',
             }}
           />
         </View>
@@ -50,20 +120,35 @@ export default props => {
         style={{
           ...style.salesContainer,
           width,
-          height: height / 2,
+          height: detailsHeight,
         }}>
-        <View
-          // colors={['#fff', '#FEFEFE', '#F4F4F4']}
+        <LinearGradient
+          colors={['#fff', '#FEFEFE', '#F4F4F4']}
           style={{
             ...style.salesContainer,
-            backgroundColor: '#fff',
             width,
-            height: height / 2,
+            height: detailsHeight,
           }}>
-          <View style={{margin: 15}}>
-            <Text style={{color: '#fff'}}>Hello</Text>
+          <View style={{flex: 1, margin: 15, marginBottom: 0}}>
+            <Animated.View style={[{flex: state.flex, marginBottom: 10}]}>
+              <SubPanel
+                title="Purchases In Amount"
+                currency="USD"
+                style={{backgroundColor: app.primaryColorDarker}}
+              />
+            </Animated.View>
+
+            <View style={{flex: 2}}>
+              <ListDashboardContent
+                flexStart={0.8}
+                flexEnd={0.5}
+                {...{handlePageScroll}}
+                data={DATA}
+                {...{props}}
+              />
+            </View>
           </View>
-        </View>
+        </LinearGradient>
       </Animatable.View>
     </View>
   );

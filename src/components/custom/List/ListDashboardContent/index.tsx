@@ -15,8 +15,16 @@ import {app} from '@src/helpers/constants';
 import style from './style';
 const ListCard = lazy(() => import('@custom/Card/ListCard'));
 
+interface Props {
+  loading?: boolean;
+  handlePageScroll?: Function;
+  data: Array;
+  props?: any;
+  flexStart?: number;
+  flexEnd?: number;
+}
 const DashbordContent = React.memo(
-  ({loading, handlePageScroll, data, props}) => {
+  ({loading, handlePageScroll, data, flexEnd, flexStart, props}: Props) => {
     const [state, setstate] = useState({
       scrollY: new Animated.Value(0),
     });
@@ -36,7 +44,7 @@ const DashbordContent = React.memo(
     });
     const flex = state.scrollY.interpolate({
       inputRange: [0, 200],
-      outputRange: [0.3, 0.1],
+      outputRange: [flexStart, flexEnd],
       extrapolate: 'clamp',
     });
 
