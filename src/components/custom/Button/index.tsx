@@ -1,5 +1,5 @@
 import React from 'react';
-import {Dimensions} from 'react-native';
+import {Dimensions, Platform} from 'react-native';
 import {Button, Text} from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import style from './style.js';
@@ -45,6 +45,7 @@ export default (props: Props) => {
           textTransform: 'capitalize',
           ...style.textStyle,
           ...props.textStyle,
+          paddingTop: Platform.OS === 'ios' ? 5 : 0,
         }}>
         {props.text}
       </Text>

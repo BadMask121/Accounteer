@@ -19,6 +19,7 @@ const index = props => {
     }, 1000);
   }, []);
   const getStarted = () =>
+    // app.ROUTES.AUTH
     props.navigation.navigate(app.ROUTES.AUTH, {
       payload: {
         image: require('@assets/images/logo.png'),

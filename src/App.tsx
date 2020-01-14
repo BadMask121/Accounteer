@@ -41,14 +41,13 @@ const App = (props: Props) => {
   return (
     <Fragment>
       <StatusBar translucent backgroundColor="#fff" barStyle="dark-content" />
-      <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
-        <Spinner
-          visible={state.isLoading}
-          textContent={state.loadingMessage}
-          textStyle={{color: '#fff'}}
-        />
-        <Route />
-      </SafeAreaView>
+      {/* <SafeAreaView style={{flex: 0, backgroundColor: 'rgba(0,0,0,0.44)'}} /> */}
+      <Spinner
+        visible={state.isLoading}
+        textContent={state.loadingMessage}
+        textStyle={{color: '#fff'}}
+      />
+      <Route />
     </Fragment>
   );
 };

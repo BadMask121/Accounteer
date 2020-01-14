@@ -59,13 +59,13 @@ const style = {
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 5,
+      height: 1,
     },
-    shadowOpacity: 0.3,
+    shadowOpacity: 4.3,
     borderColor: '#ddd',
     shadowRadius: 3,
     elevation: 1,
-    zIndex: -1,
+    zIndex: 1,
   },
   contentSection: {
     paddingTop: 10,

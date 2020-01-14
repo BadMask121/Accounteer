@@ -29,6 +29,16 @@ const style = {
     color: 'rgba(0,0,0,0.8)',
     textTransform: 'capitalize',
   },
+  editContainer: {
+    backgroundColor: '#388e3c',
+    justifyContent: 'center',
+    flex: 1,
+  },
+  editText: {
+    textAlign: 'center',
+    fontWeight: '600',
+    color: '#fff',
+  },
 };
 
 export default style;

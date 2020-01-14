@@ -21,6 +21,7 @@ const style = {
   sizeLarge: {},
   textStyle: {
     textAlign: 'center',
+    alignSelf: 'center',
   },
 };
 

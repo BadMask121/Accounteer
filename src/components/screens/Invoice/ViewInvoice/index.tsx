@@ -163,9 +163,9 @@ export default ({...props}: Props) => {
         showHideTransition="fade"
       />
       <View style={style.headerContainer}>
-        <View>
+        <TouchableOpacity onPress={() => props.navigation.goBack()}>
           <Icon name="arrow-left" size={20} color="rgba(255,255,255,0.5)" />
-        </View>
+        </TouchableOpacity>
         <View style={style.headerInfo}>
           <Text
             style={{
@@ -201,7 +201,6 @@ export default ({...props}: Props) => {
         <ScrollView
           automaticallyAdjustContentInsets
           alwaysBounceVertical
-          alwaysBounceHorizontal
           contentContainerStyle={{paddingBottom: 10, padding: 5}}
           style={style.contentContainer}>
           <CompanySection />

@@ -124,7 +124,7 @@ const index = props => {
 
   return (
     <KeyboardAvoidingView style={style.container}>
-      <View alwaysBounceVertical automaticallyAdjustContentInsets bouncesZoom>
+      <View>
         <TitleTop />
 
         <View
@@ -136,7 +136,7 @@ const index = props => {
             initialValues={{email: ''}}
             onSubmit={values => console.log(values)}>
             {({handleChange, handleBlur, handleSubmit, values}) => (
-              <ScrollView>
+              <ScrollView automaticallyAdjustContentInsets alwaysBounceVertical>
                 {
                   <AutoInput
                     noDataText="Please add clients"

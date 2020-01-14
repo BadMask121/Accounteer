@@ -8,6 +8,7 @@ import {
   StatusBar,
   ActivityIndicator,
   Image,
+  SafeAreaView,
 } from 'react-native';
 import {FloatingAction} from 'react-native-floating-action';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -69,6 +70,7 @@ export default props => {
   const renderFooter = () => <ActivityIndicator />;
   return (
     <KeyboardAvoidingView style={style.container}>
+      <SafeAreaView style={{flex: 0, backgroundColor: '#fff'}} />
       <StatusBar
         translucent
         backgroundColor="transparent"
