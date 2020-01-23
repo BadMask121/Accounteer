@@ -31,13 +31,6 @@ const DashbordContent = React.memo(
     });
     const {ROUTES} = app;
 
-    const renderFooter = () =>
-      loading ? (
-        <View>
-          <ActivityIndicator animating size="large" />
-        </View>
-      ) : null;
-
     const labelSize = state.scrollY.interpolate({
       inputRange: [0, 200],
       outputRange: [40, 30],
@@ -57,37 +50,86 @@ const DashbordContent = React.memo(
       {nativeEvent: {contentOffset: {y: state.scrollY}}},
     ]);
 
-    const renderBusinessCard = item => (
-      <ListCard
-        {...{props}}
-        onPress={() =>
-          props.navigation.navigate(ROUTES.BUSINESS_DASHBOARD, {
-            id: item.id,
-            image: item.image,
-          })
-        }>
-        <View
+    //render header and footer functions
+    const renderSectionHeader = (title: string) => (
+      <View style={style.sectionHeader}>
+        <Text style={style.sectionTitle}>{title}</Text>
+        <RippleView
           style={{
-            flex: 0.5,
-            justifyContent: 'flex-start',
+            zIndex: -1,
+            borderRadius: 50,
+            marginRight: 20,
+          }}
+          onPress={() => {
+            let Route = '';
+            switch (title) {
+              case 'Businesses':
+                Route = ROUTES.CREATE_BUSINESS;
+                break;
+              case 'Invoices':
+                Route = ROUTES.CREATE_INVOICE;
+                break;
+              case 'Offers':
+                Route = '';
+                break;
+              case 'Purchases':
+                Route = '';
+                break;
+
+              default:
+                break;
+            }
+            return props.navigation.navigate(Route);
           }}>
-          <Image
-            source={item.image}
-            style={{
-              flex: 1,
-              borderTopLeftRadius: 10,
-              borderBottomLeftRadius: 10,
-              width: (Dimensions.get('screen').width / 2) * 0.5,
-              resizeMode: 'cover',
-            }}
-          />
-        </View>
-        <View style={{padding: 10}}>
-          <Text style={style.listText}>{item.name}</Text>
-          <Text style={style.listText}>{item.location}</Text>
-        </View>
-      </ListCard>
+          <Icon name="plus" size={20} color={app.primaryColorLight} />
+        </RippleView>
+      </View>
     );
+
+    const renderFooter = () =>
+      loading ? (
+        <View>
+          <ActivityIndicator animating size="large" />
+        </View>
+      ) : null;
+
+    // render item functions
+    const renderBusinessCard = item => {
+      console.log(item);
+      return (
+        <ListCard
+          {...{props}}
+          onPress={() =>
+            props.navigation.navigate(ROUTES.BUSINESS_DASHBOARD, {
+              id: item.id,
+              image: item.avatar,
+            })
+          }>
+          <View
+            style={{
+              flex: 0.5,
+              justifyContent: 'flex-start',
+            }}>
+            <Image
+              source={{
+                uri: item.avatar,
+              }}
+              style={{
+                flex: 1,
+                borderTopLeftRadius: 10,
+                borderBottomLeftRadius: 10,
+                width: (Dimensions.get('screen').width / 2) * 0.5,
+                resizeMode: 'cover',
+              }}
+            />
+          </View>
+          <View style={{padding: 10}}>
+            <Text style={style.listText}>{item.organisationname}</Text>
+            <Text style={style.listText}>{item.organisationlocation}</Text>
+          </View>
+        </ListCard>
+      );
+    };
 
     const renderOtherCard = item => (
       <ListCard {...{props}} cardStyle={{flexDirection: 'column'}}>
@@ -128,45 +170,13 @@ const DashbordContent = React.memo(
                     return renderBusinessCard(item);
                   default:
                     return renderOtherCard(item);
-                    break;
                 }
 
               return <View></View>;
             }}
-            renderSectionHeader={({section: {title}}) => (
-              <View style={style.sectionHeader}>
-                <Text style={style.sectionTitle}>{title}</Text>
-                <RippleView
-                  style={{
-                    zIndex: -1,
-                    borderRadius: 50,
-                    marginRight: 20,
-                  }}
-                  onPress={() => {
-                    let Route = '';
-                    switch (title) {
-                      case 'Businesses':
-                        Route = ROUTES.CREATE_BUSINESS;
-                        break;
-                      case 'Invoices':
-                        Route = ROUTES.CREATE_INVOICE;
-                        break;
-                      case 'Offers':
-                        Route = '';
-                        break;
-                      case 'Purchases':
-                        Route = '';
-                        break;
-
-                      default:
-                        break;
-                    }
-                    return props.navigation.navigate(Route);
-                  }}>
-                  <Icon name="plus" size={20} color={app.primaryColorLight} />
-                </RippleView>
-              </View>
-            )}
+            renderSectionHeader={({section: {title}}) =>
+              renderSectionHeader(title)
+            }
             scrollEventThrottle={1}
             {...{onScroll}}
           />

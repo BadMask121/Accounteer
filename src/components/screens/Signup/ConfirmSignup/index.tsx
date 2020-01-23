@@ -25,13 +25,27 @@ export default ({handleSubmit, ...props}: Props) => {
           flex: 1.5,
         }}>
         <Formik
-          initialValues={{password: '', confirmpassword: ''}}
+          initialValues={{email: '', password: '', confirmpassword: ''}}
           validationSchema={confirmSignupValidationSchema}
           onSubmit={values => handleSubmit(values)}>
           {({handleChange, handleBlur, handleSubmit, values, errors}) => {
             const isFoundErrors = () => !_.isEmpty(errors);
             return (
               <View>
+                <FormInput
+                  inputViewStyle={style.inputStyle}
+                  regular
+                  handleChange={() => handleChange('email')}
+                  name="email"
+                  placeholder="Email Address"
+                  error={isFoundErrors() && errors.email}
+                  valid={
+                    !_.isEmpty(values) &&
+                    values.email.length !== 0 &&
+                    !errors.email
+                  }
+                  submitting={false}
+                />
                 <FormInput
                   inputViewStyle={style.inputStyle}
                   regular

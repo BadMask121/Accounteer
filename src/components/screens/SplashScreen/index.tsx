@@ -5,8 +5,10 @@ import {Transition} from 'react-navigation-fluid-transitions';
 import * as Animatable from 'react-native-animatable';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import style from './style';
-import {app} from '@src/helpers/constants';
+import {app} from 'helpers/constants';
 import subscribe from '@src/subscriber';
+import AsyncStorage from '@react-native-community/async-storage';
+import {auth} from 'helpers/constants';
 
 const index = props => {
   const height: number = Dimensions.get('screen').height;
@@ -18,13 +20,20 @@ const index = props => {
       getStarted();
     }, 1000);
   }, []);
-  const getStarted = () =>
-    // app.ROUTES.AUTH
-    props.navigation.navigate(app.ROUTES.AUTH, {
+
+  const getStarted = async () => {
+    const route =
+      (await AsyncStorage.getItem(auth.AUTH_TOKEN)) &&
+      (await AsyncStorage.getItem(auth.USER_DETAILS_TOKEN))
+        ? app.ROUTES.APP
+        : app.ROUTES.AUTH;
+
+    props.navigation.navigate(route, {
       payload: {
         image: require('@assets/images/logo.png'),
       },
     });
+  };
 
   return (
     <View style={style.container}>

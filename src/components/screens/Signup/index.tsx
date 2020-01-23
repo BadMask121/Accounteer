@@ -54,6 +54,7 @@ export default ({handleSubmit, ...props}: Props) => {
             firstname: '',
             lastname: '',
             organisationname: '',
+            organisationlocation: '',
             email: '',
           }}
           validateOnChange={signupValidationSchema}
@@ -108,14 +109,14 @@ export default ({handleSubmit, ...props}: Props) => {
                 <FormInput
                   inputViewStyle={style.inputStyle}
                   regular
-                  handleChange={() => handleChange('email')}
-                  name="email"
-                  placeholder="Email Address"
-                  error={isFoundErrors() && errors.email}
+                  handleChange={() => handleChange('organisationlocation')}
+                  name="organisationlocation"
+                  placeholder="Organisation Location"
+                  error={isFoundErrors() && errors.organisationlocation}
                   valid={
                     !_.isEmpty(values) &&
-                    values.email.length !== 0 &&
-                    !errors.email
+                    values.organisationlocation.length !== 0 &&
+                    !errors.organisationlocation
                   }
                   submitting={false}
                 />

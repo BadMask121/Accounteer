@@ -24,6 +24,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import Route from './routes/App.routes';
 import {app} from 'helpers/constants';
 import subscribe from './subscriber';
+import {UserService} from 'providers/App/services';
 
 interface Props {
   user?: string;
@@ -38,6 +39,19 @@ const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
 // );
 const App = (props: Props) => {
   const {state} = props.appstate;
+  const userService = new UserService();
+
+  const setUserSession = () => {
+    userService.getCurrentUserDetails().then((res: any) => {
+      const userDetails = JSON.parse(res);
+      props.appstate.setCurrentUser(userDetails);
+    });
+  };
+
+  React.useEffect(() => {
+    setUserSession();
+  }, []);
+
   return (
     <Fragment>
       <StatusBar translucent backgroundColor="#fff" barStyle="dark-content" />

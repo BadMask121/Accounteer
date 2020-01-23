@@ -14,10 +14,30 @@ export default class AppState extends Container<any | Object> {
     });
   };
 
-  setCurrentScreen = async screen => {
+  setCurrentScreen = async (screen: any) => {
     await this.setState({
+      ...this.state,
       currentScreen: screen,
     });
+  };
+
+  // set active current user details
+  setCurrentUser = async (details: any) => {
+    await this.setState({
+      ...this.state,
+      currentUser: details,
+    });
+
+    return this.state.currentUser;
+  };
+
+  // set active current user organisation data
+  setCurrentUserOrganisations = async (details: any) => {
+    await this.setState({
+      ...this.state,
+      currentUserOrganisations: details,
+    });
+    return this.state.currentUserOrganisations;
   };
 
   setSubmitting = (condition: Boolean) => {

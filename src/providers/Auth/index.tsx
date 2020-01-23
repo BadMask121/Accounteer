@@ -2,6 +2,8 @@ import React from 'react';
 import {Container} from 'unstated';
 import {AUTH_STATE} from '../intialState';
 import FirebaseAuthentication from './Authentication';
+import {SignupPayload, Login} from 'helpers/Interfaces';
+
 export default class AuthState extends Container<any | Object> {
   constructor(props, private auth: FirebaseAuthentication) {
     super(props);
@@ -27,15 +29,20 @@ export default class AuthState extends Container<any | Object> {
 
   // signup payload on state
   setSignupPayload = async payload => {
-    return await this.setState({
+    await this.setState({
       signup: {
         ...this.state.signup,
         ...payload,
       },
     });
+    return this.state.signup;
   };
 
-  signup = async values => {
-    return await this.auth.signup(values);
+  login = async (values: Login) => {
+    return this.auth.login(values);
+  };
+  signup = async (values: SignupPayload) => {
+    Reflect.deleteProperty(values, 'confirmpassword');
+    return this.auth.signup(values);
   };
 }

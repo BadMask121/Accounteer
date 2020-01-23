@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, Input, Textarea} from 'native-base';
+import {View, Text, Input, Textarea, DatePicker} from 'native-base';
 import {
   KeyboardAvoidingView,
   Dimensions,
@@ -193,14 +193,17 @@ const index = props => {
                   </View>
 
                   {show ? (
-                    <DateTimePicker
-                      value={
+                    <DatePicker
+                      defaultDate={
                         state.isIssue ? issuedate.toDate() : duedate.toDate()
                       }
-                      mode={'date'}
-                      is24Hour={true}
-                      display="default"
-                      onChange={setDate}
+                      locale={'en'}
+                      timeZoneOffsetInMinutes={undefined}
+                      modalTransparent={false}
+                      animationType={'fade'}
+                      androidMode={'default'}
+                      onDateChange={setDate}
+                      disabled={false}
                     />
                   ) : (
                     <></>

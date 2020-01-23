@@ -3,6 +3,8 @@ export const APP_STATE = {
   isLoading: false,
   loadingMessage: 'Loading...',
   submitting: false,
+  currentUser: {},
+  currentUserOrganisations: [],
 };
 
 export const AUTH_STATE = {
@@ -11,6 +13,7 @@ export const AUTH_STATE = {
     firstname: '',
     lastname: '',
     organisationname: '',
+    organisationlocation: '',
     email: '',
     password: '',
   },

@@ -1,11 +1,37 @@
 import React, {Component} from 'react';
-import LoginView from '../../components/screens/Login/index';
-import {app} from '@src/helpers/constants';
-export default class extends Component {
-  handleSubmit = () => {
-    this.props.navigation.navigate(app.ROUTES.APP);
+import {Alert} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
+import LoginView from 'components/screens/Login/index';
+import {app, auth} from '@src/helpers/constants';
+import subscriber from 'subscriber';
+class Login extends Component {
+  constructor(props) {
+    super(props);
+  }
+  handleSubmit = values => {
+    this.props.appstate.setSubmitting(true);
+    this.props.authstate
+      .login(values)
+      .then(async (res: any) => {
+        if (res.hasOwnProperty('token') && res.hasOwnProperty('userDetails')) {
+          await AsyncStorage.setItem(auth.AUTH_TOKEN, res.token);
+          await AsyncStorage.setItem(
+            auth.USER_DETAILS_TOKEN,
+            JSON.stringify(res.userDetails),
+          );
+          await this.props.appstate.setCurrentUser(res.userDetails);
+          this.props.appstate.setSubmitting(false);
+          return this.props.navigation.navigate(app.ROUTES.APP);
+        }
+      })
+      .catch((err: Error) => {
+        this.props.appstate.setSubmitting(false);
+        return Alert.alert('Error', JSON.stringify(err));
+      });
   };
   render() {
-    return <LoginView handleSubmit={this.handleSubmit} />;
+    return <LoginView handleSubmit={this.handleSubmit} {...this.props} />;
   }
 }
+
+export default subscriber(Login);

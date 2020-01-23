@@ -11,6 +11,9 @@ import {Dimensions, FlatList, TouchableOpacity} from 'react-native';
 import * as BoxShadow from 'react-native-shadow';
 import RippleView from '';
 import {Formik} from 'formik';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import * as _ from 'lodash';
+
 import TopTitle from '@custom/TopTitle';
 import SubPanel from '@custom/Panel/SubPanel';
 import style from './style';
@@ -18,7 +21,6 @@ import ListDashboardContent from 'components/custom/List/ListDashboardContent';
 
 import {data} from '@src/helpers/dummydata';
 import {app} from '@src/helpers/constants';
-import Icon from 'react-native-vector-icons/FontAwesome5';
 
 const otherdata = [
   {
@@ -38,10 +40,10 @@ const otherdata = [
   },
 ];
 
-const DATA = [
+const DATA_TITLE_LIST = [
   {
     title: 'Businesses',
-    data: [...data],
+    data: [],
   },
   {
     title: 'Invoices',
@@ -57,13 +59,28 @@ const DATA = [
   },
 ];
 
-export default props => {
+interface Props {
+  userDetails: Object<any | string>;
+  organisationsData: Array<any | string>;
+  getOrganisationsByUserId: Function;
+  props: Object;
+}
+export default ({
+  userDetails,
+  getOrganisationsByUserId,
+  organisationsData,
+  ...props
+}: Props) => {
   const [state, setstate] = useState({
     flex: new Animated.Value(0.3),
     labelSize: new Animated.Value(40),
   });
 
-  const handlePageScroll = (flex, labelSize) => {
+  // assign business list data
+  const [businessData] = DATA_TITLE_LIST;
+  businessData.data = organisationsData;
+
+  const handlePageScroll = (flex: Float32Array, labelSize: Float32Array) => {
     setstate(prev => ({
       flex,
       labelSize,
@@ -117,7 +134,11 @@ export default props => {
       <View style={style.subTitleContainer}>
         <View style={style.userFullNameContainer}>
           <Text style={style.userFullName}>
-            Hello {props.firstName + props.lastName || 'Emakpor Jeffrey'}
+            {typeof userDetails !== 'undefined' && !_.isEmpty(userDetails) ? (
+              `Hello ${userDetails.firstname} ${userDetails.lastname}`
+            ) : (
+              <></>
+            )}
           </Text>
         </View>
         <SubPanel
@@ -131,7 +152,7 @@ export default props => {
           flexEnd={0.1}
           {...{handlePageScroll}}
           {...{props}}
-          data={DATA}
+          data={DATA_TITLE_LIST}
         />
       </View>
     </KeyboardAvoidingView>

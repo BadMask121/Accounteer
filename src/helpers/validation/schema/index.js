@@ -34,14 +34,18 @@ const signupValidationSchema = yup.object().shape({
     .string()
     .label('Organisation Name')
     .required('Please enter your organisation name'),
+  organisationlocation: yup
+    .string()
+    .label('Organisation Location')
+    .required('Please enter your organisation location'),
+});
+
+const confirmSignupValidationSchema = yup.object().shape({
   email: yup
     .string()
     .label('Email')
     .email('Enter a valid email')
     .required('Please enter a registered email'),
-});
-
-const confirmSignupValidationSchema = yup.object().shape({
   password: yup
     .string()
     .label('Password')
