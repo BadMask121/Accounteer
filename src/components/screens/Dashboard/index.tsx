@@ -152,7 +152,7 @@ export default ({
           flexStart={0.3}
           flexEnd={0.1}
           {...{handlePageScroll}}
-          {...{props}}
+          props={props}
           data={DATA_TITLE_LIST}
         />
       </View>

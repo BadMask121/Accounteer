@@ -81,7 +81,7 @@ const DashbordContent = React.memo(
               default:
                 break;
             }
-            return props.navigation.navigate(Route);
+            return props.props.navigation.navigate(Route);
           }}>
           <Icon name="plus" size={20} color={app.primaryColorLight} />
         </RippleView>
@@ -116,10 +116,7 @@ const DashbordContent = React.memo(
             <ListCard
               {...{props}}
               onPress={() =>
-                props.navigation.navigate(ROUTES.BUSINESS_DASHBOARD, {
-                  id: item.id,
-                  image: item.avatar,
-                })
+                props.props.navigation.navigate(ROUTES.BUSINESS_DASHBOARD)
               }>
               <View
                 style={{
@@ -159,7 +156,7 @@ const DashbordContent = React.memo(
     const selectionOtherList = item => {
       return [
         {
-          data: [{title: 123}, {title: 'aaa'}],
+          data: item.data,
           key: 'aaa',
         },
       ];
@@ -167,41 +164,48 @@ const DashbordContent = React.memo(
 
     // render other items
     const renderOtherCard = item => (
-      <SectionList
-        sections={selectionOtherList(item)}
-        horizontal={true}
-        invertStickyHeaders={true}
-        maxToRenderPerBatch={2}
-        onEndReachedThreshold={0.5}
-        keyExtractor={(_item, index) => short.generate()}
-        renderItem={({item, index, section}) => (
-          <ListCard {...{props}} cardStyle={{flexDirection: 'column'}}>
-            <View style={[{padding: 10}]}>
-              <Text style={[style.listText, {fontFamily: app.primaryFontBold}]}>
-                {item.title}
-              </Text>
-            </View>
-            <View style={{padding: 10}}>
-              <Text
-                style={{
-                  color: app.primaryColorLight,
-                  fontSize: 10,
-                  marginBottom: 2,
-                }}>
-                Amount
-              </Text>
-              <Text style={{...style.listText}}>
-                {item.currency}
-                {item.amount}
-              </Text>
-            </View>
-          </ListCard>
-        )}
-        renderSectionHeader={({section: {title}}) => {
-          return renderSectionHeader('Invoices');
-        }}
-        scrollEventThrottle={1}
-      />
+      <View>
+        {renderSectionHeader(item.title)}
+        <SectionList
+          contentContainerStyle={{
+            display: 'flex',
+            padding: 30,
+          }}
+          pagingEnabled
+          invertStickyHeaders={true}
+          sections={selectionOtherList(item)}
+          horizontal={true}
+          invertStickyHeaders={true}
+          maxToRenderPerBatch={2}
+          onEndReachedThreshold={0.5}
+          keyExtractor={(_item, index) => short.generate()}
+          renderItem={({item, index, section}) => (
+            <ListCard {...{props}} cardStyle={{flexDirection: 'column'}}>
+              <View style={[{padding: 10}]}>
+                <Text
+                  style={[style.listText, {fontFamily: app.primaryFontBold}]}>
+                  {item.title}
+                </Text>
+              </View>
+              <View style={{padding: 10}}>
+                <Text
+                  style={{
+                    color: app.primaryColorLight,
+                    fontSize: 10,
+                    marginBottom: 2,
+                  }}>
+                  Amount
+                </Text>
+                <Text style={{...style.listText}}>
+                  {item.currency}
+                  {item.amount}
+                </Text>
+              </View>
+            </ListCard>
+          )}
+          scrollEventThrottle={1}
+        />
+      </View>
     );
 
     return (
