@@ -8,9 +8,6 @@ import {
   StatusBar,
 } from 'react-native';
 import {Dimensions, FlatList, TouchableOpacity} from 'react-native';
-import * as BoxShadow from 'react-native-shadow';
-import RippleView from '';
-import {Formik} from 'formik';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import * as _ from 'lodash';
 
@@ -19,7 +16,6 @@ import SubPanel from '@custom/Panel/SubPanel';
 import style from './style';
 import ListDashboardContent from 'components/custom/List/ListDashboardContent';
 
-import {data} from '@src/helpers/dummydata';
 import {app} from '@src/helpers/constants';
 
 const otherdata = [
@@ -123,7 +119,7 @@ export default ({
               size={30}
               color="rgba(0,0,0,0.5)"
               style={{justifyContent: 'center'}}
-              onPress={() => props.navigation.toggleDrawer()}
+              onPress={() => props.props.navigation.toggleDrawer()}
             />
           </View>
         </Animated.View>

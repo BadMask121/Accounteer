@@ -4,6 +4,8 @@ import {createAppContainer} from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import BusinessRoute from './BusinessRoute';
 import {Dashboard} from '../../containers';
+import HomeDrawer from 'components/custom/Drawer/HomeDrawer';
+import {app} from 'helpers/constants';
 const index = createDrawerNavigator(
   {
     Dashboard: {
@@ -23,7 +25,7 @@ const index = createDrawerNavigator(
     drawerPosition: 'left',
     defaultNavigationOptions: {
       headerStyle: {
-        backgroundColor: '#fff',
+        backgroundColor: app.primaryColorLight,
         elevation: 0,
       },
       headerTintColor: 'gray',
@@ -32,6 +34,12 @@ const index = createDrawerNavigator(
       headerTitleStyle: {
         fontWeight: 'bold',
       },
+    },
+    drawerBackgroundColor: app.primaryColorLight,
+    keyboardDismissMode: 'on-drag',
+    contentComponent: props => {
+      console.log(props);
+      return <HomeDrawer {...props} />;
     },
     initialRouteName: 'Dashboard',
   },
