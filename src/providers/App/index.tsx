@@ -42,7 +42,16 @@ export default class AppState extends Container<any | Object> {
     });
     return this.state.currentUserOrganisations;
   };
-
+  // set active organisation
+  setSelectedOrganisation = async (details: any) => {
+    await this.setState({
+      ...this.state,
+      selectedOrganisation: {
+        ...details,
+      },
+    });
+    return this.state.selectedOrganisation;
+  };
   setSubmitting = (condition: Boolean) => {
     this.setState({
       ...this.state,

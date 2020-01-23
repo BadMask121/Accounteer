@@ -95,8 +95,8 @@ const DashbordContent = React.memo(
         </View>
       ) : null;
 
-    // business list data
-    const selectionBusinessList = item => {
+    // arrange item lists
+    const selectionList = item => {
       return [
         {
           data: item.data,
@@ -104,20 +104,24 @@ const DashbordContent = React.memo(
         },
       ];
     };
+
     // render business items
     const renderBusinessCard = (item, loading) => {
       return (
         <SectionList
-          sections={selectionBusinessList(item)}
+          sections={selectionList(item)}
           maxToRenderPerBatch={2}
           onEndReachedThreshold={0.5}
           keyExtractor={(_item, index) => short.generate()}
           renderItem={({item}) => (
             <ListCard
               {...{props}}
-              onPress={() =>
-                props.props.navigation.navigate(ROUTES.BUSINESS_DASHBOARD)
-              }>
+              onPress={async () => {
+                await props.props.appstate.setSelectedOrganisation(item);
+                return props.props.navigation.navigate(
+                  ROUTES.BUSINESS_DASHBOARD,
+                );
+              }}>
               <View
                 style={{
                   flex: 0.5,
@@ -152,16 +156,6 @@ const DashbordContent = React.memo(
       );
     };
 
-    // listing data of other cards
-    const selectionOtherList = item => {
-      return [
-        {
-          data: item.data,
-          key: 'aaa',
-        },
-      ];
-    };
-
     // render other items
     const renderOtherCard = item => (
       <View>
@@ -173,7 +167,7 @@ const DashbordContent = React.memo(
           }}
           pagingEnabled
           invertStickyHeaders={true}
-          sections={selectionOtherList(item)}
+          sections={selectionList(item)}
           horizontal={true}
           invertStickyHeaders={true}
           maxToRenderPerBatch={2}

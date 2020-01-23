@@ -8,6 +8,7 @@ export const APP_STATE = {
     loading: true,
     data: [],
   },
+  selectedOrganisation: {},
 };
 
 export const AUTH_STATE = {

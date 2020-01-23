@@ -47,7 +47,7 @@ const DATA = [
 
 // change image payload to state
 export default props => {
-  const payload = props.navigation.state.params;
+  const payload = props.appstate.state.selectedOrganisation;
   const {width} = Dimensions.get('screen');
   const {height} = Dimensions.get('screen');
   const detailsHeight = height / 1.35;
@@ -101,13 +101,15 @@ export default props => {
                 color="rgba(255,255,255,0.6)"
                 onPress={() => props.navigation.navigate(app.ROUTES.DASHBOARD)}
               />
-              <Text style={style.titleText}>Ace Corps</Text>
+              <Text style={style.titleText}>{payload.organisationname}</Text>
               <Icon name="ellipsis-v" size={20} color="rgba(255,255,255,0.6)" />
             </View>
           </View>
 
           <Image
-            source={typeof payload !== 'undefined' && payload.image}
+            source={{
+              uri: typeof payload !== 'undefined' && payload.avatar,
+            }}
             style={{
               ...style.image,
               width,
