@@ -20,7 +20,7 @@ class Index extends Component {
         .getOrganisationsByUserId(id)
         .then(
           async res =>
-            await this.props.appstate.setCurrentUserOrganisations(res),
+            await this.props.appstate.setCurrentUserOrganisations(res, false),
         )
         .catch(err => console.log(err));
     });

@@ -32,10 +32,13 @@ export default class AppState extends Container<any | Object> {
   };
 
   // set active current user organisation data
-  setCurrentUserOrganisations = async (details: any) => {
+  setCurrentUserOrganisations = async (details: any, loading: Boolean) => {
     await this.setState({
       ...this.state,
-      currentUserOrganisations: details,
+      currentUserOrganisations: {
+        loading,
+        data: details,
+      },
     });
     return this.state.currentUserOrganisations;
   };

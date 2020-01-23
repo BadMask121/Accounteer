@@ -78,7 +78,8 @@ export default ({
 
   // assign business list data
   const [businessData] = DATA_TITLE_LIST;
-  businessData.data = organisationsData;
+  businessData.data = organisationsData.data;
+  businessData.loading = organisationsData.loading;
 
   const handlePageScroll = (flex: Float32Array, labelSize: Float32Array) => {
     setstate(prev => ({

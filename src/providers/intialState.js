@@ -4,7 +4,10 @@ export const APP_STATE = {
   loadingMessage: 'Loading...',
   submitting: false,
   currentUser: {},
-  currentUserOrganisations: [],
+  currentUserOrganisations: {
+    loading: true,
+    data: [],
+  },
 };
 
 export const AUTH_STATE = {

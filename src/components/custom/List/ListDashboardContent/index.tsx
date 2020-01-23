@@ -94,8 +94,8 @@ const DashbordContent = React.memo(
       ) : null;
 
     // render item functions
-    const renderBusinessCard = item => {
-      console.log(item);
+    const renderBusinessCard = (item, loading) => {
+      console.log(loading);
       return (
         <ListCard
           {...{props}}
@@ -167,7 +167,7 @@ const DashbordContent = React.memo(
               if (typeof section.title !== 'undefined')
                 switch (section.title) {
                   case 'Businesses':
-                    return renderBusinessCard(item);
+                    return renderBusinessCard(item, section.loading);
                   default:
                     return renderOtherCard(item);
                 }
