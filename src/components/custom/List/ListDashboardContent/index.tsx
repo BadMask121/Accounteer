@@ -10,10 +10,11 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import RippleView from 'react-native-material-ripple';
+import * as short from 'shortid';
+
 import {ActivityIndicator} from 'react-native';
 import {app} from '@src/helpers/constants';
 import style from './style';
-import {NavigationActions} from 'react-navigation';
 const ListCard = lazy(() => import('@custom/Card/ListCard'));
 
 interface Props {
@@ -24,6 +25,7 @@ interface Props {
   flexStart?: number;
   flexEnd?: number;
 }
+
 const DashbordContent = React.memo(
   ({loading, handlePageScroll, data, flexEnd, flexStart, props}: Props) => {
     const [state, setstate] = useState({
@@ -86,97 +88,139 @@ const DashbordContent = React.memo(
       </View>
     );
 
-    const renderFooter = () =>
-      loading ? (
+    const renderFooter = show =>
+      show ? (
         <View>
           <ActivityIndicator animating size="large" />
         </View>
       ) : null;
 
-    // render item functions
+    // business list data
+    const selectionBusinessList = item => {
+      return [
+        {
+          data: item.data,
+          key: short.generate(),
+        },
+      ];
+    };
+    // render business items
     const renderBusinessCard = (item, loading) => {
-      console.log(loading);
       return (
-        <ListCard
-          {...{props}}
-          onPress={() =>
-            props.navigation.navigate(ROUTES.BUSINESS_DASHBOARD, {
-              id: item.id,
-              image: item.avatar,
-            })
-          }>
-          <View
-            style={{
-              flex: 0.5,
-              justifyContent: 'flex-start',
-            }}>
-            <Image
-              source={{
-                uri: item.avatar,
-              }}
-              style={{
-                flex: 1,
-                borderTopLeftRadius: 10,
-                borderBottomLeftRadius: 10,
-                width: (Dimensions.get('screen').width / 2) * 0.5,
-                resizeMode: 'cover',
-              }}
-            />
-          </View>
-          <View style={{padding: 10}}>
-            <Text style={style.listText}>{item.organisationname}</Text>
-            <Text style={style.listText}>{item.organisationlocation}</Text>
-          </View>
-        </ListCard>
+        <SectionList
+          sections={selectionBusinessList(item)}
+          maxToRenderPerBatch={2}
+          onEndReachedThreshold={0.5}
+          keyExtractor={(_item, index) => short.generate()}
+          renderItem={({item}) => (
+            <ListCard
+              {...{props}}
+              onPress={() =>
+                props.navigation.navigate(ROUTES.BUSINESS_DASHBOARD, {
+                  id: item.id,
+                  image: item.avatar,
+                })
+              }>
+              <View
+                style={{
+                  flex: 0.5,
+                  justifyContent: 'flex-start',
+                }}>
+                <Image
+                  source={{
+                    uri: item.avatar,
+                  }}
+                  style={{
+                    flex: 1,
+                    borderTopLeftRadius: 10,
+                    borderBottomLeftRadius: 10,
+                    width: (Dimensions.get('screen').width / 2) * 0.5,
+                    resizeMode: 'cover',
+                  }}
+                />
+              </View>
+              <View style={{padding: 10}}>
+                <Text style={style.listText}>{item.organisationname}</Text>
+                <Text style={style.listText}>{item.organisationlocation}</Text>
+              </View>
+            </ListCard>
+          )}
+          ListFooterComponent={() => {
+            return renderFooter(loading);
+          }}
+          renderSectionHeader={({section}) => renderSectionHeader('Businesses')}
+          scrollEventThrottle={1}
+          {...{onScroll}}
+        />
       );
     };
 
+    // listing data of other cards
+    const selectionOtherList = item => {
+      return [
+        {
+          data: [{title: 123}, {title: 'aaa'}],
+          key: 'aaa',
+        },
+      ];
+    };
+
+    // render other items
     const renderOtherCard = item => (
-      <ListCard {...{props}} cardStyle={{flexDirection: 'column'}}>
-        <View style={[{padding: 10}]}>
-          <Text style={[style.listText, {fontFamily: app.primaryFontBold}]}>
-            {item.title}
-          </Text>
-        </View>
-        <View style={{padding: 10}}>
-          <Text
-            style={{
-              color: app.primaryColorLight,
-              fontSize: 10,
-              marginBottom: 2,
-            }}>
-            Amount
-          </Text>
-          <Text style={{...style.listText}}>
-            {item.currency}
-            {item.amount}
-          </Text>
-        </View>
-      </ListCard>
+      <SectionList
+        sections={selectionOtherList(item)}
+        horizontal={true}
+        invertStickyHeaders={true}
+        maxToRenderPerBatch={2}
+        onEndReachedThreshold={0.5}
+        keyExtractor={(_item, index) => short.generate()}
+        renderItem={({item, index, section}) => (
+          <ListCard {...{props}} cardStyle={{flexDirection: 'column'}}>
+            <View style={[{padding: 10}]}>
+              <Text style={[style.listText, {fontFamily: app.primaryFontBold}]}>
+                {item.title}
+              </Text>
+            </View>
+            <View style={{padding: 10}}>
+              <Text
+                style={{
+                  color: app.primaryColorLight,
+                  fontSize: 10,
+                  marginBottom: 2,
+                }}>
+                Amount
+              </Text>
+              <Text style={{...style.listText}}>
+                {item.currency}
+                {item.amount}
+              </Text>
+            </View>
+          </ListCard>
+        )}
+        renderSectionHeader={({section: {title}}) => {
+          return renderSectionHeader('Invoices');
+        }}
+        scrollEventThrottle={1}
+      />
     );
 
     return (
-      <Suspense fallback={renderFooter()}>
+      <Suspense fallback={renderFooter(true)}>
         <View style={style.sectionContainer}>
-          <SectionList
-            sections={data}
-            maxToRenderPerBatch={2}
-            onEndReachedThreshold={0.5}
-            keyExtractor={(_item, index) => index}
-            renderItem={({item, index, section}) => {
-              if (typeof section.title !== 'undefined')
-                switch (section.title) {
+          <FlatList
+            data={data}
+            renderItem={({item, index}) => {
+              if (typeof item.title !== 'undefined')
+                switch (item.title) {
                   case 'Businesses':
-                    return renderBusinessCard(item, section.loading);
+                    return renderBusinessCard(item, item.loading);
                   default:
                     return renderOtherCard(item);
                 }
 
               return <View></View>;
             }}
-            renderSectionHeader={({section: {title}}) =>
-              renderSectionHeader(title)
-            }
+            keyExtractor={(_item, index) => short.generate()}
             scrollEventThrottle={1}
             {...{onScroll}}
           />
