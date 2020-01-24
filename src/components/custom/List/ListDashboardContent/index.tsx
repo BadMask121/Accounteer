@@ -4,7 +4,9 @@ import {
   Image,
   Dimensions,
   FlatList,
+  ActivityIndicator,
   TouchableHighlight,
+  TouchableOpacity,
   Animated,
   SectionList,
 } from 'react-native';
@@ -12,7 +14,6 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import RippleView from 'react-native-material-ripple';
 import * as short from 'shortid';
 
-import {ActivityIndicator} from 'react-native';
 import {app} from '@src/helpers/constants';
 import style from './style';
 const ListCard = lazy(() => import('@custom/Card/ListCard'));
@@ -67,8 +68,8 @@ const DashbordContent = React.memo(
             alignItems: 'center',
             justifyContent: 'center',
           }}
+          key={short.generate()}
           onPress={() => {
-            console.log('HEre');
             let Route = '';
             switch (title) {
               case 'Businesses':

@@ -17,7 +17,7 @@ import Button from '@custom/Button';
 import TopTitle from '@custom/TopTitle';
 import FormInput from '@custom/Form/Input';
 import InvoiceCard from '@custom/Card/InvoiceCard';
-import {app} from '@src/helpers/constants';
+import {app} from 'helpers/constants';
 import style from './style';
 
 const data = [
@@ -98,8 +98,8 @@ export default props => {
         <FloatingAction
           distanceToEdge={{vertical: 30, horizontal: 10}}
           showBackground={false}
-          onPressItem={name => {
-            console.log(`selected button: ${name}`);
+          onPressMain={name => {
+            props.navigation.navigate(app.ROUTES.CREATE_INVOICE);
           }}
         />
       </View>
