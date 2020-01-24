@@ -9,9 +9,8 @@ const Navigation = createSwitchNavigator(
   {
     App: {
       screen: props => {
-        console.log(props.screenProps);
         return props.screenProps.isLoggedIn ? (
-          <AppNavigation {...props} />
+          <AppNavigation />
         ) : (
           <SplashScreen {...props} />
         );

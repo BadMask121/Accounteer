@@ -37,14 +37,19 @@ const App = React.memo((props: Props) => {
   const {state} = props.appstate;
   const userService = new UserService();
 
-  React.useMemo(async () => {
+  // React.useCallback(async () => {}, []);
+
+  const setUserSession = async () => {
     userService.getCurrentUserDetails().then((res: any) => {
       const userDetails = JSON.parse(res);
       props.appstate.setCurrentUser(userDetails);
     });
     await props.authstate.checkSession();
-  }, []);
+  };
 
+  React.useEffect(() => {
+    setUserSession();
+  }, []);
   return (
     <Fragment>
       <StatusBar translucent backgroundColor="#fff" barStyle="dark-content" />

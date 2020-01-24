@@ -10,7 +10,6 @@ const index = createDrawerNavigator(
   {
     Dashboard: {
       screen: props => {
-        console.log(props);
         return <Dashboard {...props} />;
       },
       navigationOptions: ({}) => ({
