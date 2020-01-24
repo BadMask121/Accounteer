@@ -19,6 +19,7 @@ class Login extends Component {
             auth.USER_DETAILS_TOKEN,
             JSON.stringify(res.userDetails),
           );
+          await this.props.authstate.setLoggedIn(true);
           await this.props.appstate.setCurrentUser(res.userDetails);
           this.props.appstate.setSubmitting(false);
           return this.props.navigation.navigate(app.ROUTES.APP);

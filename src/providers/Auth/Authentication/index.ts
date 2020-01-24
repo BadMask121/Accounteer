@@ -23,6 +23,10 @@ export class FirebaseAuthentication {
     return defaultUrl;
   }
 
+  // signout
+  logout = async () => {
+    return this.auth.signOut();
+  };
   // login to user account using email
   login = async (values: Login) => {
     values.email = values.email.toLowerCase();

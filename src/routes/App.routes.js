@@ -5,17 +5,22 @@ import AuthNavigation from './Auth';
 import AppNavigation from './App';
 import {SplashScreen} from '../components/screens';
 
-const Navigation = createSharedElementStackNavigator(
-  createSwitchNavigator,
+const Navigation = createSwitchNavigator(
   {
-    SplashScreen: {
-      screen: props => <SplashScreen {...props} />,
+    App: {
+      screen: props => {
+        console.log(props.screenProps);
+        return props.screenProps.isLoggedIn ? (
+          <AppNavigation {...props} />
+        ) : (
+          <SplashScreen {...props} />
+        );
+      },
     },
-    App: AppNavigation,
     Auth: AuthNavigation(),
   },
   {
-    initialRouteName: 'SplashScreen',
+    initialRouteName: 'App',
   },
 );
 

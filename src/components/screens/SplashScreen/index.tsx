@@ -22,13 +22,7 @@ const index = props => {
   }, []);
 
   const getStarted = async () => {
-    const route =
-      (await AsyncStorage.getItem(auth.AUTH_TOKEN)) &&
-      (await AsyncStorage.getItem(auth.USER_DETAILS_TOKEN))
-        ? app.ROUTES.APP
-        : app.ROUTES.AUTH;
-
-    props.navigation.navigate(route, {
+    props.navigation.navigate(app.ROUTES.AUTH, {
       payload: {
         image: require('@assets/images/logo.png'),
       },

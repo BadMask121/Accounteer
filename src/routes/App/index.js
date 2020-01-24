@@ -9,7 +9,10 @@ import {app} from 'helpers/constants';
 const index = createDrawerNavigator(
   {
     Dashboard: {
-      screen: props => <Dashboard {...props} />,
+      screen: props => {
+        console.log(props);
+        return <Dashboard {...props} />;
+      },
       navigationOptions: ({}) => ({
         drawerIcon: () => <Icon name="camera" size={20} color="#000" />,
       }),
@@ -35,10 +38,13 @@ const index = createDrawerNavigator(
         fontWeight: 'bold',
       },
     },
-    drawerBackgroundColor: app.primaryColorLight,
+    screenContainerStyle: {
+      borderRadius: 50,
+    },
+    drawerType: 'slide',
+    drawerBackgroundColor: 'transparent ',
     keyboardDismissMode: 'on-drag',
     contentComponent: props => {
-      console.log(props);
       return <HomeDrawer {...props} />;
     },
     initialRouteName: 'Dashboard',

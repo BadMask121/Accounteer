@@ -25,6 +25,7 @@ import Route from './routes/App.routes';
 import {app} from 'helpers/constants';
 import subscribe from './subscriber';
 import {UserService} from 'providers/App/services';
+import AsyncStorage from '@react-native-community/async-storage';
 
 interface Props {
   user?: string;
@@ -32,38 +33,34 @@ interface Props {
 const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : StatusBar.currentHeight;
 const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
 
-// const MyStatusBar = ({backgroundColor, ...props}) => (
-//   <View style={[{height: STATUSBAR_HEIGHT}, {backgroundColor}]}>
-//     <StatusBar translucent backgroundColor={backgroundColor} {...props} />
-//   </View>
-// );
-const App = (props: Props) => {
+const App = React.memo((props: Props) => {
   const {state} = props.appstate;
   const userService = new UserService();
 
-  const setUserSession = () => {
+  React.useMemo(async () => {
     userService.getCurrentUserDetails().then((res: any) => {
       const userDetails = JSON.parse(res);
       props.appstate.setCurrentUser(userDetails);
     });
-  };
-
-  React.useEffect(() => {
-    setUserSession();
+    await props.authstate.checkSession();
   }, []);
 
   return (
     <Fragment>
       <StatusBar translucent backgroundColor="#fff" barStyle="dark-content" />
-      {/* <SafeAreaView style={{flex: 0, backgroundColor: 'rgba(0,0,0,0.44)'}} /> */}
       <Spinner
         visible={state.isLoading}
         textContent={state.loadingMessage}
         textStyle={{color: '#fff'}}
       />
-      <Route />
+      <Route
+        screenProps={{
+          isLoggedIn: props.authstate.state.isLoggedIn,
+        }}
+        {...props}
+      />
     </Fragment>
   );
-};
+});
 
 export default subscribe(App);
