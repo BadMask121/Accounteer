@@ -63,7 +63,8 @@ export default class AuthState extends Container<any | Object> {
       authConstant.AUTH_TOKEN,
       authConstant.USER_DETAILS_TOKEN,
     ]);
-    return this.auth.logout();
+    await this.auth.logout();
+    return Promise.resolve(true);
   };
   login = async (values: Login) => {
     return this.auth.login(values);

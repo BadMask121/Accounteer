@@ -3,41 +3,41 @@ import {createStackNavigator} from 'react-navigation-stack';
 import Welcome from '../../components/screens/Welcome';
 import {Login, Signup, ConfirmSignup} from '../../containers';
 import AppNavigation from '../App';
+import {createAppContainer} from 'react-navigation';
 
-const index = values =>
-  createStackNavigator(
-    {
-      Welcome: {
-        screen: props => <Welcome {...props} {...values} />,
-        navigationOptions: ({navigation}) => ({
-          headerShown: false,
-        }),
+const index = createStackNavigator(
+  {
+    Welcome: {
+      screen: props => <Welcome {...props} />,
+      navigationOptions: ({navigation}) => ({
+        headerShown: false,
+      }),
+    },
+    Login: {
+      screen: props => <Login {...props} />,
+    },
+    Signup: {
+      screen: props => <Signup {...props} />,
+    },
+    ConfirmSignup: {
+      screen: props => <ConfirmSignup {...props} />,
+    },
+  },
+  {
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: '#fff',
+        elevation: 0,
       },
-      Login: {
-        screen: props => <Login {...props} {...values} />,
-      },
-      Signup: {
-        screen: props => <Signup {...props} {...values} />,
-      },
-      ConfirmSignup: {
-        screen: props => <ConfirmSignup {...props} {...values} />,
+      headerTintColor: 'gray',
+      headerBackTitle: null,
+      headerTitle: () => null,
+      headerTitleStyle: {
+        fontWeight: 'bold',
       },
     },
-    {
-      defaultNavigationOptions: {
-        headerStyle: {
-          backgroundColor: '#fff',
-          elevation: 0,
-        },
-        headerTintColor: 'gray',
-        headerBackTitle: null,
-        headerTitle: () => null,
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
-      },
-      initialRouteName: 'Welcome',
-    },
-  );
+    initialRouteName: 'Welcome',
+  },
+);
 
-export default index;
+export default createAppContainer(index);

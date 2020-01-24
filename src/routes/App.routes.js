@@ -9,14 +9,14 @@ const Navigation = createSwitchNavigator(
   {
     App: {
       screen: props => {
-        return props.screenProps.isLoggedIn ? (
+        return props.screenProps.isLoggedIn === true ? (
           <AppNavigation />
         ) : (
           <SplashScreen {...props} />
         );
       },
     },
-    Auth: AuthNavigation(),
+    Auth: AuthNavigation,
   },
   {
     initialRouteName: 'App',

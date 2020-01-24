@@ -13,7 +13,10 @@ import {app} from 'helpers/constants';
 import subscriber from 'subscriber';
 
 const Index = props => {
-  const Logout = () => props.authstate.logout();
+  const Logout = () => {
+    props.authstate.logout();
+    props.navigation.navigate(app.ROUTES.AUTH);
+  };
   return (
     <SafeAreaView style={{flex: 1}}>
       <ScrollView style={{flex: 1}}>

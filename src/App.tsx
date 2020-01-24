@@ -37,8 +37,6 @@ const App = React.memo((props: Props) => {
   const {state} = props.appstate;
   const userService = new UserService();
 
-  // React.useCallback(async () => {}, []);
-
   const setUserSession = async () => {
     userService.getCurrentUserDetails().then((res: any) => {
       const userDetails = JSON.parse(res);

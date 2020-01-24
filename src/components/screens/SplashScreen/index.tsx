@@ -10,15 +10,21 @@ import subscribe from '@src/subscriber';
 import AsyncStorage from '@react-native-community/async-storage';
 import {auth} from 'helpers/constants';
 
-const index = props => {
+const index = React.memo(props => {
   const height: number = Dimensions.get('screen').height;
   const width: number = Dimensions.get('screen').width;
 
+  // console.log(props.screenProps.isLoggedIn, 'dsds');
+
+  const check = async () => await AsyncStorage.getItem(auth.AUTH_TOKEN);
+
   useEffect(() => {
-    props.appstate.setLoading(false);
-    setTimeout(() => {
-      getStarted();
-    }, 1000);
+    check().then(res => {
+      if (res === null)
+        setTimeout(() => {
+          getStarted();
+        }, 1000);
+    });
   }, []);
 
   const getStarted = async () => {
@@ -51,6 +57,6 @@ const index = props => {
       </Animatable.View>
     </View>
   );
-};
+});
 
 export default subscribe(index);
