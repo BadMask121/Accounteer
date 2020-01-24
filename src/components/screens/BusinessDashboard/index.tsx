@@ -7,10 +7,8 @@ import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import style from './style';
 import {app} from '@src/helpers/constants';
-import {data} from '@src/helpers/dummydata';
 import SubPanel from 'components/custom/Panel/SubPanel';
 import ListDashboardContent from 'components/custom/List/ListDashboardContent';
-import {ScrollView} from 'react-native-gesture-handler';
 
 const otherdata = [
   {

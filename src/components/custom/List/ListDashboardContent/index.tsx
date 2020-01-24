@@ -58,11 +58,17 @@ const DashbordContent = React.memo(
         <Text style={style.sectionTitle}>{title}</Text>
         <RippleView
           style={{
+            backgroundColor: '#ddd',
             zIndex: -1,
+            width: 30,
+            height: 30,
             borderRadius: 50,
             marginRight: 20,
+            alignItems: 'center',
+            justifyContent: 'center',
           }}
           onPress={() => {
+            console.log('HEre');
             let Route = '';
             switch (title) {
               case 'Businesses':
