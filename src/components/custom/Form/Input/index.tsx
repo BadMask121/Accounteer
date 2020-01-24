@@ -35,7 +35,11 @@ function FormInput({
         style={style.inputStyle}
         {...props}
       />
-
+      {/* <Icon
+        ios="ios-menu"
+        android="md-menu"
+        style={{fontSize: 20, color: 'red'}}
+      /> */}
       {typeof valid !== 'undefined' || typeof error !== 'undefined' ? (
         <Icon
           name={

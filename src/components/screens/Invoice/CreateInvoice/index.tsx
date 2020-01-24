@@ -18,7 +18,7 @@ import shortid from 'shortid';
 import moment from 'moment';
 import Button from '@custom/Button';
 import TopTitle from '@custom/TopTitle';
-import FormInput from '@custom/Form/Input';
+import FormInput from 'components/custom/Form/Input';
 import {app} from '@src/helpers/constants';
 import style from './style';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -207,9 +207,17 @@ const index = props => {
                   )}
                 </View>
                 {
-                  <AutoInput
+                  <FormInput
                     placeholder="Reference"
-                    autoCorrect={false}
+                    name="reference"
+                    submitting={false}
+                    inputViewStyle={{
+                      borderBottomLeftRadius: 10,
+                      borderBottomRightRadius: 10,
+                      borderBottomWidth: 1.5,
+                      borderBottomColor: '#000',
+                    }}
+                    handleChange={i => console.log(i)}
                     renderIcon={() => (
                       <Icon
                         name="align-left"
