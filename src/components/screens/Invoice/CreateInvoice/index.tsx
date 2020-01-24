@@ -193,17 +193,14 @@ const index = props => {
                   </View>
 
                   {show ? (
-                    <DatePicker
-                      defaultDate={
+                    <DateTimePicker
+                      value={
                         state.isIssue ? issuedate.toDate() : duedate.toDate()
                       }
-                      locale={'en'}
-                      timeZoneOffsetInMinutes={undefined}
-                      modalTransparent={false}
-                      animationType={'fade'}
-                      androidMode={'default'}
-                      onDateChange={setDate}
-                      disabled={false}
+                      mode={'date'}
+                      is24Hour={true}
+                      display="default"
+                      onChange={setDate}
                     />
                   ) : (
                     <></>
