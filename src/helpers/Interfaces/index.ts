@@ -12,4 +12,10 @@ interface Login {
   email: string;
   password: string;
 }
-export {SignupPayload, Login};
+
+interface createItemProps {
+  id: any;
+  itemname: String;
+  itemprice: Float32Array;
+}
+export {SignupPayload, Login, createItemProps};

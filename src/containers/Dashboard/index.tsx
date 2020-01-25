@@ -1,11 +1,10 @@
-import React, {Component} from 'react';
+import React, {Component, PureComponent} from 'react';
 import Dashboard from '../../components/screens/Dashboard';
 import subscriber from 'subscriber';
 import {UserService} from 'providers/App/services';
 import {InteractionManager} from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
-import {auth} from 'helpers/constants';
-class Index extends Component {
+
+class Index extends PureComponent {
   userServ = new UserService();
   constructor(props: any) {
     super(props);

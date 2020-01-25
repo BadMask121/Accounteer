@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
+import React, {Component, PureComponent} from 'react';
 import Invoices from '../../../components/screens/Invoice/Invoices';
 
-export default class extends Component {
+export default class extends PureComponent {
   render() {
     return <Invoices {...this.props} />;
   }

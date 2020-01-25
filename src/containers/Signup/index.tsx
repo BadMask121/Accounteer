@@ -3,6 +3,7 @@ import SignupView from '../../components/screens/Signup/index.tsx';
 import {app} from '@src/helpers/constants';
 import subscribe from 'subscriber';
 
+// TODO rememeber to pass business id along as a data in busines column on creating user
 class index extends Component {
   constructor(props) {
     super(props);

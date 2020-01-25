@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
+import React, {Component, PureComponent} from 'react';
 import {BusinessDashboard} from 'components/screens';
 import subscriber from 'subscriber';
 
-class BusinessDashbord extends Component {
+class BusinessDashbord extends PureComponent {
   constructor(props) {
     super(props);
   }
