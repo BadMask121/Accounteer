@@ -102,10 +102,9 @@ const index = React.memo(props => {
           type,
         };
 
-        console.log(state.attachments);
         setstate(prev => ({
           ...prev,
-          attachments: state.attachments.push(Object.assign({}, fileDetails)),
+          attachments: [...state.attachments, {...fileDetails}],
           attachmentCount: prev.attachmentCount + 1,
         }));
       }
