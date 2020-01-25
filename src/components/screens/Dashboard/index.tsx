@@ -61,97 +61,103 @@ interface Props {
   getOrganisationsByUserId: Function;
   props: Object;
 }
-export default ({
-  userDetails,
-  getOrganisationsByUserId,
-  organisationsData,
-  ...props
-}: Props) => {
-  const [state, setstate] = useState({
-    flex: new Animated.Value(0.3),
-    labelSize: new Animated.Value(40),
-  });
+export default React.memo(
+  ({
+    userDetails,
+    getOrganisationsByUserId,
+    organisationsData,
+    ...props
+  }: Props) => {
+    const [state, setstate] = useState({
+      flex: new Animated.Value(0.3),
+      labelSize: new Animated.Value(40),
+    });
 
-  // assign business list data
-  const [businessData] = DATA_TITLE_LIST;
-  businessData.data = organisationsData.data;
-  businessData.loading = organisationsData.loading;
+    // assign business list data
+    const [businessData] = DATA_TITLE_LIST;
+    businessData.data = organisationsData.data;
+    businessData.loading = organisationsData.loading;
 
-  const handlePageScroll = (flex: Float32Array, labelSize: Float32Array) => {
-    setstate(prev => ({
-      flex,
-      labelSize,
-    }));
-  };
-  useEffect(() => {
-    Animated.timing(state.labelSize, {
-      toValue: 200,
-      easing: Easing.back(),
-      duration: 2000,
-    }).start();
+    const handlePageScroll = (flex: Float32Array, labelSize: Float32Array) => {
+      setstate(prev => ({
+        flex,
+        labelSize,
+      }));
+    };
+    useEffect(() => {
+      Animated.timing(state.labelSize, {
+        toValue: 200,
+        easing: Easing.back(),
+        duration: 2000,
+      }).start();
 
-    Animated.timing(state.flex, {
-      toValue: 200,
-      duration: 2000,
-    }).start();
-  }, []);
+      Animated.timing(state.flex, {
+        toValue: 200,
+        duration: 2000,
+      }).start();
+    }, []);
 
-  return (
-    <KeyboardAvoidingView style={style.container}>
-      <StatusBar
-        hidden
-        translucent
-        backgroundColor="transparent"
-        barStyle="dark-content"
-        animated
-        showHideTransition="fade"
-      />
+    return (
+      <KeyboardAvoidingView style={style.container}>
+        <StatusBar
+          hidden
+          translucent
+          backgroundColor="transparent"
+          barStyle="dark-content"
+          animated
+          showHideTransition="fade"
+        />
 
-      <TouchableOpacity style={{flex: 0.15}}>
-        <Animated.View
-          style={[
-            style.topHeader,
-            {position: 'absolute', width: Dimensions.get('screen').width},
-          ]}>
-          <View style={{flex: 1, marginLeft: 10, justifyContent: 'center'}}>
-            <Icon
-              name="user-circle"
-              size={30}
-              color="rgba(0,0,0,0.5)"
-              style={{justifyContent: 'center'}}
-              onPress={() => props.props.navigation.toggleDrawer()}
-            />
-          </View>
+        <TouchableOpacity style={{flex: 0.15}}>
+          <Animated.View
+            style={[
+              style.topHeader,
+              {position: 'absolute', width: Dimensions.get('screen').width},
+            ]}>
+            <View style={{flex: 1, marginLeft: 10, justifyContent: 'center'}}>
+              <Icon
+                name="user-circle"
+                size={30}
+                color="rgba(0,0,0,0.5)"
+                style={{justifyContent: 'center'}}
+                onPress={() => props.props.navigation.toggleDrawer()}
+              />
+            </View>
+          </Animated.View>
+        </TouchableOpacity>
+        <Animated.View style={[style.topTitle, {flex: state.flex}]}>
+          <TopTitle
+            labelSize={state.labelSize}
+            title="Dashboard"
+            {...{props}}
+          />
         </Animated.View>
-      </TouchableOpacity>
-      <Animated.View style={[style.topTitle, {flex: state.flex}]}>
-        <TopTitle labelSize={state.labelSize} title="Dashboard" {...{props}} />
-      </Animated.View>
 
-      <View style={style.subTitleContainer}>
-        <View style={style.userFullNameContainer}>
-          <Text style={style.userFullName}>
-            {typeof userDetails !== 'undefined' && !_.isEmpty(userDetails) ? (
-              `Hello ${userDetails.firstname} ${userDetails.lastname}`
-            ) : (
-              <></>
-            )}
-          </Text>
+        <View style={style.subTitleContainer}>
+          <View style={style.userFullNameContainer}>
+            <Text style={style.userFullName}>
+              {typeof userDetails !== 'undefined' && !_.isEmpty(userDetails) ? (
+                `Hello ${userDetails.firstname} ${userDetails.lastname}`
+              ) : (
+                <></>
+              )}
+            </Text>
+          </View>
+          <SubPanel
+            title="All Business Purchases"
+            style={{backgroundColor: app.primaryColorDark}}
+          />
         </View>
-        <SubPanel
-          title="All Business Purchases"
-          style={{backgroundColor: app.primaryColorDark}}
-        />
-      </View>
-      <View style={{flex: 1}}>
-        <ListDashboardContent
-          flexStart={0.3}
-          flexEnd={0.1}
-          {...{handlePageScroll}}
-          props={props}
-          data={DATA_TITLE_LIST}
-        />
-      </View>
-    </KeyboardAvoidingView>
-  );
-};
+        <View style={{flex: 1}}>
+          <ListDashboardContent
+            flexStart={0.3}
+            flexEnd={0.1}
+            {...{handlePageScroll}}
+            props={props}
+            data={DATA_TITLE_LIST}
+          />
+        </View>
+      </KeyboardAvoidingView>
+    );
+  },
+);

@@ -16,6 +16,8 @@ import {
 import DateTimePicker from '@react-native-community/datetimepicker';
 import shortid from 'shortid';
 import moment from 'moment';
+import DocumentPicker from 'react-native-document-picker';
+
 import Button from '@custom/Button';
 import TopTitle from '@custom/TopTitle';
 import FormInput from 'components/custom/Form/Input';
@@ -26,13 +28,13 @@ import {ScrollView} from 'react-native-gesture-handler';
 const action = [
   {
     text: 'Add Attachment',
-    icon: '',
+    icon: require('@assets/images/paperclip.svg'),
     name: 'attachment',
     position: 1,
   },
   {
     text: 'Add Item',
-    icon: '',
+    icon: require('@assets/images/bag.svg'),
     name: 'item',
     position: 1,
   },
@@ -48,9 +50,78 @@ const index = React.memo(props => {
     issuedate: moment(new Date()),
     duedate: moment(new Date()),
     selectedValue: 'key0',
+    attachmentCount: 0,
+    attachments: [],
   });
 
   const {width, height} = Dimensions.get('window');
+
+  //format our issued and due date
+  const format = (year, month, day) => `${year}/${month}/${day}`;
+
+  //set the dates
+  const setDate = (event, date) => {
+    date = state.isIssue
+      ? {
+          issuedate: moment(date),
+        }
+      : {
+          duedate: moment(date),
+        };
+    setstate(prev => ({
+      ...prev,
+      show: Platform.OS === 'ios' ? true : false,
+      ...date,
+    }));
+  };
+
+  // toggle date
+  const showDateTime = (mode, isIssue) =>
+    setstate(prev => ({
+      ...prev,
+      show: true,
+      isIssue,
+      mode,
+    }));
+
+  const onClickAttachment = async () => {
+    // Pick multiple files
+    try {
+      const results = await DocumentPicker.pickMultiple({
+        type: [
+          DocumentPicker.types.pdf,
+          DocumentPicker.types.plainText,
+          DocumentPicker.types.images,
+        ],
+      });
+      for (const {uri, name, size, type} of results) {
+        const fileDetails = {
+          uri,
+          name,
+          size,
+          type,
+        };
+
+        console.log(state.attachments);
+        setstate(prev => ({
+          ...prev,
+          attachments: state.attachments.push(Object.assign({}, fileDetails)),
+          attachmentCount: prev.attachmentCount + 1,
+        }));
+      }
+    } catch (err) {
+      if (DocumentPicker.isCancel(err)) {
+        // User cancelled the picker, exit any dialogs or menus and move on
+      } else {
+        throw err;
+      }
+    }
+  };
+
+  const onClickAddItem = () => {
+    console.log('Add Item');
+  };
+  const {issuedate, duedate, show, mode} = state;
 
   const AutoInput = autoInputProps => (
     <View style={style.inputContainer}>
@@ -85,43 +156,15 @@ const index = React.memo(props => {
         <TopTitle title="New Invoice" />
         <View style={style.attachmentIcon}>
           <View style={style.attachmentNumber}>
-            <Text style={style.attachmentNumberText}>1</Text>
+            <Text style={style.attachmentNumberText}>
+              {state.attachmentCount}
+            </Text>
           </View>
           <Icon name="paperclip" size={20} color={app.primaryColor} />
         </View>
       </View>
     </View>
   );
-
-  //format our issued and due date
-  const format = (year, month, day) => `${year}/${month}/${day}`;
-
-  //set the dates
-  const setDate = (event, date) => {
-    date = state.isIssue
-      ? {
-          issuedate: moment(date),
-        }
-      : {
-          duedate: moment(date),
-        };
-    setstate(prev => ({
-      ...prev,
-      show: Platform.OS === 'ios' ? true : false,
-      ...date,
-    }));
-  };
-
-  // toggle date
-  const showDateTime = (mode, isIssue) =>
-    setstate(prev => ({
-      ...prev,
-      show: true,
-      isIssue,
-      mode,
-    }));
-
-  const {issuedate, duedate, show, mode} = state;
 
   return (
     <KeyboardAvoidingView style={style.container}>
@@ -373,7 +416,16 @@ const index = React.memo(props => {
                   showBackground={false}
                   actions={action}
                   onPressItem={name => {
-                    console.log(`selected button: ${name}`);
+                    switch (name) {
+                      case 'attachment':
+                        return onClickAttachment();
+                        break;
+                      case 'item':
+                        return onClickAddItem();
+
+                      default:
+                        break;
+                    }
                   }}
                 />
                 <Button
