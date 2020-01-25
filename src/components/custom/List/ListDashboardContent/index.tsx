@@ -59,7 +59,7 @@ const DashbordContent = React.memo(
         <Text style={style.sectionTitle}>{title}</Text>
         <RippleView
           style={{
-            backgroundColor: '#ddd',
+            backgroundColor: 'rgba(32,57,184,0.1)',
             zIndex: -1,
             width: 30,
             height: 30,
@@ -88,7 +88,7 @@ const DashbordContent = React.memo(
               default:
                 break;
             }
-            return props.props.navigation.navigate(Route);
+            return props.props.navigation.navigate(Route, {from: 'main'});
           }}>
           <Icon name="plus" size={20} color={app.primaryColorLight} />
         </RippleView>
@@ -98,7 +98,11 @@ const DashbordContent = React.memo(
     const renderFooter = show =>
       show ? (
         <View>
-          <ActivityIndicator animating size="large" />
+          <ActivityIndicator
+            animating
+            size="large"
+            color={app.primaryColorLight}
+          />
         </View>
       ) : null;
 

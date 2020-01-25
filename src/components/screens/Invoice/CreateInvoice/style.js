@@ -39,8 +39,13 @@ const style = {
   input: {
     fontSize: 15,
     borderColor: '#fff',
-    // borderBottomRightRadius: 5,
-    // borderBottomLeftRadius: 5,
+    borderBottomRightRadius: 5,
+    borderBottomLeftRadius: 5,
+    borderBottomColor: '#000',
+  },
+  inputViewStyle: {
+    borderBottomLeftRadius: 5,
+    borderBottomRightRadius: 5,
     borderBottomColor: '#000',
   },
   leftIcon: {
@@ -83,6 +88,11 @@ const style = {
     marginTop: 20,
     borderRadius: 5,
     backgroundColor: '#fff',
+  },
+  taxContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 5,
   },
 };
 

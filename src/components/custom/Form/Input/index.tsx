@@ -1,14 +1,16 @@
 import React from 'react';
-import {Item, Label, Input, Text, Icon} from 'native-base';
+import {Item, Label, Input, Text, Icon, View} from 'native-base';
 import {Dimensions, Platform} from 'react-native';
 import {app} from '@src/helpers/constants';
 import style from './style';
 interface Props {
   handleChange?: Function;
+  renderRightIcon?: Function;
   name: string;
   placeholder?: string;
   submitting?: Boolean;
   inputViewStyle?: Object;
+  inputStyle?: Object;
   error?: Boolean;
   valid?: Boolean;
 }
@@ -17,6 +19,8 @@ function FormInput({
   name,
   placeholder,
   submitting,
+  inputStyle,
+  renderRightIcon,
   inputViewStyle,
   error,
   valid,
@@ -27,19 +31,16 @@ function FormInput({
       style={{...style.inputContainer, ...inputViewStyle}}
       {...props}
       floatingLabel>
+      {typeof renderRightIcon !== 'undefined' ? renderRightIcon() : <></>}
       <Input
         onChangeText={handleChange(name)}
         placeholder={placeholder}
         placeholderTextColor="rgba(0,0,0,0.5)"
         disabled={submitting || false}
-        style={style.inputStyle}
+        style={{...style.inputStyle, ...inputStyle}}
         {...props}
       />
-      {/* <Icon
-        ios="ios-menu"
-        android="md-menu"
-        style={{fontSize: 20, color: 'red'}}
-      /> */}
+
       {typeof valid !== 'undefined' || typeof error !== 'undefined' ? (
         <Icon
           name={

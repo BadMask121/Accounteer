@@ -67,6 +67,8 @@ export default ({handleSubmit, ...props}: Props) => {
                   inputViewStyle={{
                     borderRadius: 5,
                     borderColor: 'lightblue',
+                    marginLeft: 10,
+                    marginRight: 10,
                   }}
                   regular
                   handleChange={handleChange}
@@ -85,6 +87,8 @@ export default ({handleSubmit, ...props}: Props) => {
                   inputViewStyle={{
                     borderRadius: 5,
                     borderColor: 'lightblue',
+                    marginLeft: 10,
+                    marginRight: 10,
                   }}
                   regular
                   handleChange={handleChange}

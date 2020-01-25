@@ -59,8 +59,8 @@ const App = React.memo((props: Props) => {
       <Route
         screenProps={{
           isLoggedIn: props.authstate.state.isLoggedIn,
+          ...props,
         }}
-        {...props}
       />
     </Fragment>
   );
