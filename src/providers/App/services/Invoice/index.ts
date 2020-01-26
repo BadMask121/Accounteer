@@ -7,6 +7,7 @@ import {CreateItemProps, CreateInvoiceProps} from 'helpers/Interfaces';
 import {deepTrim} from 'helpers';
 
 export default class extends FirebaseAuthentication {
+  //TODO fix pagination issues
   public getInvoiceByBusinessId = async (id: any, offset, limit) => {
     const allInvoice: Array<any> = [];
     let index = 0;
@@ -22,15 +23,15 @@ export default class extends FirebaseAuthentication {
           code: 408,
         });
 
-      const limitQuery = checkIfItemExistsForBusiness.limit(limit + 1);
+      const limitQuery = checkIfItemExistsForBusiness.limit(limit);
       const paginate = limitQuery.get().then(async snap => {
         let last = snap.docs[snap.docs.length - 1];
 
         let next = await this.connector
           .collection(auth.COLLECTIONS.INVOICE)
-          .orderBy('amountPaid')
-          .startAt(last.data().amountPaid)
-          .limit(limit)
+          .orderBy('client')
+          .startAt(last.data().client)
+          .limit(limit + 1)
           .get();
 
         await new Promise((resolve, reject) => {

@@ -1,6 +1,7 @@
 import React, {Component, PureComponent, Suspense, lazy} from 'react';
 import {ActivityIndicator} from 'react-native';
 import {InvoiceService} from 'providers/App/services';
+import * as _ from 'lodash';
 const Invoices = lazy(() =>
   import('../../../components/screens/Invoice/Invoices'),
 );
@@ -32,7 +33,9 @@ export default class extends PureComponent {
           this.setState({
             ...this.state.InvoiceData,
             fetching: false,
-            InvoiceData: this.state.InvoiceData.concat(res),
+            InvoiceData: !_.isEqual(this.state.InvoiceData, res)
+              ? this.state.InvoiceData.concat(res)
+              : this.state.InvoiceData,
           });
       })
       .catch(err => {
