@@ -1,3 +1,4 @@
 import UserService from './User';
+import InvoiceService from './Invoice';
 
-export {UserService};
+export {UserService, InvoiceService};

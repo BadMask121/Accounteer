@@ -22,11 +22,17 @@ const style = {
   },
   addItemModalContent: {
     justifySelf: 'flex-end',
-    height: '32%',
+    height: '41%',
     width: '70%',
     backgroundColor: '#fff',
     borderRadius: 10,
     elevation: 5,
+  },
+  addItemIcon: {
+    fontSize: 20,
+    color: app.primaryColorDark,
+    paddingLeft: 12,
+    top: 0,
   },
   attachmentIcon: {
     flex: 0.1,

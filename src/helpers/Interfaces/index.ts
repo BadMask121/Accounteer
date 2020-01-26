@@ -13,9 +13,25 @@ interface Login {
   password: string;
 }
 
-interface createItemProps {
+interface CreateItemProps {
   id: any;
-  itemname: String;
-  itemprice: Float32Array;
+  name: String;
+  price: Float32Array;
+  tax: Float32Array;
 }
-export {SignupPayload, Login, createItemProps};
+
+interface CreateInvoiceProps {
+  id: any;
+  client: String;
+  issuedate: String;
+  duedate: String;
+  reference: String;
+  item: Object;
+  attachments: Array;
+  quantity: Float32Array;
+  type: String;
+  description: String;
+  totalInTax: Float32Array;
+  totalExTax: Float32Array;
+}
+export {SignupPayload, Login, CreateItemProps, CreateInvoiceProps};

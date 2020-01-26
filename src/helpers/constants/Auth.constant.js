@@ -4,7 +4,8 @@ const AuthContants = {
   COLLECTIONS: {
     USER: 'user',
     ORGANISATION: 'organisation',
-    ITEMS: 'items',
+    ITEMS: 'item',
+    INVOICE: 'invoice',
   },
 };
 

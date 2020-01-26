@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import {
   View,
   Text,
@@ -8,6 +8,7 @@ import {
   Picker,
   Container,
   Content,
+  Toast,
 } from 'native-base';
 import {
   KeyboardAvoidingView,
@@ -17,6 +18,8 @@ import {
   Modal,
   TouchableHighlight,
   ScrollView,
+  TouchableWithoutFeedback,
+  ActivityIndicator,
 } from 'react-native';
 import {Formik} from 'formik';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -27,12 +30,14 @@ import {
 } from 'react-native-dropdown-autocomplete';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import shortid from 'shortid';
+import * as _ from 'lodash';
 
 import Button from 'components/custom/Button';
 import TopTitle from '@custom/TopTitle';
 import FormInput from 'components/custom/Form/Input';
 import {app} from '@src/helpers/constants';
 import style from './style';
+import {createInvoiceValidationSchema} from 'helpers/validation/schema';
 
 const action = [
   {
@@ -56,17 +61,22 @@ interface Props {
   issuedate: any;
   duedate: any;
   selectedValue: String;
-  attachmentCount: number;
-  attachments: Array;
+  attachmentCount?: number;
+  attachments?: Array;
   setDate: Function;
   showDateTime: Function;
   onClickAttachment: Function;
   onClickAddItem: Function;
   onPickerChangeValue: Function;
-  fetchItems: Function;
+  onItemPicked: Function;
+  selectedItem: Object;
   ItemSubmitting: Boolean;
   showAddItemModal: Boolean;
+  itemData: Array;
+  fetchingItem: Boolean;
+  createInvoice: Function;
   addItem: Function;
+  fetchItems: Function;
 }
 
 // TODO check if user is coming from busines dashboard and add an dropdown to select which business user wants
@@ -85,14 +95,23 @@ const index = React.memo(
     showDateTime,
     showAddItemModal,
     onClickAttachment,
+    selectedItem,
     fetchItems,
+    onItemPicked,
     onClickAddItem,
     addItem,
     ItemSubmitting,
+    createInvoice,
     onPickerChangeValue,
+    itemData,
+    fetchingItem,
     ...props
   }: Props) => {
     const {width, height} = Dimensions.get('window');
+
+    const [state, setstate] = useState({
+      item: '',
+    });
 
     const {selectedOrganisation} = props.screenProps.appstate.state;
     //format our issued and due date
@@ -142,8 +161,9 @@ const index = React.memo(
               <View>
                 <Formik
                   initialValues={{
-                    itemname: '',
-                    itemprice: 0,
+                    name: '',
+                    price: 0,
+                    tax: 0,
                   }}
                   onSubmit={values => {
                     values.id = selectedOrganisation.id;
@@ -153,7 +173,7 @@ const index = React.memo(
                     <View>
                       <FormInput
                         placeholder="Item Name"
-                        name="itemname"
+                        name="name"
                         submitting={false}
                         valid={false}
                         inputViewStyle={{
@@ -164,12 +184,7 @@ const index = React.memo(
                           <Icon
                             name="cart-arrow-down"
                             type="FontAwesome5"
-                            style={{
-                              fontSize: 20,
-                              color: app.primaryColorDark,
-                              paddingLeft: 12,
-                              top: 0,
-                            }}
+                            style={style.addItemIcon}
                           />
                         )}
                         inputStyle={{
@@ -179,7 +194,7 @@ const index = React.memo(
                       />
                       <FormInput
                         placeholder="Item Price"
-                        name="itemprice"
+                        name="price"
                         type="number"
                         keyboardType="phone-pad"
                         submitting={false}
@@ -192,12 +207,30 @@ const index = React.memo(
                           <Icon
                             name="dollar-sign"
                             type="FontAwesome5"
-                            style={{
-                              fontSize: 20,
-                              color: app.primaryColorDark,
-                              paddingLeft: 12,
-                              top: 0,
-                            }}
+                            style={style.addItemIcon}
+                          />
+                        )}
+                        inputStyle={{
+                          textAlign: 'left',
+                        }}
+                        handleChange={handleChange}
+                      />
+                      <FormInput
+                        placeholder="Tax"
+                        name="tax"
+                        type="number"
+                        keyboardType="phone-pad"
+                        submitting={false}
+                        valid={false}
+                        inputViewStyle={{
+                          ...style.inputViewStyle,
+                          marginLeft: 0,
+                        }}
+                        renderRightIcon={() => (
+                          <Icon
+                            name="cash-register"
+                            type="FontAwesome5"
+                            style={style.addItemIcon}
                           />
                         )}
                         inputStyle={{
@@ -244,17 +277,6 @@ const index = React.memo(
       </View>
     );
 
-    const data = [
-      'Apples',
-      'Broccoli',
-      'Chicken',
-      'Duck',
-      'Eggs',
-      'Fish',
-      'Granola',
-      'Hash Browns',
-    ];
-
     return (
       <KeyboardAvoidingView style={style.container}>
         <View>
@@ -296,247 +318,349 @@ const index = React.memo(
               margin: 10,
             }}>
             <Formik
+              enableReinitialize
               initialValues={{
+                id: '',
+                attachments: [],
                 client: '',
                 reference: '',
-                item: '',
-                quantity: '',
+                item: {},
+                quantity: '1.0',
                 description: '',
+                totalInTax: 0.0,
+                totalExTax: 0.0,
+                issuedate: 0,
+                duedate: 0,
               }}
-              onSubmit={values => console.log(values)}>
-              {({handleChange, handleBlur, handleSubmit, values}) => (
-                <ScrollView
-                  automaticallyAdjustContentInsets
-                  alwaysBounceVertical>
-                  <FormInput
-                    placeholder="Client"
-                    name="client"
-                    submitting={false}
-                    valid={false}
-                    inputViewStyle={style.inputViewStyle}
-                    renderRightIcon={() => (
-                      <Icon
-                        name="user-check"
-                        type="FontAwesome5"
-                        style={{
-                          fontSize: 20,
-                          color: app.primaryColorDark,
-                          paddingLeft: 12,
-                          top: 0,
-                        }}
-                      />
-                    )}
-                    inputStyle={{
-                      textAlign: 'left',
-                    }}
-                    handleChange={handleChange}
-                  />
+              validateOnChange={createInvoiceValidationSchema}
+              validateOnMount={createInvoiceValidationSchema}
+              validationSchema={createInvoiceValidationSchema}
+              onSubmit={values => createInvoice(values)}>
+              {({
+                handleChange,
+                handleBlur,
+                handleSubmit,
+                values,
+                isValid,
+                errors,
+              }) => {
+                const totalExTax =
+                  parseFloat(parseFloat(selectedItem.price)) *
+                  parseFloat(
+                    (!_.isEmpty(values.quantity) && values.quantity) || 1.0,
+                  );
+                const totalInTax =
+                  parseFloat(
+                    parseFloat(selectedItem.price) +
+                      parseFloat(selectedItem.tax || 0.0),
+                  ) *
+                  parseFloat(
+                    (!_.isEmpty(values.quantity) && values.quantity) || 1.0,
+                  );
 
-                  <View style={{...style.dateContainer}}>
-                    <View>
-                      <Text style={style.dateTitleStyle}>Issue Date</Text>
-                      <TouchableOpacity
-                        onPress={() => showDateTime('date', true)}>
-                        <Text style={style.dateStyle}>
-                          {format(
-                            issuedate.year(),
-                            issuedate.month() + 1,
-                            issuedate.dayOfYear(),
-                          )}
-                        </Text>
-                      </TouchableOpacity>
-                    </View>
-                    <View>
-                      <Text
-                        style={{
-                          ...style.dateTitleStyle,
-                          alignSelf: 'flex-end',
-                        }}>
-                        Due Date
-                      </Text>
-                      <TouchableOpacity
-                        onPress={() => showDateTime('date', false)}>
-                        <Text style={style.dateStyle}>
-                          {format(
-                            duedate.year(),
-                            duedate.month() + 1,
-                            duedate.dayOfYear(),
-                          )}
-                        </Text>
-                      </TouchableOpacity>
-                    </View>
+                // assign mutated values
+                values.totalInTax = totalInTax;
+                values.totalExTax = totalExTax;
+                values.item = selectedItem;
+                values.issuedate = issuedate;
+                values.duedate = duedate;
+                values.attachments = attachments;
+                values.id = selectedOrganisation.id;
 
-                    {show ? (
-                      <DateTimePicker
-                        value={isIssue ? issuedate.toDate() : duedate.toDate()}
-                        mode={'date'}
-                        is24Hour={true}
-                        display="default"
-                        onChange={setDate}
-                      />
-                    ) : (
-                      <></>
-                    )}
-                  </View>
-                  <FormInput
-                    placeholder="Reference"
-                    name="reference"
-                    submitting={false}
-                    valid={false}
-                    inputViewStyle={style.inputViewStyle}
-                    renderRightIcon={() => (
-                      <Icon
-                        name={Platform.OS === 'ios' ? 'ios-menu' : 'md-menu'}
-                        style={{
-                          top: 0,
-                          color: app.primaryColor,
-                          paddingLeft: 12,
-                        }}
-                      />
-                    )}
-                    inputStyle={{
-                      textAlign: 'left',
-                    }}
-                    handleChange={handleChange}
-                  />
-                  <View style={{marginTop: 30, marginBottom: 50}}>
-                    <TopTitle
-                      title="Items"
-                      textStyle={{fontSize: 25, color: 'rgba(0,0,0,0.7)'}}
-                    />
-                    <View style={{flexDirection: 'row', flexShrink: 0.1}}>
-                      <View style={{alignItems: 'flex-end', marginTop: 20}}>
-                        <AutoInput
-                          placeholder="Add Items"
-                          name="item"
-                          data={data}
-                          valueExtractor={item => item}
-                          rightTextExtractor={item => item}
-                          renderIcon={() => (
-                            <Icon
-                              name={
-                                Platform.OS === 'ios'
-                                  ? 'cart-arrow-down'
-                                  : 'cart-arrow-down'
-                              }
-                              type="FontAwesome5"
-                              size={20}
-                              style={{
-                                ...style.leftIcon,
-                                paddingRight: 11,
-                                color: app.primaryColorDark,
-                              }}
-                            />
-                          )}
-                          inputStyle={{
-                            ...style.input,
-                            paddingLeft: 50,
-                            width: width / 2,
+                return (
+                  <ScrollView
+                    automaticallyAdjustContentInsets
+                    alwaysBounceVertical>
+                    <FormInput
+                      placeholder="Client"
+                      name="client"
+                      submitting={false}
+                      valid={false}
+                      inputViewStyle={style.inputViewStyle}
+                      renderRightIcon={() => (
+                        <Icon
+                          name="user-check"
+                          type="FontAwesome5"
+                          style={{
+                            fontSize: 20,
+                            color: app.primaryColorDark,
+                            top: 0,
                           }}
-                          handleChange={handleChange}
                         />
+                      )}
+                      inputStyle={{
+                        textAlign: 'left',
+                      }}
+                      handleChange={handleChange}
+                    />
+
+                    <View style={{...style.dateContainer}}>
+                      <View>
+                        <Text style={style.dateTitleStyle}>Issue Date</Text>
+                        <TouchableOpacity
+                          onPress={() => showDateTime('date', true)}>
+                          <Text style={style.dateStyle}>
+                            {format(
+                              issuedate.year(),
+                              issuedate.month() + 1,
+                              issuedate.dayOfYear(),
+                            )}
+                          </Text>
+                        </TouchableOpacity>
                       </View>
-                      <View style={{alignItems: 'center'}}>
+                      <View>
                         <Text
                           style={{
                             ...style.dateTitleStyle,
-                            color: 'rgba(0,0,0,0.7)',
+                            alignSelf: 'flex-end',
                           }}>
-                          Quantity
+                          Due Date
                         </Text>
-                        <FormInput
-                          placeholder="1.0"
-                          name="quantity"
-                          submitting={false}
-                          valid={false}
-                          inputViewStyle={{
-                            ...style.input,
-                            width: width / 2,
-                          }}
-                          renderRightIcon={() => (
-                            <Icon
-                              name={
-                                Platform.OS === 'ios'
-                                  ? 'ios-menu'
-                                  : 'md-analytics'
-                              }
-                              style={{
-                                top: 0,
-                                color: app.primaryColor,
-                                paddingLeft: 12,
-                              }}
-                            />
-                          )}
-                          inputStyle={{...style.input, width: width / 2}}
-                          handleChange={handleChange}
-                        />
+                        <TouchableOpacity
+                          onPress={() => showDateTime('date', false)}>
+                          <Text style={style.dateStyle}>
+                            {format(
+                              duedate.year(),
+                              duedate.month() + 1,
+                              duedate.dayOfYear(),
+                            )}
+                          </Text>
+                        </TouchableOpacity>
                       </View>
-                    </View>
-                    <Textarea
-                      placeholder="Description"
-                      style={style.descriptionArea}
-                      onChangeText={handleChange}
-                    />
-                    <View style={{marginTop: 15}}>
-                      <View style={style.taxContainer}>
-                        <Text style={{fontFamily: app.primaryFontMedium}}>
-                          Tax
-                        </Text>
-                        <Text
-                          style={{
-                            color: 'rgba(0,0,0,0.6)',
-                          }}>
-                          0.00
-                        </Text>
-                      </View>
-                      <View style={style.taxContainer}>
-                        <Text style={{fontFamily: app.primaryFontMedium}}>
-                          Total ex. tax
-                        </Text>
-                        <Text
-                          style={{
-                            color: 'rgba(0,0,0,0.6)',
-                          }}>
-                          0.00
-                        </Text>
-                      </View>
-                    </View>
-                  </View>
-                  <FloatingAction
-                    distanceToEdge={{vertical: 120, horizontal: 10}}
-                    showBackground={false}
-                    actions={action}
-                    onPressItem={name => {
-                      switch (name) {
-                        case 'attachment':
-                          return onClickAttachment();
-                          break;
-                        case 'item':
-                          return onClickAddItem(true);
 
-                        default:
-                          break;
-                      }
-                    }}
-                  />
-                  <Button
-                    disable={!true}
-                    buttonStyle={style.saveBtn}
-                    textStyle={{fontFamily: app.primaryFontBold, color: '#000'}}
-                    onPress={handleSubmit}
-                    text="Save"
-                  />
-                  <Button
-                    disable={!true}
-                    buttonStyle={{
-                      borderRadius: 5,
-                    }}
-                    textStyle={{fontFamily: app.primaryFontBold}}
-                    onPress={handleSubmit}
-                    text="Save And Approve"
-                  />
-                </ScrollView>
-              )}
+                      {show ? (
+                        <DateTimePicker
+                          value={
+                            isIssue ? issuedate.toDate() : duedate.toDate()
+                          }
+                          mode={'date'}
+                          is24Hour={true}
+                          display="default"
+                          onChange={setDate}
+                        />
+                      ) : (
+                        <></>
+                      )}
+                    </View>
+                    <FormInput
+                      placeholder="Reference"
+                      name="reference"
+                      submitting={false}
+                      valid={false}
+                      inputViewStyle={style.inputViewStyle}
+                      renderRightIcon={() => (
+                        <Icon
+                          name={Platform.OS === 'ios' ? 'ios-menu' : 'md-menu'}
+                          style={{
+                            top: 0,
+                            color: app.primaryColor,
+                          }}
+                        />
+                      )}
+                      inputStyle={{
+                        textAlign: 'left',
+                      }}
+                      handleChange={handleChange}
+                    />
+                    <View style={{marginTop: 30, marginBottom: 50}}>
+                      <TopTitle
+                        title="Items"
+                        textStyle={{fontSize: 25, color: 'rgba(0,0,0,0.7)'}}
+                      />
+                      <View style={{flexDirection: 'row', flexShrink: 0.1}}>
+                        <TouchableWithoutFeedback
+                          onPressIn={() => fetchItems(selectedOrganisation.id)}>
+                          <View
+                            style={{
+                              flexDirection: 'row',
+                              alignItems: 'baseline',
+                              marginTop: 20,
+                            }}>
+                            {fetchingItem ? (
+                              <ActivityIndicator
+                                color={app.primaryColorDark}
+                                style={{top: -15, left: 5}}
+                              />
+                            ) : (
+                              <Icon
+                                name="cart-plus"
+                                size={20}
+                                color={app.primaryColorDark}
+                                style={{
+                                  top: -10,
+                                  paddingLeft: 12,
+                                }}
+                              />
+                            )}
+                            <Picker
+                              mode="dropdown"
+                              iosHeader="Select an item"
+                              iosIcon={
+                                <Icon
+                                  name="arrow-dropdown-circle"
+                                  style={{
+                                    color: app.primaryColorDark,
+                                    fontSize: 25,
+                                  }}
+                                />
+                              }
+                              enabled={!fetchingItem}
+                              accessibilityLabel="Select Business"
+                              placeholderIconColor={app.primaryColorDark}
+                              style={{
+                                ...style.input,
+                                width: width / 2.5,
+                              }}
+                              selectedValue={
+                                selectedItem.name !== null && selectedItem
+                              }
+                              onValueChange={onItemPicked}>
+                              <Picker.Item label="Pick Item" value="key0" />
+                              {fetchingItem ? (
+                                <Picker.Item label="fetching" value="key0" />
+                              ) : (
+                                itemData.map((element, index) => (
+                                  <Picker.Item
+                                    label={element.name}
+                                    key={shortid.generate()}
+                                    value={element}
+                                  />
+                                ))
+                              )}
+                            </Picker>
+                          </View>
+                        </TouchableWithoutFeedback>
+                        <View style={{alignItems: 'center'}}>
+                          <Text
+                            style={{
+                              ...style.dateTitleStyle,
+                              color: 'rgba(0,0,0,0.7)',
+                            }}>
+                            Quantity
+                          </Text>
+                          <FormInput
+                            placeholder="1.0"
+                            name="quantity"
+                            submitting={false}
+                            keyboardType="phone-pad"
+                            valid={false}
+                            inputViewStyle={{
+                              ...style.input,
+                              width: width / 2,
+                            }}
+                            renderRightIcon={() => (
+                              <Icon
+                                name={
+                                  Platform.OS === 'ios'
+                                    ? 'ios-menu'
+                                    : 'md-analytics'
+                                }
+                                style={{
+                                  top: 0,
+                                  color: app.primaryColor,
+                                  paddingLeft: 12,
+                                }}
+                              />
+                            )}
+                            inputStyle={{...style.input, width: width / 2}}
+                            handleChange={handleChange}
+                          />
+                        </View>
+                      </View>
+                      <Textarea
+                        placeholder="Description"
+                        style={style.descriptionArea}
+                        onChangeText={handleChange}
+                      />
+                      <View style={{marginTop: 15}}>
+                        <View style={style.taxContainer}>
+                          <Text style={{fontFamily: app.primaryFontMedium}}>
+                            Tax
+                          </Text>
+                          <Text
+                            style={{
+                              color: 'rgba(0,0,0,0.6)',
+                            }}>
+                            {typeof selectedItem.tax !== 'undefined'
+                              ? selectedItem.tax
+                              : 0.0}
+                          </Text>
+                        </View>
+                        <View style={style.taxContainer}>
+                          <Text style={{fontFamily: app.primaryFontMedium}}>
+                            Total In. tax
+                          </Text>
+                          <Text
+                            style={{
+                              color: 'rgba(0,0,0,0.6)',
+                            }}>
+                            {typeof selectedItem.tax !== 'undefined' ||
+                            typeof selectedItem.price !== 'undefined'
+                              ? totalInTax
+                              : 0.0}
+                          </Text>
+                        </View>
+                        <View style={style.taxContainer}>
+                          <Text style={{fontFamily: app.primaryFontMedium}}>
+                            Total ex. tax
+                          </Text>
+                          <Text
+                            style={{
+                              color: 'rgba(0,0,0,0.6)',
+                            }}>
+                            {typeof selectedItem.tax !== 'undefined' ||
+                            typeof selectedItem.price !== 'undefined'
+                              ? totalExTax
+                              : 0.0}
+                          </Text>
+                        </View>
+                      </View>
+                    </View>
+                    <FloatingAction
+                      distanceToEdge={{vertical: 120, horizontal: 10}}
+                      showBackground={false}
+                      actions={action}
+                      onPressItem={name => {
+                        switch (name) {
+                          case 'attachment':
+                            return onClickAttachment();
+                            break;
+                          case 'item':
+                            return onClickAddItem(true);
+
+                          default:
+                            break;
+                        }
+                      }}
+                    />
+                    <Button
+                      disable={!isValid}
+                      buttonStyle={style.saveBtn}
+                      textStyle={{
+                        fontFamily: app.primaryFontBold,
+                        color: '#000',
+                      }}
+                      onPress={() => {
+                        values.type = 'save';
+                        return handleSubmit(values);
+                      }}
+                      text="Save"
+                    />
+                    <Button
+                      disable={!isValid}
+                      buttonStyle={{
+                        borderRadius: 5,
+                      }}
+                      textStyle={{fontFamily: app.primaryFontBold}}
+                      onPress={() => {
+                        values.type = 'saveandapprove';
+                        return handleSubmit(values);
+                      }}
+                      text="Save And Approve"
+                    />
+                  </ScrollView>
+                );
+              }}
             </Formik>
           </View>
         </View>

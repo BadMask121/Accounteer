@@ -1,15 +1,17 @@
 import React, {Component, PureComponent} from 'react';
 import moment from 'moment';
 import DocumentPicker from 'react-native-document-picker';
-import {Platform} from 'react-native';
-import {CreateInvoice} from 'components/screens/Invoice';
-import {UserService} from 'providers/App/services';
-import {createItemProps} from 'helpers/Interfaces';
+import {Platform, TouchableHighlightBase} from 'react-native';
 import {Toast, Root} from 'native-base';
+import * as _ from 'lodash';
+
+import {CreateInvoice} from 'components/screens/Invoice';
+import {InvoiceService} from 'providers/App/services';
+import {CreateItemProps, CreateInvoiceProps} from 'helpers/Interfaces';
 import InvalidException from 'helpers/error/exceptions/InvalidException';
 
 export default class extends PureComponent {
-  userService = new UserService();
+  invoiceService = new InvoiceService();
   state = {
     mode: 'date',
     show: false,
@@ -21,6 +23,30 @@ export default class extends PureComponent {
     attachments: [],
     showAddItemModal: false,
     ItemSubmitting: false,
+    ItemData: [],
+    fetchingItem: true,
+    seletedItem: {},
+  };
+
+  componentDidMount = () => {
+    this.fetchItems(
+      this.props.screenProps.appstate.state.selectedOrganisation.id,
+    );
+  };
+
+  setItemData = item => {
+    return this.setState({
+      ...this.state,
+      ItemData: [...item],
+      fetchingItem: false,
+    });
+  };
+
+  onItemPicked = value => {
+    this.setState({
+      ...this.state,
+      seletedItem: value,
+    });
   };
 
   onPickerChangeValue = value =>
@@ -90,12 +116,12 @@ export default class extends PureComponent {
     });
 
   //add items to business id
-  addItem = async (values: createItemProps) => {
+  addItem = async (values: CreateItemProps) => {
     this.setState({
       ...this.state,
       ItemSubmitting: true,
     });
-    this.userService
+    this.invoiceService
       .createBusinessItem(values)
       .then(res => {
         if (res.token) {
@@ -129,8 +155,35 @@ export default class extends PureComponent {
       });
   };
 
-  fetchItems = async id => {
-    this.userService.getAllItemsByBusinessId(id);
+  fetchItems = id => {
+    this.setState({
+      ...this.state,
+      fetchingItem: true,
+    });
+    return this.invoiceService
+      .getAllItemsByBusinessId(id)
+      .then(res => this.setItemData(res));
+  };
+
+  // finally create invoice
+  createInvoice = values => {
+    if (_.isEmpty(values.item))
+      return Toast.show({
+        text: 'Please pick an item',
+        type: 'warning',
+      });
+
+    this.props.screenProps.appstate.setSubmitting(true);
+    this.invoiceService
+      .createInvoice()
+      .then(res => {
+        console.log(res);
+        this.props.screenProps.appstate.setSubmitting(false);
+      })
+      .catch(err => {
+        console.log(err);
+        this.props.screenProps.appstate.setSubmitting(false);
+      });
   };
 
   render() {
@@ -146,7 +199,13 @@ export default class extends PureComponent {
           onPickerChangeValue={this.onPickerChangeValue}
           addItem={this.addItem}
           ItemSubmitting={this.state.ItemSubmitting}
+          onItemPicked={this.onItemPicked}
           fetchItems={this.fetchItems}
+          attachments={this.state.attachments}
+          selectedItem={this.state.seletedItem}
+          itemData={this.state.ItemData}
+          fetchingItem={this.state.fetchingItem}
+          createInvoice={this.createInvoice}
         />
       </Root>
     );

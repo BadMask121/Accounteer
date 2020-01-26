@@ -24,11 +24,11 @@ export class FirebaseAuthentication {
   }
 
   // signout
-  logout = async () => {
+  private logout = async () => {
     return this.auth.signOut();
   };
   // login to user account using email
-  login = async (values: Login) => {
+  private login = async (values: Login) => {
     values.email = values.email.toLowerCase();
     // check if yourself exists
     const userExist = await this.connector
@@ -85,7 +85,7 @@ export class FirebaseAuthentication {
   };
 
   // create user account
-  signup = async (values: SignupPayload) => {
+  private signup = async (values: SignupPayload) => {
     values.email = values.email.toLowerCase();
     // check if user or org exists
     const userExist = await this.connector
