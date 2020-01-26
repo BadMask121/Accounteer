@@ -15,7 +15,7 @@ interface Props {
 }
 
 // TODO add swipe to delete or edit
-export default ({...props}: Props) => {
+export default ({item, ...props}: Props) => {
   const {currency} = props.screenProps.appstate.state.selectedOrganisation;
   const renderEdit = (progress, dragX) => {
     const scale = dragX.interpolate({
@@ -39,7 +39,12 @@ export default ({...props}: Props) => {
       <ListCard
         style={style.cardContainer}
         onPress={() =>
-          props.navigation.navigate(app.ROUTES.VIEW_INVOICE, {id: props.id})
+          props.navigation.navigate(app.ROUTES.VIEW_INVOICE, {
+            invoice: {
+              ...item,
+              ...props.screenProps.appstate.state.selectedOrganisation,
+            },
+          })
         }>
         <View style={style.cardLeftInfo}>
           <View>
@@ -47,7 +52,7 @@ export default ({...props}: Props) => {
               style={{
                 fontFamily: app.primaryFontBold,
               }}>
-              {props.client}
+              {item.client}
             </Text>
           </View>
           <View>
@@ -55,7 +60,7 @@ export default ({...props}: Props) => {
               <Text style={style.subTitle}>Amount Paid</Text>
             </View>
             <Text style={{...style.subTitleText, textTransform: 'uppercase'}}>
-              {props.currency || currency} {props.amountPaid}
+              {item.currency || currency} {item.amountPaid}
             </Text>
           </View>
         </View>
@@ -63,7 +68,7 @@ export default ({...props}: Props) => {
           <View>
             <Text style={style.subTitle}>Status</Text>
           </View>
-          <Text style={style.subTitleText}>{props.invoiceStatus}</Text>
+          <Text style={style.subTitleText}>{item.invoiceStatus}</Text>
         </View>
       </ListCard>
     </Swipeable>

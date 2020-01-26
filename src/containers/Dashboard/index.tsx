@@ -15,7 +15,7 @@ class Index extends PureComponent {
     userDetails: {},
   };
 
-  componentDidMount = () => {
+  componentDidUpdate = () => {
     this.userServ.getCurrentUserToken().then((id: any) => {
       this.userServ
         .getOrganisationsByUserId(id)

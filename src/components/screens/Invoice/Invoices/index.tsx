@@ -14,6 +14,7 @@ import {FloatingAction} from 'react-native-floating-action';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {Formik} from 'formik';
 import * as short from 'shortid';
+import * as _ from 'lodash';
 
 import Button from '@custom/Button';
 import TopTitle from '@custom/TopTitle';
@@ -47,20 +48,47 @@ export default React.memo(
           <TopTitle title="Invoices" />
         </View>
         <View style={{flex: 1}}>
-          <Animated.FlatList
-            data={InvoiceData}
-            onEndReached={() => fetchInvoice(id, 0, limit)}
-            onEndReachedThreshold={0.7}
-            ItemSeparatorComponent={({highlighted}) => (
-              <View style={[style.separator]} />
-            )}
-            renderItem={({item, index, separators}) => (
-              <InvoiceCard key={short.generate()} {...item} {...props} />
-            )}
-            keyExtractor={item => short.generate()}
-            ListFooterComponent={renderFooter}
-            scrollEventThrottle={1}
-          />
+          {
+            <Animated.FlatList
+              data={InvoiceData}
+              onEndReached={
+                InvoiceData.length > limit && fetchInvoice(id, 0, limit)
+              }
+              onEndReachedThreshold={0.7}
+              ItemSeparatorComponent={({highlighted}) => (
+                <View style={[style.separator]} />
+              )}
+              renderItem={({item, index, separators}) => (
+                <InvoiceCard key={short.generate()} item={item} {...props} />
+              )}
+              keyExtractor={item => short.generate()}
+              ListFooterComponent={renderFooter}
+              ListEmptyComponent={() => {
+                if (InvoiceData.length < limit && props.finished && !fetching)
+                  return (
+                    <View
+                      style={{
+                        flex: 1,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      }}>
+                      <Text
+                        style={{
+                          textAlign: 'center',
+                          fontFamily: app.primaryFontBold,
+                          top: 0,
+                          fontSize: 35,
+                          color: '#353BC930',
+                        }}>
+                        No Invoice Found
+                      </Text>
+                    </View>
+                  );
+                return null;
+              }}
+              // scrollEventThrottle={11000}
+            />
+          }
           <FloatingAction
             distanceToEdge={{vertical: 30, horizontal: 10}}
             showBackground={false}

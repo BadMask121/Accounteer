@@ -6,8 +6,6 @@ const style = {
     width: '100%',
     marginBottom: 15,
     marginLeft: 10,
-    marginRight: 10,
-    // alignItems: 'center',
   },
   inputStyle: {
     textAlign: 'center',

@@ -1,11 +1,11 @@
-import React, {Component} from 'react';
+import React, {Component, PureComponent} from 'react';
 import SignupView from '../../components/screens/Signup/index.tsx';
 import {app} from '@src/helpers/constants';
 import subscribe from 'subscriber';
 
 // TODO rememeber to pass business id along as a data in busines column on creating user
 // TODO remember to add currency on signup process
-class index extends Component {
+class index extends PureComponent {
   constructor(props) {
     super(props);
     this.authstate = this.props.authstate;

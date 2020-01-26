@@ -183,6 +183,13 @@ const DashbordContent = React.memo(
           invertStickyHeaders={true}
           maxToRenderPerBatch={2}
           onEndReachedThreshold={0.5}
+          style={{
+            left: -40,
+            top: -40,
+            bottom: 0,
+            right: 0,
+            width: '100%',
+          }}
           keyExtractor={(_item, index) => short.generate()}
           renderItem={({item, index, section}) => (
             <ListCard {...{props}} cardStyle={{flexDirection: 'column'}}>

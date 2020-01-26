@@ -14,9 +14,10 @@ export default class extends PureComponent {
   state = {
     InvoiceData: [],
     fetching: true,
+    finished: false,
   };
 
-  componentDidMount = () => {
+  componentDidUpdate = () => {
     this.fetchInvoice(
       this.props.screenProps.appstate.state.selectedOrganisation.id,
       100,
@@ -33,13 +34,16 @@ export default class extends PureComponent {
           this.setState({
             ...this.state.InvoiceData,
             fetching: false,
+            finished: true,
             InvoiceData: !_.isEqual(this.state.InvoiceData, res)
               ? this.state.InvoiceData.concat(res)
               : this.state.InvoiceData,
           });
+
+        this.setState({...this.state, fetching: false, finished: true});
       })
       .catch(err => {
-        this.setState({...this.state, fetching: false});
+        this.setState({...this.state, fetching: false, finished: true});
       });
   };
   render() {
@@ -58,6 +62,7 @@ export default class extends PureComponent {
           fetchInvoice={this.fetchInvoice}
           limit={this.LIMIT}
           {...this.props}
+          {...this.state}
         />
       </Suspense>
     );

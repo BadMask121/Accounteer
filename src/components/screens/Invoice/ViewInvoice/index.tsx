@@ -17,22 +17,36 @@ import {FloatingAction} from 'react-native-floating-action';
 
 interface Props {}
 export default ({...props}: Props) => {
+  const {
+    client,
+    issuedate,
+    duedate,
+    item,
+    description,
+    quantity,
+    totalExTax,
+    totalInTax,
+    amountPaid,
+    invoiceStatus,
+    currency,
+  } = props.navigation.state.params.invoice;
+
   // sections to render
   const CompanySection = () => (
     <View style={style.contentSection}>
       <View>
         <Text style={style.contentTitle}>Company</Text>
-        <Text style={{...style.contentText}}>Ace Corps</Text>
+        <Text style={{...style.contentText}}>{client}</Text>
       </View>
       <View style={{...style.contentSection}}>
         <Text style={style.contentTitle}>Details</Text>
         <View style={{...style.rowBetween}}>
           <Text style={{...style.contentText}}>Issued Date</Text>
-          <Text style={{...style.contentText}}>2019-12-2</Text>
+          <Text style={{...style.contentText}}>{issuedate}</Text>
         </View>
         <View style={{...style.rowBetween}}>
           <Text style={{...style.contentText}}>Due Date</Text>
-          <Text style={{...style.contentText}}>2019-12-1</Text>
+          <Text style={{...style.contentText}}>{duedate}</Text>
         </View>
       </View>
     </View>
@@ -57,15 +71,15 @@ export default ({...props}: Props) => {
       <View style={{paddingLeft: 10}}>
         <View>
           <Text style={{...style.contentTitle, ...style.contentSubTitle}}>
-            Mobile Development
+            {item.name}
           </Text>
           <View>
             <View style={{...style.rowBetween}}>
-              <Text style={{...style.contentText}}>Complete Android App</Text>
-              <Text style={{...style.contentText}}>1,000</Text>
+              <Text style={{...style.contentText}}>{description}</Text>
+              <Text style={{...style.contentText}}>{item.price}</Text>
             </View>
             <Text style={{...style.contentText}}>
-              1.00 x 1,000.00 (VAT Exempt)
+              {quantity} x {item.price} (VAT Exempt)
             </Text>
           </View>
         </View>
@@ -82,7 +96,7 @@ export default ({...props}: Props) => {
               color: 'rgba(0,0,0,0.6)',
               ...style.contentText,
             }}>
-            1,000.00
+            {totalExTax}
           </Text>
         </View>
         <View
@@ -93,7 +107,7 @@ export default ({...props}: Props) => {
           <Text style={{...style.contentTitle, ...style.contentSubTitle}}>
             Vat
           </Text>
-          <Text style={{...style.contentText}}>0.00</Text>
+          <Text style={{...style.contentText}}>{item.tax}</Text>
         </View>
         <View
           style={{
@@ -101,9 +115,9 @@ export default ({...props}: Props) => {
             ...style.contentSubTitleContainer,
           }}>
           <Text style={{...style.contentTitle, ...style.contentSubTitle}}>
-            Total
+            Total (Tax Included)
           </Text>
-          <Text style={{...style.contentText}}>1,000.00</Text>
+          <Text style={{...style.contentText}}>{totalInTax}</Text>
         </View>
         <View
           style={{
@@ -113,7 +127,7 @@ export default ({...props}: Props) => {
           <Text style={{...style.contentTitle, ...style.contentSubTitle}}>
             Amount Paid
           </Text>
-          <Text style={{...style.contentText}}>1,000.00</Text>
+          <Text style={{...style.contentText}}>{amountPaid}</Text>
         </View>
         <View
           style={{
@@ -123,7 +137,7 @@ export default ({...props}: Props) => {
           <Text style={{...style.contentTitle, ...style.contentSubTitle}}>
             Amount Due
           </Text>
-          <Text style={{...style.contentText}}>0.00</Text>
+          <Text style={{...style.contentText}}>{totalInTax - amountPaid}</Text>
         </View>
       </View>
     </View>
@@ -134,7 +148,7 @@ export default ({...props}: Props) => {
       <View style={{...style.rowBetween}}>
         <View>
           <Text style={style.contentTitle}>Payment</Text>
-          <Text style={{...style.contentText}}>1,000.00</Text>
+          <Text style={{...style.contentText}}>{amountPaid}</Text>
           <Text style={{...style.contentText}}>GT Bank</Text>
         </View>
         <View
@@ -180,15 +194,19 @@ export default ({...props}: Props) => {
               ...style.headerInfoText,
               fontSize: 30,
             }}>
-            NGN 20000
+            {currency} {totalInTax}
           </Text>
-          <View style={{...style.headerInfoButton}}>
+          <View
+            style={{
+              ...style.headerInfoButton,
+              backgroundColor: invoiceStatus !== 'Paid' ? 'gray' : 'green',
+            }}>
             <Text
               style={{
                 ...style.headerInfoText,
                 ...style.headerInfoButtonText,
               }}>
-              Paid
+              {invoiceStatus}
             </Text>
           </View>
         </View>

@@ -26,7 +26,6 @@ import {app} from 'helpers/constants';
 import subscribe from './subscriber';
 import {UserService} from 'providers/App/services';
 import AsyncStorage from '@react-native-community/async-storage';
-
 interface Props {
   user?: string;
 }

@@ -116,6 +116,8 @@ const index = React.memo(
     // control description on chnage text
     const textChange = value => setstate({...state, description: value});
     const {selectedOrganisation} = props.screenProps.appstate.state;
+    const {currentUserOrganisations} = props.screenProps.appstate.state;
+
     //format our issued and due date
     const format = (year, month, day) => `${year}/${month}/${day}`;
 
@@ -306,12 +308,14 @@ const index = React.memo(
                   alignSelf: 'flex-end',
                 }}
                 selectedValue={selectedValue}
-                onValueChange={onPickerChangeValue}>
-                <Picker.Item label="Ace Corps" value="key0" />
-                <Picker.Item label="ATM Card" value="key1" />
-                <Picker.Item label="Debit Card" value="key2" />
-                <Picker.Item label="Credit Card" value="key3" />
-                <Picker.Item label="Net Banking" value="key4" />
+                removeClippedSubviews
+                onValueChange={() => console.log('dss')}>
+                {currentUserOrganisations.data.map(element => (
+                  <Picker.Item
+                    label={element.organisationname}
+                    key={shortid.generate()}
+                  />
+                ))}
               </Picker>
             )}
           <View

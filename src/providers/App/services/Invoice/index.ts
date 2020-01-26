@@ -24,7 +24,7 @@ export default class extends FirebaseAuthentication {
         });
 
       const limitQuery = checkIfItemExistsForBusiness.limit(limit);
-      const paginate = limitQuery.get().then(async snap => {
+      const paginate = await limitQuery.get().then(async snap => {
         let last = snap.docs[snap.docs.length - 1];
 
         let next = await this.connector

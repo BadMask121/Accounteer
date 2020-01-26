@@ -7,6 +7,7 @@ const style = {
     flex: 1,
   },
   inputStyle: {
+    width: '95%',
     borderRadius: 5,
     borderColor: 'lightblue',
   },

@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
+import React, {Component, PureComponent} from 'react';
 import {Alert} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import LoginView from 'components/screens/Login/index';
 import {app, auth} from '@src/helpers/constants';
 import subscriber from 'subscriber';
-class Login extends Component {
+class Login extends PureComponent {
   constructor(props) {
     super(props);
   }

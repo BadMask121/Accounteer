@@ -15,6 +15,7 @@ import {InvoiceService} from 'providers/App/services';
 import {CreateItemProps, CreateInvoiceProps} from 'helpers/Interfaces';
 import InvalidException from 'helpers/error/exceptions/InvalidException';
 import {app} from 'helpers/constants';
+import {NavigationActions, StackActions} from 'react-navigation';
 
 const CreateInvoice = lazy(() =>
   import('components/screens/Invoice/CreateInvoice'),
@@ -38,9 +39,12 @@ export default class extends PureComponent {
     seletedItem: {},
   };
 
-  componentDidMount = () => {
+  componentDidUpdate = () => {
+    typeof this.props.screenProps.appstate.state.selectedOrganisation.id !==
+      'undefined' || this.state.selectedValue[0];
     this.fetchItems(
-      this.props.screenProps.appstate.state.selectedOrganisation.id,
+      this.props.screenProps.appstate.state.selectedOrganisation.id ||
+        this.state.selectedValue[0].id,
     );
   };
 
@@ -59,8 +63,10 @@ export default class extends PureComponent {
     });
   };
 
-  onPickerChangeValue = value =>
+  onPickerChangeValue = value => {
+    console.log(value, 'ds');
     this.setState({...this.state, selectedValue: value});
+  };
   //set the dates
   setDate = (event, date) => {
     date = this.state.isIssue
@@ -217,7 +223,16 @@ export default class extends PureComponent {
         ItemSubmitting: false,
       });
       this.props.screenProps.appstate.setSubmitting(false);
-      this.props.navigation.navigate(app.ROUTES.INVOICES);
+      this.props.navigation.dispatch(
+        StackActions.reset({
+          index: 0,
+          actions: [
+            NavigationActions.navigate({
+              routeName: app.ROUTES.INVOICES,
+            }),
+          ],
+        }),
+      );
     }, 500);
   };
 

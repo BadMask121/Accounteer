@@ -13,7 +13,7 @@ interface Props {
   handleSubmit: Function;
   props: Object;
 }
-export default ({handleSubmit, ...props}: Props) => {
+export default React.memo(({handleSubmit, ...props}: Props) => {
   return (
     <KeyboardAvoidingView style={style.container}>
       <View style={style.loginOptions}>
@@ -67,8 +67,7 @@ export default ({handleSubmit, ...props}: Props) => {
                   inputViewStyle={{
                     borderRadius: 5,
                     borderColor: 'lightblue',
-                    marginLeft: 10,
-                    marginRight: 10,
+                    width: '95%',
                   }}
                   regular
                   handleChange={handleChange}
@@ -87,8 +86,7 @@ export default ({handleSubmit, ...props}: Props) => {
                   inputViewStyle={{
                     borderRadius: 5,
                     borderColor: 'lightblue',
-                    marginLeft: 10,
-                    marginRight: 10,
+                    width: '95%',
                   }}
                   regular
                   handleChange={handleChange}
@@ -133,4 +131,4 @@ export default ({handleSubmit, ...props}: Props) => {
       </View>
     </KeyboardAvoidingView>
   );
-};
+});

@@ -14,8 +14,8 @@ import subscriber from 'subscriber';
 
 const Index = props => {
   const Logout = () => {
-    props.authstate.logout();
     props.navigation.navigate(app.ROUTES.AUTH);
+    // props.authstate.logout();
   };
   return (
     <SafeAreaView style={{flex: 1}}>

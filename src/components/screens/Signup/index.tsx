@@ -15,7 +15,7 @@ interface Props {
   handleSubmit?: Function;
   props: Object;
 }
-export default ({handleSubmit, ...props}: Props) => {
+export default React.memo(({handleSubmit, ...props}: Props) => {
   return (
     <KeyboardAvoidingView style={style.container}>
       <View style={style.loginOptions}>
@@ -55,6 +55,7 @@ export default ({handleSubmit, ...props}: Props) => {
             lastname: '',
             organisationname: '',
             organisationlocation: '',
+            currency: '',
             email: '',
           }}
           validateOnChange={signupValidationSchema}
@@ -67,7 +68,7 @@ export default ({handleSubmit, ...props}: Props) => {
                 <FormInput
                   inputViewStyle={style.inputStyle}
                   regular
-                  handleChange={() => handleChange('firstname')}
+                  handleChange={handleChange('firstname')}
                   name="firstname"
                   placeholder="First Name"
                   submitting={false}
@@ -81,7 +82,7 @@ export default ({handleSubmit, ...props}: Props) => {
                 <FormInput
                   inputViewStyle={style.inputStyle}
                   regular
-                  handleChange={() => handleChange('lastname')}
+                  handleChange={handleChange('lastname')}
                   name="lastname"
                   placeholder="Last Name"
                   error={isFoundErrors() && errors.lastname}
@@ -95,7 +96,7 @@ export default ({handleSubmit, ...props}: Props) => {
                 <FormInput
                   inputViewStyle={style.inputStyle}
                   regular
-                  handleChange={() => handleChange('organisationname')}
+                  handleChange={handleChange('organisationname')}
                   name="organisationname"
                   placeholder="Organisation Name"
                   error={isFoundErrors() && errors.organisationname}
@@ -109,7 +110,7 @@ export default ({handleSubmit, ...props}: Props) => {
                 <FormInput
                   inputViewStyle={style.inputStyle}
                   regular
-                  handleChange={() => handleChange('organisationlocation')}
+                  handleChange={handleChange('organisationlocation')}
                   name="organisationlocation"
                   placeholder="Organisation Location"
                   error={isFoundErrors() && errors.organisationlocation}
@@ -117,6 +118,20 @@ export default ({handleSubmit, ...props}: Props) => {
                     !_.isEmpty(values) &&
                     values.organisationlocation.length !== 0 &&
                     !errors.organisationlocation
+                  }
+                  submitting={false}
+                />
+                <FormInput
+                  inputViewStyle={style.inputStyle}
+                  regular
+                  handleChange={handleChange('currency')}
+                  name="currency"
+                  placeholder="Currency"
+                  error={isFoundErrors() && errors.currency}
+                  valid={
+                    !_.isEmpty(values) &&
+                    values.currency.length !== 0 &&
+                    !errors.currency
                   }
                   submitting={false}
                 />
@@ -137,4 +152,4 @@ export default ({handleSubmit, ...props}: Props) => {
       </View>
     </KeyboardAvoidingView>
   );
-};
+});
