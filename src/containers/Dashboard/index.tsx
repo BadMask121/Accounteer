@@ -1,8 +1,9 @@
-import React, {Component, PureComponent} from 'react';
-import Dashboard from '../../components/screens/Dashboard';
+import React, {Component, PureComponent, Suspense, lazy} from 'react';
 import subscriber from 'subscriber';
 import {UserService} from 'providers/App/services';
 import {InteractionManager} from 'react-native';
+import Spinner from 'react-native-loading-spinner-overlay';
+const Dashboard = lazy(() => import('../../components/screens/Dashboard'));
 
 class Index extends PureComponent {
   userServ = new UserService();
@@ -28,12 +29,21 @@ class Index extends PureComponent {
 
   render() {
     return (
-      <Dashboard
-        userDetails={this.props.appstate.state.currentUser}
-        organisationsData={this.props.appstate.state.currentUserOrganisations}
-        getOrganisationsByUserId={this.getOrganisationsByUserId}
-        props={this.props}
-      />
+      <Suspense
+        fallback={
+          <Spinner
+            visible={true}
+            textContent={''}
+            textStyle={{color: '#fff'}}
+          />
+        }>
+        <Dashboard
+          userDetails={this.props.appstate.state.currentUser}
+          organisationsData={this.props.appstate.state.currentUserOrganisations}
+          getOrganisationsByUserId={this.getOrganisationsByUserId}
+          props={this.props}
+        />
+      </Suspense>
     );
   }
 }

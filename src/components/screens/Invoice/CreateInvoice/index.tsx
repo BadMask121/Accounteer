@@ -110,9 +110,11 @@ const index = React.memo(
     const {width, height} = Dimensions.get('window');
 
     const [state, setstate] = useState({
-      item: '',
+      description: '',
     });
 
+    // control description on chnage text
+    const textChange = value => setstate({...state, description: value});
     const {selectedOrganisation} = props.screenProps.appstate.state;
     //format our issued and due date
     const format = (year, month, day) => `${year}/${month}/${day}`;
@@ -318,24 +320,46 @@ const index = React.memo(
               margin: 10,
             }}>
             <Formik
-              enableReinitialize
+              // enableReinitialize
               initialValues={{
                 id: '',
                 attachments: [],
                 client: '',
                 reference: '',
-                item: {},
                 quantity: '1.0',
-                description: '',
                 totalInTax: 0.0,
                 totalExTax: 0.0,
-                issuedate: 0,
-                duedate: 0,
+                amountPaid: 0.0,
+                issuedate: '',
+                duedate: '',
               }}
-              validateOnChange={createInvoiceValidationSchema}
-              validateOnMount={createInvoiceValidationSchema}
               validationSchema={createInvoiceValidationSchema}
-              onSubmit={values => createInvoice(values)}>
+              onSubmit={values => {
+                values.item = selectedItem;
+                values.issuedate = format(
+                  issuedate.year(),
+                  issuedate.month() + 1,
+                  issuedate.dayOfYear(),
+                );
+                values.duedate = format(
+                  duedate.year(),
+                  duedate.month() + 1,
+                  duedate.dayOfYear(),
+                );
+                values.attachments = attachments;
+                values.id = selectedOrganisation.id;
+                values.amountPaid = parseFloat(values.amountPaid);
+                values.totalExTax = parseFloat(values.totalExTax);
+
+                if (values.amountPaid > values.totalExTax)
+                  return Toast.show({
+                    text:
+                      'Amount Paid cannot be higher than total amount of items',
+                    type: 'warning',
+                  });
+                values.description = state.description;
+                return createInvoice(values);
+              }}>
               {({
                 handleChange,
                 handleBlur,
@@ -350,22 +374,15 @@ const index = React.memo(
                     (!_.isEmpty(values.quantity) && values.quantity) || 1.0,
                   );
                 const totalInTax =
-                  parseFloat(
-                    parseFloat(selectedItem.price) +
-                      parseFloat(selectedItem.tax || 0.0),
-                  ) *
-                  parseFloat(
-                    (!_.isEmpty(values.quantity) && values.quantity) || 1.0,
-                  );
+                  parseFloat(selectedItem.price) *
+                    parseFloat(
+                      (!_.isEmpty(values.quantity) && values.quantity) || 1.0,
+                    ) +
+                  parseFloat(selectedItem.tax || 0.0);
 
                 // assign mutated values
                 values.totalInTax = totalInTax;
                 values.totalExTax = totalExTax;
-                values.item = selectedItem;
-                values.issuedate = issuedate;
-                values.duedate = duedate;
-                values.attachments = attachments;
-                values.id = selectedOrganisation.id;
 
                 return (
                   <ScrollView
@@ -382,6 +399,7 @@ const index = React.memo(
                           name="user-check"
                           type="FontAwesome5"
                           style={{
+                            ...style.leftIcon,
                             fontSize: 20,
                             color: app.primaryColorDark,
                             top: 0,
@@ -452,6 +470,7 @@ const index = React.memo(
                         <Icon
                           name={Platform.OS === 'ios' ? 'ios-menu' : 'md-menu'}
                           style={{
+                            ...style.leftIcon,
                             top: 0,
                             color: app.primaryColor,
                           }}
@@ -552,13 +571,14 @@ const index = React.memo(
                               <Icon
                                 name={
                                   Platform.OS === 'ios'
-                                    ? 'ios-menu'
-                                    : 'md-analytics'
+                                    ? 'sort-amount-up'
+                                    : 'sort-amount-up'
                                 }
+                                type="FontAwesome5"
                                 style={{
+                                  ...style.leftIcon,
                                   top: 0,
                                   color: app.primaryColor,
-                                  paddingLeft: 12,
                                 }}
                               />
                             )}
@@ -567,10 +587,52 @@ const index = React.memo(
                           />
                         </View>
                       </View>
+
+                      <View>
+                        <Text
+                          style={{
+                            ...style.dateTitleStyle,
+                            paddingLeft: 15,
+                            color: 'rgba(0,0,0,0.7)',
+                          }}>
+                          Amount Paid
+                        </Text>
+                        <FormInput
+                          placeholder="1000"
+                          name="amountPaid"
+                          submitting={false}
+                          keyboardType="phone-pad"
+                          valid={false}
+                          inputViewStyle={{
+                            ...style.input,
+                          }}
+                          renderRightIcon={() => (
+                            <Icon
+                              name={
+                                Platform.OS === 'ios'
+                                  ? 'hand-holding-usd'
+                                  : 'hand-holding-usd'
+                              }
+                              type="FontAwesome5"
+                              style={{
+                                ...style.leftIcon,
+                                top: 0,
+                                color: app.primaryColor,
+                              }}
+                            />
+                          )}
+                          inputStyle={{
+                            ...style.input,
+                            textAlign: 'left',
+                            width: width / 2,
+                          }}
+                          handleChange={handleChange}
+                        />
+                      </View>
                       <Textarea
                         placeholder="Description"
                         style={style.descriptionArea}
-                        onChangeText={handleChange}
+                        onChangeText={textChange}
                       />
                       <View style={{marginTop: 15}}>
                         <View style={style.taxContainer}>
@@ -635,6 +697,8 @@ const index = React.memo(
                     />
                     <Button
                       disable={!isValid}
+                      loading={ItemSubmitting}
+                      loaderColor={app.primaryColorDark}
                       buttonStyle={style.saveBtn}
                       textStyle={{
                         fontFamily: app.primaryFontBold,
@@ -648,6 +712,8 @@ const index = React.memo(
                     />
                     <Button
                       disable={!isValid}
+                      loading={ItemSubmitting}
+                      loaderColor={app.primaryColorDark}
                       buttonStyle={{
                         borderRadius: 5,
                       }}

@@ -4,6 +4,7 @@ import {app} from '@src/helpers/constants';
 import subscribe from 'subscriber';
 
 // TODO rememeber to pass business id along as a data in busines column on creating user
+// TODO remember to add currency on signup process
 class index extends Component {
   constructor(props) {
     super(props);

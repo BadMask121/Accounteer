@@ -4,8 +4,49 @@ import {auth} from 'helpers/constants';
 import InvalidException from 'helpers/error/exceptions/InvalidException';
 import * as _ from 'lodash';
 import {CreateItemProps, CreateInvoiceProps} from 'helpers/Interfaces';
+import {deepTrim} from 'helpers';
 
 export default class extends FirebaseAuthentication {
+  public getInvoiceByBusinessId = async (id: any, offset, limit) => {
+    const allInvoice: Array<any> = [];
+    let index = 0;
+
+    try {
+      const checkIfItemExistsForBusiness = this.connector
+        .collection(auth.COLLECTIONS.INVOICE)
+        .where('businessId', '==', id);
+
+      if ((await checkIfItemExistsForBusiness.get()).size <= 0)
+        return new InvalidException({
+          info: 'Item does not exists for this business id',
+          code: 408,
+        });
+
+      const limitQuery = checkIfItemExistsForBusiness.limit(limit + 1);
+      const paginate = limitQuery.get().then(async snap => {
+        let last = snap.docs[snap.docs.length - 1];
+
+        let next = await this.connector
+          .collection(auth.COLLECTIONS.INVOICE)
+          .orderBy('amountPaid')
+          .startAt(last.data().amountPaid)
+          .limit(limit)
+          .get();
+
+        await new Promise((resolve, reject) => {
+          next.docs.forEach(doc => {
+            allInvoice.push(doc.data());
+            if (index === next.docs.length - 1) return resolve(allInvoice);
+            index++;
+          });
+        });
+        return Promise.resolve(allInvoice);
+      });
+      return Promise.resolve(paginate);
+    } catch (error) {
+      throw error;
+    }
+  };
   /// get all items by business id
   private getAllItemsByBusinessId = async (id: any) => {
     const allItems: Array<any> = [];
@@ -58,6 +99,8 @@ export default class extends FirebaseAuthentication {
       name,
       price,
       tax,
+      createdAt: new Date(),
+      updatedAt: new Date(),
     };
     const item = await this.connector
       .collection(auth.COLLECTIONS.ITEMS)
@@ -78,6 +121,7 @@ export default class extends FirebaseAuthentication {
 
   // creating invoice by business id
   private createInvoice = async (values: CreateInvoiceProps) => {
+    deepTrim(values);
     switch (values.type) {
       case 'save':
         values.approved = false;
@@ -90,9 +134,17 @@ export default class extends FirebaseAuthentication {
         break;
     }
     delete values.type;
+
+    values.invoiceStatus = 'Pending';
+
+    if (values.totalExTax - values.amountPaid <= 0)
+      values.invoiceStatus = 'Paid';
+
     const InvoiceData = {
       ...values,
       businessId: values.id,
+      createdAt: new Date(),
+      updatedAt: new Date(),
     };
     const item = await this.connector
       .collection(auth.COLLECTIONS.INVOICE)
@@ -105,6 +157,8 @@ export default class extends FirebaseAuthentication {
           }),
         ),
       );
+
+    await item.update({id: item.id});
 
     return Promise.resolve({
       token: item.id,

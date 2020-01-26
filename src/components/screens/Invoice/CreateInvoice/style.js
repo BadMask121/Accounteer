@@ -69,14 +69,17 @@ const style = {
     borderBottomColor: '#000',
   },
   inputViewStyle: {
+    width: '98%',
     borderBottomLeftRadius: 5,
     borderBottomRightRadius: 5,
     borderBottomColor: '#000',
   },
   leftIcon: {
-    position: 'absolute',
-    left: 15,
-    top: 10,
+    // position: 'absolute',
+
+    fontSize: 20,
+    paddingLeft: 5,
+    top: 0,
   },
   rightIcon: {
     position: 'absolute',

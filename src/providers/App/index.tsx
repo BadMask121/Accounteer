@@ -52,11 +52,14 @@ export default class AppState extends Container<any | Object> {
     });
     return this.state.selectedOrganisation;
   };
-  setSubmitting = (condition: Boolean) => {
-    this.setState({
+
+  setSubmitting = async (condition: Boolean) => {
+    await this.setState({
       ...this.state,
       isLoading: condition,
       submitting: condition,
     });
+
+    return;
   };
 }

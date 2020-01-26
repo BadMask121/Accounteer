@@ -75,13 +75,14 @@ const confirmSignupValidationSchema = yup.object().shape({
 const createInvoiceValidationSchema = yup.object().shape({
   client: yup
     .string()
+    .min(3)
     .label('Client')
     .required('Please enter client name'),
-  item: yup
-    .object()
-    .noUnknown(true)
-    .label('Item')
-    .required('Please select an Item'),
+  // item: yup
+  //   .object()
+  //   .noUnknown(true)
+  //   .label('Item')
+  //   .required('Please select an Item'),
   reference: yup.string().label('Reference'),
   quantity: yup
     .number()

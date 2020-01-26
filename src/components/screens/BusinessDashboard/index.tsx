@@ -44,7 +44,7 @@ const DATA = [
 ];
 
 // change image payload to state
-export default props => {
+export default React.memo(props => {
   const payload = props.appstate.state.selectedOrganisation;
   const {width} = Dimensions.get('screen');
   const {height} = Dimensions.get('screen');
@@ -99,7 +99,9 @@ export default props => {
                 color="rgba(255,255,255,0.6)"
                 onPress={() => props.navigation.navigate(app.ROUTES.DASHBOARD)}
               />
-              <Text style={style.titleText}>{payload.organisationname}</Text>
+              <Text style={style.titleText}>
+                {typeof payload !== 'undefined' && payload.organisationname}
+              </Text>
               <Icon name="ellipsis-v" size={20} color="rgba(255,255,255,0.6)" />
             </View>
           </View>
@@ -158,4 +160,4 @@ export default props => {
       </Animatable.View>
     </View>
   );
-};
+});

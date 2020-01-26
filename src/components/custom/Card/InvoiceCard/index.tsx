@@ -8,7 +8,7 @@ import {Animated} from 'react-native';
 
 interface Props {
   id: string;
-  name: string;
+  client: string;
   currency: string;
   amountPaid: string;
   invoiceStatus: string;
@@ -16,6 +16,7 @@ interface Props {
 
 // TODO add swipe to delete or edit
 export default ({...props}: Props) => {
+  const {currency} = props.screenProps.appstate.state.selectedOrganisation;
   const renderEdit = (progress, dragX) => {
     const scale = dragX.interpolate({
       inputRange: [0, 100],
@@ -46,7 +47,7 @@ export default ({...props}: Props) => {
               style={{
                 fontFamily: app.primaryFontBold,
               }}>
-              {props.name}
+              {props.client}
             </Text>
           </View>
           <View>
@@ -54,7 +55,7 @@ export default ({...props}: Props) => {
               <Text style={style.subTitle}>Amount Paid</Text>
             </View>
             <Text style={{...style.subTitleText, textTransform: 'uppercase'}}>
-              {props.currency} {props.amountPaid}
+              {props.currency || currency} {props.amountPaid}
             </Text>
           </View>
         </View>

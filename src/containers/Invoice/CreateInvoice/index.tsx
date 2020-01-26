@@ -1,14 +1,24 @@
-import React, {Component, PureComponent} from 'react';
+import React, {Component, PureComponent, Suspense, lazy} from 'react';
 import moment from 'moment';
 import DocumentPicker from 'react-native-document-picker';
-import {Platform, TouchableHighlightBase} from 'react-native';
+import {
+  Platform,
+  TouchableHighlightBase,
+  ActivityIndicator,
+} from 'react-native';
 import {Toast, Root} from 'native-base';
 import * as _ from 'lodash';
 
-import {CreateInvoice} from 'components/screens/Invoice';
+import Spinner from 'react-native-loading-spinner-overlay';
+
 import {InvoiceService} from 'providers/App/services';
 import {CreateItemProps, CreateInvoiceProps} from 'helpers/Interfaces';
 import InvalidException from 'helpers/error/exceptions/InvalidException';
+import {app} from 'helpers/constants';
+
+const CreateInvoice = lazy(() =>
+  import('components/screens/Invoice/CreateInvoice'),
+);
 
 export default class extends PureComponent {
   invoiceService = new InvoiceService();
@@ -166,48 +176,82 @@ export default class extends PureComponent {
   };
 
   // finally create invoice
-  createInvoice = values => {
+  createInvoice = async values => {
+    this.setState({
+      ...this.state,
+      ItemSubmitting: true,
+    });
+    this.props.screenProps.appstate.setSubmitting(true);
     if (_.isEmpty(values.item))
       return Toast.show({
         text: 'Please pick an item',
         type: 'warning',
       });
 
-    this.props.screenProps.appstate.setSubmitting(true);
-    this.invoiceService
-      .createInvoice()
-      .then(res => {
-        console.log(res);
-        this.props.screenProps.appstate.setSubmitting(false);
-      })
-      .catch(err => {
-        console.log(err);
-        this.props.screenProps.appstate.setSubmitting(false);
+    const result = await this.invoiceService
+      .createInvoice(values)
+      .catch(async err => {
+        this.setState({
+          ...this.state,
+          ItemSubmitting: false,
+        });
+        await this.props.screenProps.appstate.setSubmitting(false);
+        return Toast.show({
+          text: 'Error: Invoice not created',
+          type: 'danger',
+        });
       });
+
+    if (!result.hasOwnProperty('token'))
+      return Toast.show({
+        text: 'Error: Request Error',
+        type: 'danger',
+      });
+    Toast.show({
+      text: 'Invoice created',
+      type: 'success',
+    });
+    setTimeout(() => {
+      this.setState({
+        ...this.state,
+        ItemSubmitting: false,
+      });
+      this.props.screenProps.appstate.setSubmitting(false);
+      this.props.navigation.navigate(app.ROUTES.INVOICES);
+    }, 500);
   };
 
   render() {
     return (
-      <Root>
-        <CreateInvoice
-          {...this.props}
-          {...this.state}
-          setDate={this.setDate}
-          showDateTime={this.showDateTime}
-          onClickAttachment={this.onClickAttachment}
-          onClickAddItem={this.onClickAddItem}
-          onPickerChangeValue={this.onPickerChangeValue}
-          addItem={this.addItem}
-          ItemSubmitting={this.state.ItemSubmitting}
-          onItemPicked={this.onItemPicked}
-          fetchItems={this.fetchItems}
-          attachments={this.state.attachments}
-          selectedItem={this.state.seletedItem}
-          itemData={this.state.ItemData}
-          fetchingItem={this.state.fetchingItem}
-          createInvoice={this.createInvoice}
-        />
-      </Root>
+      <Suspense
+        fallback={
+          <Spinner
+            visible={true}
+            textContent={''}
+            textStyle={{color: '#fff'}}
+          />
+        }>
+        <Root>
+          <CreateInvoice
+            {...this.props}
+            {...this.state}
+            setDate={this.setDate}
+            showDateTime={this.showDateTime}
+            onClickAttachment={this.onClickAttachment}
+            onClickAddItem={this.onClickAddItem}
+            onPickerChangeValue={this.onPickerChangeValue}
+            addItem={this.addItem}
+            ItemSubmitting={this.state.ItemSubmitting}
+            onItemPicked={this.onItemPicked}
+            fetchItems={this.fetchItems}
+            attachments={this.state.attachments}
+            selectedItem={this.state.seletedItem}
+            itemData={this.state.ItemData}
+            fetchingItem={this.state.fetchingItem}
+            createInvoice={this.createInvoice}
+          />
+        </Root>
+      </Suspense>
     );
   }
 }
