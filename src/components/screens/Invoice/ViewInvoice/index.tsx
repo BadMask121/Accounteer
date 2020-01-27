@@ -14,6 +14,7 @@ import FormInput from '@custom/Form/Input';
 import {app} from '@src/helpers/constants';
 import style from './style';
 import {FloatingAction} from 'react-native-floating-action';
+import {element} from 'prop-types';
 
 interface Props {}
 export default ({...props}: Props) => {
@@ -29,6 +30,7 @@ export default ({...props}: Props) => {
     amountPaid,
     invoiceStatus,
     currency,
+    attachments,
   } = props.navigation.state.params.invoice;
 
   // sections to render
@@ -54,14 +56,28 @@ export default ({...props}: Props) => {
   const AttachmentSection = () => (
     <View style={style.contentSection}>
       <Text style={{...style.contentTitle, paddingBottom: 5}}>Attachments</Text>
-      <View
-        style={{
-          ...style.rowBetween,
-          width: '31%',
-        }}>
-        <Icon name="paperclip" size={15} color={app.primaryColorLight} />
-        <Text style={{...style.contentText}}>Bookmake.pdf</Text>
-      </View>
+
+      {attachments.length >= 1 ? (
+        attachments.map((element: Object) => (
+          <View
+            style={{
+              ...style.rowBetween,
+              width: '31%',
+            }}>
+            <Icon name="paperclip" size={15} color={app.primaryColorLight} />
+            <Text style={{...style.contentText}}>{element.name}</Text>
+          </View>
+        ))
+      ) : (
+        <Text
+          style={{
+            color: 'rgba(0,0,0,0.5)',
+            fontFamily: app.primaryFontRegular,
+            fontSize: 11,
+          }}>
+          No Attachments
+        </Text>
+      )}
     </View>
   );
 
@@ -70,14 +86,14 @@ export default ({...props}: Props) => {
       <Text style={style.contentTitle}>Items</Text>
       <View style={{paddingLeft: 10}}>
         <View>
-          <Text style={{...style.contentTitle, ...style.contentSubTitle}}>
-            {item.name}
-          </Text>
           <View>
             <View style={{...style.rowBetween}}>
-              <Text style={{...style.contentText}}>{description}</Text>
+              <Text style={{...style.contentTitle, ...style.contentSubTitle}}>
+                {item.name}
+              </Text>
               <Text style={{...style.contentText}}>{item.price}</Text>
             </View>
+            <Text style={{...style.contentText}}>{description}</Text>
             <Text style={{...style.contentText}}>
               {quantity} x {item.price} (VAT Exempt)
             </Text>

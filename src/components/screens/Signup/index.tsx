@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text} from 'native-base';
-import {KeyboardAvoidingView, TouchableOpacity} from 'react-native';
+import {KeyboardAvoidingView, TouchableOpacity, ScrollView} from 'react-native';
 import {Formik} from 'formik';
 import * as _ from 'lodash';
 
@@ -64,11 +64,11 @@ export default React.memo(({handleSubmit, ...props}: Props) => {
           {({handleChange, handleSubmit, values, errors}) => {
             const isFoundErrors = () => !_.isEmpty(errors);
             return (
-              <View>
+              <ScrollView>
                 <FormInput
                   inputViewStyle={style.inputStyle}
                   regular
-                  handleChange={handleChange('firstname')}
+                  handleChange={handleChange}
                   name="firstname"
                   placeholder="First Name"
                   submitting={false}
@@ -82,7 +82,7 @@ export default React.memo(({handleSubmit, ...props}: Props) => {
                 <FormInput
                   inputViewStyle={style.inputStyle}
                   regular
-                  handleChange={handleChange('lastname')}
+                  handleChange={handleChange}
                   name="lastname"
                   placeholder="Last Name"
                   error={isFoundErrors() && errors.lastname}
@@ -96,7 +96,7 @@ export default React.memo(({handleSubmit, ...props}: Props) => {
                 <FormInput
                   inputViewStyle={style.inputStyle}
                   regular
-                  handleChange={handleChange('organisationname')}
+                  handleChange={handleChange}
                   name="organisationname"
                   placeholder="Organisation Name"
                   error={isFoundErrors() && errors.organisationname}
@@ -110,7 +110,7 @@ export default React.memo(({handleSubmit, ...props}: Props) => {
                 <FormInput
                   inputViewStyle={style.inputStyle}
                   regular
-                  handleChange={handleChange('organisationlocation')}
+                  handleChange={handleChange}
                   name="organisationlocation"
                   placeholder="Organisation Location"
                   error={isFoundErrors() && errors.organisationlocation}
@@ -124,7 +124,7 @@ export default React.memo(({handleSubmit, ...props}: Props) => {
                 <FormInput
                   inputViewStyle={style.inputStyle}
                   regular
-                  handleChange={handleChange('currency')}
+                  handleChange={handleChange}
                   name="currency"
                   placeholder="Currency"
                   error={isFoundErrors() && errors.currency}
@@ -145,7 +145,7 @@ export default React.memo(({handleSubmit, ...props}: Props) => {
                   onPress={handleSubmit}
                   text="Continue"
                 />
-              </View>
+              </ScrollView>
             );
           }}
         </Formik>

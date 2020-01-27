@@ -17,7 +17,7 @@ export default class extends PureComponent {
     finished: false,
   };
 
-  componentDidUpdate = () => {
+  componentDidMount = () => {
     this.fetchInvoice(
       this.props.screenProps.appstate.state.selectedOrganisation.id,
       100,

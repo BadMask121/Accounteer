@@ -4,6 +4,7 @@ import {Alert} from 'react-native';
 import ConfirmSignup from '../../../components/screens/Signup/ConfirmSignup';
 import subscribe from '../../../subscriber';
 import {app, auth} from 'helpers/constants';
+import {Toast, Root} from 'native-base';
 class index extends Component {
   constructor(props) {
     super(props);
@@ -21,7 +22,6 @@ class index extends Component {
       organisationname: signupValues.organisationname,
       organisationlocation: signupValues.organisationlocation,
     };
-
     this.authstate
       .signup(signupValues)
       .then(async (res: any) => {
@@ -31,6 +31,7 @@ class index extends Component {
             auth.USER_DETAILS_TOKEN,
             JSON.stringify(res.userDetails),
           );
+
           await this.props.authstate.setLoggedIn(true);
           await this.props.appstate.setCurrentUser(res.userDetails);
           this.appstate.setSubmitting(false);
@@ -39,16 +40,28 @@ class index extends Component {
       })
       .catch((err: Error) => {
         this.appstate.setSubmitting(false);
-        Alert.alert('Error', JSON.stringify(err));
+        let message = '';
+
+        try {
+          const messageOb = JSON.parse(err.message);
+          if (messageOb.code === 400) message = messageOb.info;
+        } catch (error) {}
+
+        Toast.show({
+          text: message || 'Request Error',
+          type: 'danger',
+        });
       });
   };
   render() {
     return (
-      <ConfirmSignup
-        handleSubmit={this.handleSubmit}
-        props={this.props}
-        {...this.props}
-      />
+      <Root>
+        <ConfirmSignup
+          handleSubmit={this.handleSubmit}
+          props={this.props}
+          {...this.props}
+        />
+      </Root>
     );
   }
 }

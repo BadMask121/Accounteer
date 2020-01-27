@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text} from 'native-base';
-import {KeyboardAvoidingView, TouchableOpacity} from 'react-native';
+import {KeyboardAvoidingView, TouchableOpacity, ScrollView} from 'react-native';
 import {Formik} from 'formik';
 import _ from 'lodash';
 import Button from '@custom/Button';
@@ -31,11 +31,11 @@ export default ({handleSubmit, ...props}: Props) => {
           {({handleChange, handleBlur, handleSubmit, values, errors}) => {
             const isFoundErrors = () => !_.isEmpty(errors);
             return (
-              <View>
+              <ScrollView>
                 <FormInput
                   inputViewStyle={style.inputStyle}
                   regular
-                  handleChange={() => handleChange('email')}
+                  handleChange={handleChange}
                   name="email"
                   placeholder="Email Address"
                   error={isFoundErrors() && errors.email}
@@ -49,7 +49,7 @@ export default ({handleSubmit, ...props}: Props) => {
                 <FormInput
                   inputViewStyle={style.inputStyle}
                   regular
-                  handleChange={() => handleChange('password')}
+                  handleChange={handleChange}
                   name="password"
                   placeholder="Password"
                   submitting={false}
@@ -90,7 +90,7 @@ export default ({handleSubmit, ...props}: Props) => {
                   onPress={handleSubmit}
                   text="Create Account"
                 />
-              </View>
+              </ScrollView>
             );
           }}
         </Formik>

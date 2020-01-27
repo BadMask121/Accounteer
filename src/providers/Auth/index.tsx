@@ -1,11 +1,10 @@
 import React from 'react';
 import {Container} from 'unstated';
+import AsyncStorage from '@react-native-community/async-storage';
 import {AUTH_STATE} from '../intialState';
 import FirebaseAuthentication from './Authentication';
 import {SignupPayload, Login} from 'helpers/Interfaces';
-import AsyncStorage from '@react-native-community/async-storage';
 import {app, auth as authConstant} from 'helpers/constants';
-
 export default class AuthState extends Container<any | Object> {
   constructor(props, private auth: FirebaseAuthentication) {
     super(props);

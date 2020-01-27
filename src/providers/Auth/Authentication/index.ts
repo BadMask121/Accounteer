@@ -20,7 +20,7 @@ export class FirebaseAuthentication {
       .child('/Default/logo.png')
       .getDownloadURL();
 
-    return defaultUrl;
+    return Promise.resolve(defaultUrl);
   }
 
   // signout
@@ -35,12 +35,19 @@ export class FirebaseAuthentication {
       .collection(auth.COLLECTIONS.USER)
       .where('email', '==', values.email)
       .get()
-      .catch(err => Promise.reject(err));
+      .catch(err =>
+        Promise.reject(
+          new InvalidException({
+            info: 'Request Error:' + err,
+            code: 403,
+          }),
+        ),
+      );
 
     if (userExist.size <= 0)
       return Promise.reject(
         new InvalidException({
-          info: 'Invalid email',
+          info: 'Invalid email or password',
           code: 404,
         }),
       );
@@ -67,7 +74,7 @@ export class FirebaseAuthentication {
         Promise.reject(
           new InvalidException({
             info: 'Invalid email or password',
-            code: 409,
+            code: 404,
           }),
         ),
       );
@@ -92,13 +99,27 @@ export class FirebaseAuthentication {
       .collection(auth.COLLECTIONS.USER)
       .where('email', '==', values.email)
       .get()
-      .catch(err => Promise.reject(err));
+      .catch(err =>
+        Promise.reject(
+          new InvalidException({
+            info: 'Request Error:' + err,
+            code: 403,
+          }),
+        ),
+      );
 
     const organisationExist = await this.connector
       .collection(auth.COLLECTIONS.ORGANISATION)
       .where('organisationname', '==', values.organisation.organisationname)
       .get()
-      .catch(err => Promise.reject(err));
+      .catch(err =>
+        Promise.reject(
+          new InvalidException({
+            info: 'Request Error:' + err,
+            code: 403,
+          }),
+        ),
+      );
 
     if (userExist.size >= 1)
       return Promise.reject(
@@ -116,9 +137,16 @@ export class FirebaseAuthentication {
         }),
       );
 
+    const defaultImage = await this.getUserDefaultImage().catch(err =>
+      Promise.reject(
+        new InvalidException({
+          info: 'Request Error:' + err,
+        }),
+      ),
+    );
     const organisationDetails = {
       ...values.organisation,
-      avatar: await this.getUserDefaultImage(),
+      avatar: defaultImage,
     };
     Reflect.deleteProperty(values, 'organisation');
     Reflect.deleteProperty(values, 'organisationname');
@@ -126,6 +154,7 @@ export class FirebaseAuthentication {
     const userDetails = {...values, avatar: await this.getUserDefaultImage()};
     delete userDetails.password;
 
+    console.log('checking');
     // add user details to firebase databse
     const user = await this.connector
       .collection(auth.COLLECTIONS.USER)
@@ -147,6 +176,7 @@ export class FirebaseAuthentication {
         }),
       );
 
+    console.log('Doonig');
     // create organisation
     const organisation = await this.connector
       .collection(auth.COLLECTIONS.ORGANISATION)
@@ -171,6 +201,7 @@ export class FirebaseAuthentication {
         }),
       );
 
+    console.log('Not Done');
     // update user and add organisation id as owned
     await this.connector
       .collection(auth.COLLECTIONS.USER)
@@ -191,6 +222,7 @@ export class FirebaseAuthentication {
 
     await currentUser.sendEmailVerification();
 
+    console.log('doen');
     const userInfo = (await user.get()).data();
     return Promise.resolve({token: user.id, userDetails: userInfo});
   };

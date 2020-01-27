@@ -39,7 +39,7 @@ export default class extends PureComponent {
     seletedItem: {},
   };
 
-  componentDidUpdate = () => {
+  componentDidMount = () => {
     typeof this.props.screenProps.appstate.state.selectedOrganisation.id !==
       'undefined' || this.state.selectedValue[0];
     this.fetchItems(

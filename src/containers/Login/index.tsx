@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import LoginView from 'components/screens/Login/index';
 import {app, auth} from '@src/helpers/constants';
 import subscriber from 'subscriber';
+import {Root, Toast} from 'native-base';
 class Login extends PureComponent {
   constructor(props) {
     super(props);
@@ -27,11 +28,25 @@ class Login extends PureComponent {
       })
       .catch((err: Error) => {
         this.props.appstate.setSubmitting(false);
-        return Alert.alert('Error', JSON.stringify(err));
+        let message = '';
+        try {
+          const messageOb = JSON.parse(err.message);
+          if (messageOb.code === 404) message = messageOb.info;
+          if (messageOb.code === 408) message = messageOb.info;
+        } catch (error) {}
+
+        Toast.show({
+          text: message || 'Request Error',
+          type: 'danger',
+        });
       });
   };
   render() {
-    return <LoginView handleSubmit={this.handleSubmit} {...this.props} />;
+    return (
+      <Root>
+        <LoginView handleSubmit={this.handleSubmit} {...this.props} />
+      </Root>
+    );
   }
 }
 

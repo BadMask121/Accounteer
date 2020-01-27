@@ -11,18 +11,20 @@ import {Container, ListItem} from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {app} from 'helpers/constants';
 import subscriber from 'subscriber';
+import {StackActions, NavigationActions} from 'react-navigation';
 
 const Index = props => {
   const Logout = () => {
-    props.navigation.navigate(app.ROUTES.AUTH);
-    // props.authstate.logout();
+    props.authstate.logout().then(res => {
+      props.authstate.setLoggedIn(false);
+    });
   };
   return (
     <SafeAreaView style={{flex: 1}}>
       <ScrollView style={{flex: 1}}>
         <Container style={styles.container}>
           <TouchableOpacity>
-            <ListItem style={styles.itemContainer} onPress={Logout}>
+            <ListItem style={styles.itemContainer} onPressIn={Logout}>
               <Icon
                 name="sign-out-alt"
                 size={15}

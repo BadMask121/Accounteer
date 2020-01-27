@@ -6,6 +6,7 @@ import subscribe from 'subscriber';
 // TODO rememeber to pass business id along as a data in busines column on creating user
 // TODO remember to add currency on signup process
 class index extends PureComponent {
+  static whyDidYouRender = true;
   constructor(props) {
     super(props);
     this.authstate = this.props.authstate;
