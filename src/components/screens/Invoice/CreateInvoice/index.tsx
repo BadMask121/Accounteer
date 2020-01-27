@@ -20,6 +20,7 @@ import {
   ScrollView,
   TouchableWithoutFeedback,
   ActivityIndicator,
+  SafeAreaView,
 } from 'react-native';
 import {Formik} from 'formik';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -263,27 +264,20 @@ const index = React.memo(
     };
 
     const TitleTop = () => (
-      <View
-        style={{
-          flex: 1,
-          marginTop: 30,
-          width,
-        }}>
-        <View style={style.titleContainer}>
-          <TopTitle title="New Invoice" />
-          <View style={style.attachmentIcon}>
-            <View style={style.attachmentNumber}>
-              <Text style={style.attachmentNumberText}>{attachmentCount}</Text>
-            </View>
-            <Icon name="paperclip" size={20} color={app.primaryColor} />
+      <View style={style.titleContainer}>
+        <TopTitle title="New Invoice" />
+        <View style={style.attachmentIcon}>
+          <View style={style.attachmentNumber}>
+            <Text style={style.attachmentNumberText}>{attachmentCount}</Text>
           </View>
+          <Icon name="paperclip" size={20} color={app.primaryColor} />
         </View>
       </View>
     );
 
     return (
-      <KeyboardAvoidingView style={style.container}>
-        <View>
+      <SafeAreaView style={style.container}>
+        <View style={style.container}>
           {showAddItemModal && renderAddItemModal()}
           <TitleTop />
           {typeof props.navigation.state.params !== 'undefined' &&
@@ -293,7 +287,11 @@ const index = React.memo(
                 iosHeader="Select your SIM"
                 iosIcon={
                   <Icon
-                    name="arrow-dropdown-circle"
+                    name={
+                      Platform.OS === 'ios'
+                        ? 'arrow-down'
+                        : 'arrow-dropdown-circle' || 'arrow-down'
+                    }
                     style={{
                       color: app.primaryColorDark,
                       fontSize: 25,
@@ -420,7 +418,7 @@ const index = React.memo(
                       <View>
                         <Text style={style.dateTitleStyle}>Issue Date</Text>
                         <TouchableOpacity
-                          onPress={() => showDateTime('date', true)}>
+                          onPress={() => showDateTime('date', !show, true)}>
                           <Text style={style.dateStyle}>
                             {format(
                               issuedate.year(),
@@ -439,7 +437,7 @@ const index = React.memo(
                           Due Date
                         </Text>
                         <TouchableOpacity
-                          onPress={() => showDateTime('date', false)}>
+                          onPress={() => showDateTime('date', !show, false)}>
                           <Text style={style.dateStyle}>
                             {format(
                               duedate.year(),
@@ -449,21 +447,39 @@ const index = React.memo(
                           </Text>
                         </TouchableOpacity>
                       </View>
+                    </View>
 
-                      {show ? (
+                    {show ? (
+                      <View
+                        style={{
+                          flex: 1,
+                          width: '100%',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          // backgroundColor: '#ddd',
+                          zIndex: -1,
+                        }}>
                         <DateTimePicker
                           value={
                             isIssue ? issuedate.toDate() : duedate.toDate()
                           }
+                          style={{
+                            flex: 1,
+                            width: '100%',
+                            justifyContent: 'center',
+                          }}
                           mode={'date'}
+                          shouldRasterizeIOS={true}
+                          removeClippedSubviews
                           is24Hour={true}
                           display="default"
                           onChange={setDate}
                         />
-                      ) : (
-                        <></>
-                      )}
-                    </View>
+                      </View>
+                    ) : (
+                      <></>
+                    )}
+
                     <FormInput
                       placeholder="Reference"
                       name="reference"
@@ -485,6 +501,25 @@ const index = React.memo(
                       }}
                       handleChange={handleChange}
                     />
+
+                    <View style={{marginTop: 30, marginBottom: 50}}>
+                      <TopTitle
+                        title="Items"
+                        textStyle={{fontSize: 25, color: 'rgba(0,0,0,0.7)'}}
+                      />
+                      <View style={{flexDirection: 'row', flexShrink: 0.1}}>
+                        <TouchableWithoutFeedback
+                          onPressIn={() => fetchItems(selectedOrganisation.id)}>
+                          <View
+                            style={{
+                              flexDirection: 'row',
+                              alignItems: 'baseline',
+                              marginTop: 20,
+                            }}></View>
+                        </TouchableWithoutFeedback>
+                      </View>
+                    </View>
+                    {/* 
                     <View style={{marginTop: 30, marginBottom: 50}}>
                       <TopTitle
                         title="Items"
@@ -520,7 +555,7 @@ const index = React.memo(
                               iosHeader="Select an item"
                               iosIcon={
                                 <Icon
-                                  name="arrow-dropdown-circle"
+                                  // name="arrow-dropdown-circle"
                                   style={{
                                     color: app.primaryColorDark,
                                     fontSize: 25,
@@ -698,7 +733,7 @@ const index = React.memo(
                             break;
                         }
                       }}
-                    />
+                    /> */}
                     <Button
                       disable={!isValid}
                       loading={ItemSubmitting}
@@ -734,9 +769,9 @@ const index = React.memo(
             </Formik>
           </View>
         </View>
-      </KeyboardAvoidingView>
+      </SafeAreaView>
     );
   },
 );
 
-export default withKeyboardAwareScrollView(index);
+export default index;

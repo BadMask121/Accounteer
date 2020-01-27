@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 import React from 'react';
 import {View, Text} from 'native-base';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
@@ -15,7 +16,7 @@ interface Props {
 }
 
 // TODO add swipe to delete or edit
-export default ({item, ...props}: Props) => {
+export default React.memo(({item, ...props}: Props) => {
   const {currency} = props.screenProps.appstate.state.selectedOrganisation;
   const renderEdit = (progress, dragX) => {
     const scale = dragX.interpolate({
@@ -73,4 +74,4 @@ export default ({item, ...props}: Props) => {
       </ListCard>
     </Swipeable>
   );
-};
+});

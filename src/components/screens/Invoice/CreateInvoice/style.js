@@ -5,9 +5,10 @@ const style = {
     flex: 1,
   },
   titleContainer: {
+    flex: 0.1,
     flexDirection: 'row',
-    width: 250,
     alignItems: 'center',
+    width: '70%',
   },
   addItemModalContainer: {
     flex: 1,
@@ -63,7 +64,7 @@ const style = {
     flexDirection: 'row',
   },
   input: {
-    fontSize: 15,
+    // fontSize: 15,
     borderColor: '#fff',
     borderBottomRightRadius: 5,
     borderBottomLeftRadius: 5,

@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 import React, {Component, PureComponent, Suspense, lazy} from 'react';
 import moment from 'moment';
 import DocumentPicker from 'react-native-document-picker';
@@ -16,6 +17,7 @@ import {CreateItemProps, CreateInvoiceProps} from 'helpers/Interfaces';
 import InvalidException from 'helpers/error/exceptions/InvalidException';
 import {app} from 'helpers/constants';
 import {NavigationActions, StackActions} from 'react-navigation';
+import {View, Text} from 'react-native-animatable';
 
 const CreateInvoice = lazy(() =>
   import('components/screens/Invoice/CreateInvoice'),
@@ -83,10 +85,10 @@ export default class extends PureComponent {
   };
 
   // toggle date
-  showDateTime = (mode, isIssue) =>
+  showDateTime = (mode, show, isIssue) =>
     this.setState(prev => ({
       ...prev,
-      show: true,
+      show,
       isIssue,
       mode,
     }));

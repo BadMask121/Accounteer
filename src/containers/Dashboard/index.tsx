@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 import React, {Component, PureComponent, Suspense, lazy} from 'react';
 import subscriber from 'subscriber';
 import {UserService} from 'providers/App/services';

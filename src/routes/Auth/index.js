@@ -28,6 +28,7 @@ const index = createStackNavigator(
       headerStyle: {
         backgroundColor: '#fff',
         elevation: 0,
+        shadowColor: 'transparent',
       },
       headerTintColor: 'gray',
       headerBackTitle: null,
