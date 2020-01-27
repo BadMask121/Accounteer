@@ -5,23 +5,35 @@ import {Transition} from 'react-navigation-fluid-transitions';
 import * as Animatable from 'react-native-animatable';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import style from './style';
-import {app} from '@src/helpers/constants';
+import {app} from 'helpers/constants';
+import subscribe from '@src/subscriber';
+import AsyncStorage from '@react-native-community/async-storage';
+import {auth} from 'helpers/constants';
 
-export default props => {
+const index = React.memo(props => {
   const height: number = Dimensions.get('screen').height;
   const width: number = Dimensions.get('screen').width;
 
+  // console.log(props.screenProps.isLoggedIn, 'dsds');
+
+  const check = async () => await AsyncStorage.getItem(auth.AUTH_TOKEN);
+
   useEffect(() => {
-    setTimeout(() => {
-      getStarted();
-    }, 1000);
+    check().then(res => {
+      if (res === null)
+        setTimeout(() => {
+          getStarted();
+        }, 1000);
+    });
   }, []);
-  const getStarted = () =>
-    props.navigation.navigate(app.ROUTES.BUSINESS_ROUTE, {
+
+  const getStarted = async () => {
+    props.navigation.navigate(app.ROUTES.AUTH, {
       payload: {
         image: require('@assets/images/logo.png'),
       },
     });
+  };
 
   return (
     <View style={style.container}>
@@ -45,4 +57,6 @@ export default props => {
       </Animatable.View>
     </View>
   );
-};
+});
+
+export default subscribe(index);

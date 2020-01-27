@@ -7,10 +7,8 @@ import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import style from './style';
 import {app} from '@src/helpers/constants';
-import {data} from '@src/helpers/dummydata';
 import SubPanel from 'components/custom/Panel/SubPanel';
 import ListDashboardContent from 'components/custom/List/ListDashboardContent';
-import {ScrollView} from 'react-native-gesture-handler';
 
 const otherdata = [
   {
@@ -46,8 +44,8 @@ const DATA = [
 ];
 
 // change image payload to state
-export default props => {
-  const payload = props.navigation.state.params;
+export default React.memo(props => {
+  const payload = props.appstate.state.selectedOrganisation;
   const {width} = Dimensions.get('screen');
   const {height} = Dimensions.get('screen');
   const detailsHeight = height / 1.35;
@@ -94,14 +92,24 @@ export default props => {
               width,
               height,
             }}>
-            <View style={[style.titleContainer, {width: width / 1.6}]}>
-              <Text style={style.titleText}>Ace Corps</Text>
-              <Icon name="ellipsis-v" size={20} color="#fff" />
+            <View style={[style.titleContainer, {width}]}>
+              <Icon
+                name="arrow-left"
+                size={20}
+                color="rgba(255,255,255,0.6)"
+                onPress={() => props.navigation.navigate(app.ROUTES.DASHBOARD)}
+              />
+              <Text style={style.titleText}>
+                {typeof payload !== 'undefined' && payload.organisationname}
+              </Text>
+              <Icon name="ellipsis-v" size={20} color="rgba(255,255,255,0.6)" />
             </View>
           </View>
 
           <Image
-            source={typeof payload !== 'undefined' && payload.image}
+            source={{
+              uri: typeof payload !== 'undefined' && payload.avatar,
+            }}
             style={{
               ...style.image,
               width,
@@ -152,4 +160,4 @@ export default props => {
       </Animatable.View>
     </View>
   );
-};
+});

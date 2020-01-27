@@ -1,7 +1,12 @@
-import React from 'react';
+import React, {ReactNode} from 'react';
 import RippleView from 'react-native-material-ripple';
 import style from './style';
-export default props => {
+
+interface Props {
+  cardStyle: Object;
+  children: ReactNode;
+}
+export default ({...props}: Props) => {
   return (
     <RippleView
       rippleCenter={true}

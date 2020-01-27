@@ -1,5 +1,5 @@
 import React from 'react';
-import {Dimensions} from 'react-native';
+import {Dimensions, Platform, ActivityIndicator} from 'react-native';
 import {Button, Text} from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import style from './style.js';
@@ -15,6 +15,8 @@ interface Props {
   buttonStyle?: Object;
   textStyle?: Object;
   disable?: Boolean;
+  loading?: Boolean;
+  loaderColor?: any;
   onPress?: Function;
 }
 
@@ -39,15 +41,20 @@ export default (props: Props) => {
       ) : (
         <></>
       )}
-      <Text
-        style={{
-          fontFamily: app.primaryFontBold,
-          textTransform: 'capitalize',
-          ...style.textStyle,
-          ...props.textStyle,
-        }}>
-        {props.text}
-      </Text>
+      {props.loading ? (
+        <ActivityIndicator color={props.loaderColor || '#fff'} size={20} />
+      ) : (
+        <Text
+          style={{
+            fontFamily: app.primaryFontBold,
+            textTransform: 'capitalize',
+            ...style.textStyle,
+            ...props.textStyle,
+            paddingTop: Platform.OS === 'ios' ? 5 : 0,
+          }}>
+          {props.text}
+        </Text>
+      )}
     </Button>
   );
 };

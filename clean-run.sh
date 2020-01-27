@@ -1,2 +1,16 @@
 #! /bin/bash
-cd android && ./gradlew clean && cd .. && react-native link && npx react-native $1
+case "$1" in
+android)
+    cd android && ./gradlew clean
+    ;;
+ios)
+    cd ios && pod install
+    ;;
+*)
+    cd android && ./gradlew clean
+    ;;
+esac
+
+cd ..
+
+npx react-native "run-$1"

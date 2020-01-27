@@ -9,7 +9,7 @@ const AppContants = {
   primaryFontLight: 'Gilroy-Light',
 
   findWashHeight: 150,
-
+  passwordMinLength: 7,
   ROUTES: {
     APP: 'App',
     AUTH: 'Auth',
@@ -17,11 +17,14 @@ const AppContants = {
     WELCOME: 'Welcome',
     LOGIN: 'Login',
     SIGNUP: 'Signup',
+    CONFIRM_SIGNUP: 'ConfirmSignup',
     DASHBOARD: 'Dashboard',
     BUSINESS_DASHBOARD: 'BusinessDashboard',
     BUSINESS_ROUTE: 'BusinessRoute',
     CREATE_BUSINESS: 'CreateBusiness',
-    CREATE_INVOICES: 'CreateInvoices',
+    CREATE_INVOICE: 'CreateInvoice',
+    VIEW_INVOICE: 'ViewInvoice',
+    INVOICES: 'Invoices',
   },
 };
 

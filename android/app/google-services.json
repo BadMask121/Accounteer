@@ -5,43 +5,36 @@
     "project_id": "accounteer-e42e6",
     "storage_bucket": "accounteer-e42e6.appspot.com"
   },
-  "client": [
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:36659468042:android:46b952ea18daae29464cf3",
-        "android_client_info": {
-          "package_name": "com.acecorps.co"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "36659468042-dfconr38encgpop73qvp9agrog22hbea.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyAKRjIsa_0O5SYkwUzWc-FDIGFmFjAbLFU"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "36659468042-dfconr38encgpop73qvp9agrog22hbea.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "36659468042-9mr8ue63r2jbp3m5jcteoaq4fnnhrtsi.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.acecorps.co"
-              }
+  "client": [{
+    "client_info": {
+      "mobilesdk_app_id": "1:36659468042:android:46b952ea18daae29464cf3",
+      "android_client_info": {
+        "package_name": "com.accounteer"
+      }
+    },
+    "oauth_client": [{
+      "client_id": "36659468042-dfconr38encgpop73qvp9agrog22hbea.apps.googleusercontent.com",
+      "client_type": 3
+    }],
+    "api_key": [{
+      "current_key": "AIzaSyAKRjIsa_0O5SYkwUzWc-FDIGFmFjAbLFU"
+    }],
+    "services": {
+      "appinvite_service": {
+        "other_platform_oauth_client": [{
+            "client_id": "36659468042-dfconr38encgpop73qvp9agrog22hbea.apps.googleusercontent.com",
+            "client_type": 3
+          },
+          {
+            "client_id": "36659468042-9mr8ue63r2jbp3m5jcteoaq4fnnhrtsi.apps.googleusercontent.com",
+            "client_type": 2,
+            "ios_info": {
+              "bundle_id": "com.acecorps.co"
             }
-          ]
-        }
+          }
+        ]
       }
     }
-  ],
+  }],
   "configuration_version": "1"
 }

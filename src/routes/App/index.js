@@ -1,36 +1,53 @@
 import React from 'react';
-import {createStackNavigator} from 'react-navigation-stack';
-import {Dashboard} from '../../containers';
+import {createDrawerNavigator} from 'react-navigation-drawer';
+import {createAppContainer} from 'react-navigation';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import BusinessRoute from './BusinessRoute';
-
-const index = values =>
-  createStackNavigator(
-    {
-      Dashboard: {
-        screen: props => <Dashboard {...props} {...values} />,
+import {Dashboard} from '../../containers';
+import HomeDrawer from 'components/custom/Drawer/HomeDrawer';
+import {app} from 'helpers/constants';
+const index = createDrawerNavigator(
+  {
+    Dashboard: {
+      screen: props => {
+        return <Dashboard {...props} />;
       },
-      BusinessRoute: {
-        screen: BusinessRoute,
-        navigationOptions: ({navigation}) => ({
-          headerShown: false,
-        }),
+      navigationOptions: ({}) => ({
+        drawerIcon: () => <Icon name="camera" size={20} color="#000" />,
+      }),
+    },
+    BusinessRoute: {
+      screen: BusinessRoute,
+      navigationOptions: ({navigation}) => ({
+        headerShown: false,
+      }),
+    },
+  },
+  {
+    drawerPosition: 'left',
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: app.primaryColorLight,
+        elevation: 0,
+      },
+      headerTintColor: 'gray',
+      headerBackTitle: null,
+      headerTitle: () => null,
+      headerTitleStyle: {
+        fontWeight: 'bold',
       },
     },
-    {
-      defaultNavigationOptions: {
-        headerStyle: {
-          backgroundColor: '#fff',
-          elevation: 0,
-        },
-        headerTintColor: 'gray',
-        headerBackTitle: null,
-        headerTitle: () => null,
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
-      },
-      initialRouteName: 'Dashboard',
+    screenContainerStyle: {
+      borderRadius: 50,
     },
-  );
+    drawerType: 'slide',
+    drawerBackgroundColor: 'transparent ',
+    keyboardDismissMode: 'on-drag',
+    contentComponent: props => {
+      return <HomeDrawer {...props} />;
+    },
+    initialRouteName: 'Dashboard',
+  },
+);
 
-export default index;
+export default createAppContainer(index);

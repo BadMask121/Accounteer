@@ -3,14 +3,58 @@ import {createStackNavigator} from 'react-navigation-stack';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import {createAppContainer} from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import * as _ from 'lodash';
 import {Invoice, BusinessDashboard} from '../../../containers';
-import {app} from '@src/helpers/constants';
+import {app} from 'helpers/constants';
 
-const {ViewInvoice} = Invoice;
+const {ViewInvoice, CreateInvoice, Invoices} = Invoice;
+
+const InvoicesRoute = createAppContainer(
+  createStackNavigator(
+    {
+      Invoices: {
+        screen: props => {
+          // if (_.isEmpty(props.screenProps.appstate.state.selectedOrganisation))
+          //   return props.navigation.navigate(app.ROUTES.DASHBOARD);
+          return <Invoices {...props} />;
+        },
+        navigationOptions: ({navigation}) => ({
+          headerShown: false,
+          title: 'Invoices',
+        }),
+      },
+      ViewInvoice: {
+        screen: props => {
+          // if (_.isEmpty(props.screenProps.appstate.state.selectedOrganisation))
+          //   return props.navigation.navigate(app.ROUTES.DASHBOARD);
+          return <ViewInvoice {...props} />;
+        },
+        navigationOptions: ({navigation}) => ({
+          headerShown: false,
+          title: 'ViewInvoice',
+        }),
+      },
+      CreateInvoice: {
+        screen: props => <CreateInvoice {...props} />,
+        navigationOptions: ({navigation}) => ({
+          headerShown: false,
+          title: 'CreateInvoice',
+        }),
+      },
+    },
+    {
+      defaultNavigationOptions: {},
+    },
+  ),
+);
 const index = createBottomTabNavigator(
   {
     BusinessDashboard: {
-      screen: props => <BusinessDashboard {...props} />,
+      screen: props => {
+        if (_.isEmpty(props.screenProps.appstate.state.selectedOrganisation))
+          return props.navigation.navigate(app.ROUTES.DASHBOARD);
+        return <BusinessDashboard {...props} />;
+      },
       navigationOptions: ({navigation}) => ({
         headerShown: false,
         title: 'Home',
@@ -23,12 +67,11 @@ const index = createBottomTabNavigator(
         ),
       }),
     },
-
-    ViewInvoice: {
-      screen: props => <ViewInvoice {...props} />,
+    Invoices: {
+      screen: InvoicesRoute,
       navigationOptions: ({navigation}) => ({
         headerShown: false,
-        title: 'Invoice',
+        title: 'Invoices',
         tabBarIcon: ({focused}) => (
           <Icon
             name="receipt"
@@ -39,10 +82,10 @@ const index = createBottomTabNavigator(
       }),
     },
     ViewOffer: {
-      screen: props => <ViewInvoice {...props} />,
+      screen: InvoicesRoute,
       navigationOptions: ({navigation}) => ({
         headerShown: false,
-        title: 'Offer',
+        title: 'Offers',
         tabBarIcon: ({focused}) => (
           <Icon
             name="box"
@@ -53,10 +96,10 @@ const index = createBottomTabNavigator(
       }),
     },
     ViewPurchase: {
-      screen: props => <ViewInvoice {...props} />,
+      screen: InvoicesRoute,
       navigationOptions: ({navigation}) => ({
         headerShown: false,
-        title: 'Purchase',
+        title: 'Purchases',
         tabBarIcon: ({focused}) => (
           <Icon
             name="money-bill-wave"
@@ -69,16 +112,7 @@ const index = createBottomTabNavigator(
   },
   {
     defaultNavigationOptions: {
-      headerStyle: {
-        backgroundColor: '#fff',
-        elevation: 1,
-      },
-      headerTintColor: 'gray',
-      headerBackTitle: null,
-      headerTitle: () => null,
-      headerTitleStyle: {
-        fontWeight: 'bold',
-      },
+      headerMode: 'none',
     },
     lazy: true,
     tabBarOptions: {

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Container} from 'unstated';
 import {APP_STATE} from '../intialState';
-export default class AppState extends Container {
+export default class AppState extends Container<any | Object> {
   constructor(props) {
     super(props);
   }
@@ -9,20 +9,57 @@ export default class AppState extends Container {
 
   setLoading = condition => {
     this.setState({
+      ...this.state,
       isLoading: condition,
     });
   };
 
-  setCurrentScreen = async screen => {
+  setCurrentScreen = async (screen: any) => {
     await this.setState({
+      ...this.state,
       currentScreen: screen,
     });
   };
 
-  setSubmitting = condition => {
-    this.setState({
+  // set active current user details
+  setCurrentUser = async (details: any) => {
+    await this.setState({
+      ...this.state,
+      currentUser: details,
+    });
+
+    return this.state.currentUser;
+  };
+
+  // set active current user organisation data
+  setCurrentUserOrganisations = async (details: any, loading: Boolean) => {
+    await this.setState({
+      ...this.state,
+      currentUserOrganisations: {
+        loading,
+        data: details,
+      },
+    });
+    return this.state.currentUserOrganisations;
+  };
+  // set active organisation
+  setSelectedOrganisation = async (details: any) => {
+    await this.setState({
+      ...this.state,
+      selectedOrganisation: {
+        ...details,
+      },
+    });
+    return this.state.selectedOrganisation;
+  };
+
+  setSubmitting = async (condition: Boolean) => {
+    await this.setState({
+      ...this.state,
       isLoading: condition,
       submitting: condition,
     });
+
+    return;
   };
 }

@@ -1,2 +1,3 @@
 import app from './App.constant';
-export {app};
+import auth from './Auth.constant';
+export {app, auth};
