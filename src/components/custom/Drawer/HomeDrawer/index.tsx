@@ -17,6 +17,7 @@ const Index = props => {
   const Logout = () => {
     props.authstate.logout().then(res => {
       props.authstate.setLoggedIn(false);
+      props.appstate.resetState();
     });
   };
   return (

@@ -64,7 +64,6 @@ export default class extends PureComponent {
   };
 
   onPickerChangeValue = value => {
-    console.log(value, 'ds');
     this.setState({...this.state, selectedValue: value});
   };
   //set the dates
@@ -171,14 +170,24 @@ export default class extends PureComponent {
       });
   };
 
-  fetchItems = id => {
+  fetchItems = (id: string) => {
     this.setState({
       ...this.state,
       fetchingItem: true,
     });
     return this.invoiceService
       .getAllItemsByBusinessId(id)
-      .then(res => this.setItemData(res));
+      .then(res => this.setItemData(res))
+      .catch(err => {
+        this.setState({
+          ...this.state,
+          fetchingItem: false,
+        });
+        Toast.show({
+          text: 'No Item found please add an item',
+          type: 'warning',
+        });
+      });
   };
 
   // finally create invoice

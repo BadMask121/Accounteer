@@ -15,6 +15,7 @@ export default class extends FirebaseAuthentication {
   // query for user details data using the user id
   private getUserDetailsById = async (id: string | any) => {
     const userDetails = [];
+    const items: Object;
 
     const userDetailsSnapshot = await this.connector
       .collection(auth.COLLECTIONS.USER)
@@ -38,17 +39,21 @@ export default class extends FirebaseAuthentication {
       .get();
 
     if (organisations.size <= 0)
-      return new InvalidException({
-        info: 'No Organisation Found',
-        code: 404,
-      });
+      return Promise.reject(
+        new InvalidException({
+          info: 'No Organisation Found',
+          code: 404,
+        }),
+      );
 
     let index = 0;
     const allOrg: any = [];
 
     await new Promise((resolve, reject) => {
       organisations.forEach(doc => {
-        allOrg.push(doc.data());
+        items = doc.data();
+        items.id = doc.id;
+        allOrg.push(items);
         if (index === organisations.size - 1) return resolve(allOrg);
         index++;
       });

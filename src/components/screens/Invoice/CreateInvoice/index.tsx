@@ -309,7 +309,7 @@ const index = React.memo(
                 }}
                 selectedValue={selectedValue}
                 removeClippedSubviews
-                onValueChange={() => console.log('dss')}>
+                onValueChange={onPickerChangeValue}>
                 {currentUserOrganisations.data.map(element => (
                   <Picker.Item
                     label={element.organisationname}

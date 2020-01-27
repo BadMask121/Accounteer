@@ -21,6 +21,7 @@ const style = {
     bottom: 0,
   },
   addItemModalContent: {
+    flex: 0.45,
     justifySelf: 'flex-end',
     height: '41%',
     width: '70%',

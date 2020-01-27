@@ -154,7 +154,6 @@ export class FirebaseAuthentication {
     const userDetails = {...values, avatar: await this.getUserDefaultImage()};
     delete userDetails.password;
 
-    console.log('checking');
     // add user details to firebase databse
     const user = await this.connector
       .collection(auth.COLLECTIONS.USER)
@@ -176,7 +175,6 @@ export class FirebaseAuthentication {
         }),
       );
 
-    console.log('Doonig');
     // create organisation
     const organisation = await this.connector
       .collection(auth.COLLECTIONS.ORGANISATION)
@@ -201,7 +199,6 @@ export class FirebaseAuthentication {
         }),
       );
 
-    console.log('Not Done');
     // update user and add organisation id as owned
     await this.connector
       .collection(auth.COLLECTIONS.USER)
@@ -222,7 +219,6 @@ export class FirebaseAuthentication {
 
     await currentUser.sendEmailVerification();
 
-    console.log('doen');
     const userInfo = (await user.get()).data();
     return Promise.resolve({token: user.id, userDetails: userInfo});
   };

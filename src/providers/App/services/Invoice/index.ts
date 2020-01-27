@@ -18,10 +18,12 @@ export default class extends FirebaseAuthentication {
         .where('businessId', '==', id);
 
       if ((await checkIfItemExistsForBusiness.get()).size <= 0)
-        return new InvalidException({
-          info: 'Item does not exists for this business id',
-          code: 408,
-        });
+        return Promise.reject(
+          new InvalidException({
+            info: 'Item does not exists for this business id',
+            code: 408,
+          }),
+        );
 
       const limitQuery = checkIfItemExistsForBusiness.limit(limit);
       const paginate = await limitQuery.get().then(async snap => {
@@ -59,10 +61,13 @@ export default class extends FirebaseAuthentication {
       .get();
 
     if (checkIfItemExistsForBusiness.size <= 0)
-      return new InvalidException({
-        info: 'Item does not exists for this business id',
-        code: 408,
-      });
+      return Promise.reject(
+        new InvalidException({
+          info: 'Item does not exists for this business id',
+          code: 408,
+        }),
+      );
+
     await new Promise((resolve, reject) => {
       checkIfItemExistsForBusiness.forEach(doc => {
         allItems.push(doc.data());

@@ -14,8 +14,6 @@ const index = React.memo(props => {
   const height: number = Dimensions.get('screen').height;
   const width: number = Dimensions.get('screen').width;
 
-  // console.log(props.screenProps.isLoggedIn, 'dsds');
-
   const check = async () => await AsyncStorage.getItem(auth.AUTH_TOKEN);
 
   useEffect(() => {

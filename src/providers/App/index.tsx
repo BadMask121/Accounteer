@@ -7,7 +7,12 @@ export default class AppState extends Container<any | Object> {
   }
   state = APP_STATE;
 
-  setLoading = condition => {
+  resetState = async () => {
+    await this.setState(APP_STATE);
+    return;
+  };
+
+  setLoading = (condition: Boolean) => {
     this.setState({
       ...this.state,
       isLoading: condition,
