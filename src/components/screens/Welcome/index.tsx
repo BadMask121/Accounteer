@@ -23,7 +23,7 @@ export default props => {
           direction="alternate"
           style={style.logoContainer}>
           <Image
-            source={require('@assets/images/logo.png')}
+            source={require('@assets/images/logo.jpg')}
             style={{
               ...style.logoImage,
               width: Dimensions.get('window').width,

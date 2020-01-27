@@ -30,7 +30,7 @@ const index = React.memo(props => {
   const getStarted = async () => {
     props.navigation.navigate(app.ROUTES.AUTH, {
       payload: {
-        image: require('@assets/images/logo.png'),
+        image: require('@assets/images/logo.jpg'),
       },
     });
   };
@@ -47,7 +47,7 @@ const index = React.memo(props => {
           ...style.logoContainer,
         }}>
         <Image
-          source={require('@assets/images/logo.png')}
+          source={require('@assets/images/logo.jpg')}
           style={{
             ...style.logoImage,
             width,

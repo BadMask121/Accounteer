@@ -29,6 +29,11 @@
 		E37D248B9B684D36B0A4ACCB /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = F86E4FE2DD5D48C89C18D896 /* logo.png */; };
 		EC92C11F1620E50BD7614FCA /* libPods-Accounteer-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D7C15679DEC28FA1F73DDB41 /* libPods-Accounteer-tvOS.a */; };
 		F40F28E923C85E6B007A522D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F40F28E823C85E6B007A522D /* GoogleService-Info.plist */; };
+		4DE0ED2C11D54A759C60CFFA /* attachment.png in Resources */ = {isa = PBXBuildFile; fileRef = 32FB0C292BEF4C94A28BC540 /* attachment.png */; };
+		A5E138C4F32D412FB8C901DA /* bag.svg in Resources */ = {isa = PBXBuildFile; fileRef = 73E59415C382436D89AE5102 /* bag.svg */; };
+		7B4EC4C2BF8C4B778EEFF2D2 /* buy.png in Resources */ = {isa = PBXBuildFile; fileRef = CA1C2EE5B9BB4D45AA0AD462 /* buy.png */; };
+		8B882537C0714F14A084B548 /* paperclip.svg in Resources */ = {isa = PBXBuildFile; fileRef = 294F8441A57F41B38F1EE5F4 /* paperclip.svg */; };
+		6644B75F182B4AB1B098E158 /* logo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2A07B8DB8C46422794B662F5 /* logo.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -113,6 +118,11 @@
 		EF9D6CB8FC6947C1A0357AD8 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		F40F28E823C85E6B007A522D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F86E4FE2DD5D48C89C18D896 /* logo.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = logo.png; path = ../assets/images/logo.png; sourceTree = "<group>"; };
+		32FB0C292BEF4C94A28BC540 /* attachment.png */ = {isa = PBXFileReference; name = "attachment.png"; path = "../assets/images/attachment.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		73E59415C382436D89AE5102 /* bag.svg */ = {isa = PBXFileReference; name = "bag.svg"; path = "../assets/images/bag.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		CA1C2EE5B9BB4D45AA0AD462 /* buy.png */ = {isa = PBXFileReference; name = "buy.png"; path = "../assets/images/buy.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		294F8441A57F41B38F1EE5F4 /* paperclip.svg */ = {isa = PBXFileReference; name = "paperclip.svg"; path = "../assets/images/paperclip.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		2A07B8DB8C46422794B662F5 /* logo.jpg */ = {isa = PBXFileReference; name = "logo.jpg"; path = "../assets/images/logo.jpg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -226,6 +236,11 @@
 				2F6522C265EE43689D1DECBD /* Gilroy-Regular.ttf */,
 				28B732927AA9425CB28852A6 /* logoOnly.png */,
 				22884B8928494163BB2FFA9D /* send.png */,
+				32FB0C292BEF4C94A28BC540 /* attachment.png */,
+				73E59415C382436D89AE5102 /* bag.svg */,
+				CA1C2EE5B9BB4D45AA0AD462 /* buy.png */,
+				294F8441A57F41B38F1EE5F4 /* paperclip.svg */,
+				2A07B8DB8C46422794B662F5 /* logo.jpg */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -432,6 +447,11 @@
 				32D2B6946DA947E38E239AA7 /* Gilroy-Regular.ttf in Resources */,
 				BB8BD31211C54C0AB23D55D0 /* logoOnly.png in Resources */,
 				CE553FDF43A74F2B93FE52F2 /* send.png in Resources */,
+				4DE0ED2C11D54A759C60CFFA /* attachment.png in Resources */,
+				A5E138C4F32D412FB8C901DA /* bag.svg in Resources */,
+				7B4EC4C2BF8C4B778EEFF2D2 /* buy.png in Resources */,
+				8B882537C0714F14A084B548 /* paperclip.svg in Resources */,
+				6644B75F182B4AB1B098E158 /* logo.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
