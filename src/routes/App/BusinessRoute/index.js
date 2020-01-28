@@ -116,6 +116,7 @@ const index = createBottomTabNavigator(
     },
     lazy: true,
     tabBarOptions: {
+      allowFontScaling: true,
       activeTintColor: '#fdd',
       inactiveTintColor: 'rgba(255,255,255,0.5)',
       keyboardHidesTabBar: true,
@@ -125,6 +126,9 @@ const index = createBottomTabNavigator(
         backgroundColor: app.primaryColorDarker,
         paddingBottom: 3,
         paddingTop: 7,
+      },
+      style: {
+        backgroundColor: app.primaryColorDarker,
       },
     },
     resetOnBlur: true,

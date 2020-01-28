@@ -88,7 +88,10 @@ const DashbordContent = React.memo(
               default:
                 break;
             }
-            return props.props.navigation.navigate(Route, {from: 'main'});
+
+            if (props.hasOwnProperty('props'))
+              return props.props.navigation.navigate(Route, {from: 'main'});
+            props.navigation.navigate(Route);
           }}>
           <Icon name="plus" size={20} color={app.primaryColorLight} />
         </RippleView>
@@ -107,31 +110,31 @@ const DashbordContent = React.memo(
       ) : null;
 
     // arrange item lists
-    const selectionList = item => {
-      return [
-        {
-          data: item.data,
-          key: short.generate(),
-        },
-      ];
-    };
+    const selectionList = item => [
+      {
+        data: item.data,
+        key: short.generate(),
+      },
+    ];
 
     // render business items
     const renderBusinessCard = (item, loading) => {
+      const sectionData = selectionList(item);
       return (
         <SectionList
-          sections={selectionList(item)}
+          sections={sectionData}
           maxToRenderPerBatch={2}
           onEndReachedThreshold={0.5}
           keyExtractor={(_item, index) => short.generate()}
           renderItem={({item}) => (
             <ListCard
               {...{props}}
-              onPress={async () => {
-                await props.props.appstate.setSelectedOrganisation(item);
-                return props.props.navigation.navigate(
-                  ROUTES.BUSINESS_DASHBOARD,
-                );
+              onPress={() => {
+                props.props.appstate
+                  .setSelectedOrganisation(item)
+                  .then(res =>
+                    props.props.navigation.navigate(ROUTES.BUSINESS_DASHBOARD),
+                  );
               }}>
               <View
                 style={{
@@ -168,57 +171,63 @@ const DashbordContent = React.memo(
     };
 
     // render other items
-    const renderOtherCard = item => (
-      <View>
-        {renderSectionHeader(item.title)}
-        <SectionList
-          contentContainerStyle={{
-            display: 'flex',
-            padding: 30,
-          }}
-          pagingEnabled
-          invertStickyHeaders={true}
-          sections={selectionList(item)}
-          horizontal={true}
-          invertStickyHeaders={true}
-          maxToRenderPerBatch={2}
-          onEndReachedThreshold={0.5}
-          style={{
-            left: -40,
-            top: -40,
-            bottom: 0,
-            right: 0,
-            width: '100%',
-          }}
-          keyExtractor={(_item, index) => short.generate()}
-          renderItem={({item, index, section}) => (
-            <ListCard {...{props}} cardStyle={{flexDirection: 'column'}}>
-              <View style={[{padding: 10}]}>
-                <Text
-                  style={[style.listText, {fontFamily: app.primaryFontBold}]}>
-                  {item.title}
-                </Text>
-              </View>
-              <View style={{padding: 10}}>
-                <Text
-                  style={{
-                    color: app.primaryColorLight,
-                    fontSize: 10,
-                    marginBottom: 2,
-                  }}>
-                  Amount
-                </Text>
-                <Text style={{...style.listText}}>
-                  {item.currency}
-                  {item.amount}
-                </Text>
-              </View>
-            </ListCard>
-          )}
-          scrollEventThrottle={1}
-        />
-      </View>
-    );
+    const renderOtherCard = item => {
+      const sectionData = selectionList(item);
+      const Header = renderSectionHeader(item.title);
+      return (
+        <View>
+          {Header}
+          <SectionList
+            contentContainerStyle={{
+              display: 'flex',
+              padding: 0,
+              paddingLeft: 0,
+            }}
+            pagingEnabled
+            invertStickyHeaders={true}
+            sections={sectionData}
+            horizontal={true}
+            invertStickyHeaders={true}
+            maxToRenderPerBatch={2}
+            onEndReachedThreshold={0.5}
+            style={{
+              left: 0,
+              top: -10,
+              bottom: 0,
+              right: 0,
+              width: '100%',
+              marginRight: 100,
+            }}
+            keyExtractor={(_item, index) => short.generate()}
+            renderItem={({item, index, section}) => (
+              <ListCard {...{props}} cardStyle={{flexDirection: 'column'}}>
+                <View style={[{padding: 10}]}>
+                  <Text
+                    style={[style.listText, {fontFamily: app.primaryFontBold}]}>
+                    {item.title}
+                  </Text>
+                </View>
+                <View style={{padding: 10}}>
+                  <Text
+                    style={{
+                      color: app.primaryColorLight,
+                      fontSize: 10,
+                      marginBottom: 2,
+                    }}>
+                    Amount
+                  </Text>
+                  <Text style={{...style.listText}}>
+                    {item.currency}
+                    {item.amount}
+                  </Text>
+                </View>
+              </ListCard>
+            )}
+            scrollEventThrottle={1}
+          />
+        </View>
+      );
+    };
 
     return (
       <Suspense fallback={renderFooter(true)}>

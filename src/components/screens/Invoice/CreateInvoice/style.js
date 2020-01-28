@@ -22,13 +22,21 @@ const style = {
     bottom: 0,
   },
   addItemModalContent: {
-    flex: 0.45,
+    flex: 0.4,
+    flexDirection: 'column',
+    justifyContent: 'space-around',
     justifySelf: 'flex-end',
     height: '41%',
     width: '70%',
     backgroundColor: '#fff',
     borderRadius: 10,
     elevation: 5,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 12,
+    },
+    shadowRadius: 1,
   },
   addItemIcon: {
     fontSize: 20,

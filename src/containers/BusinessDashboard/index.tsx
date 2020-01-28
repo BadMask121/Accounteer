@@ -1,7 +1,7 @@
 import React, {Component, PureComponent, lazy, Suspense} from 'react';
 // import {BusinessDashboard} from 'components/screens';
 import subscriber from 'subscriber';
-import {ActivityIndicator} from 'react-native';
+import {ActivityIndicator, SafeAreaView} from 'react-native';
 const BusinessDashboard = lazy(() =>
   import('components/screens/BusinessDashboard'),
 );

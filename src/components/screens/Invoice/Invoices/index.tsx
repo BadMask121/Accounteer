@@ -52,7 +52,7 @@ export default React.memo(
             <Animated.FlatList
               data={InvoiceData}
               onEndReached={
-                InvoiceData.length > limit && fetchInvoice(id, 0, limit)
+                InvoiceData.length >= limit && fetchInvoice(id, 0, limit)
               }
               onEndReachedThreshold={0.7}
               ItemSeparatorComponent={({highlighted}) => (

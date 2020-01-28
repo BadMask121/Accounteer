@@ -158,12 +158,16 @@ const index = React.memo(
               ...style.addItemModalContainer,
             }}>
             <View style={style.addItemModalContent}>
-              <TouchableHighlight onPress={() => onClickAddItem(false)}>
+              <TouchableHighlight
+                activeOpacity={0.5}
+                underlayColor="#fff"
+                style={{backgroundColor: '#fff'}}
+                onPress={() => onClickAddItem(false)}>
                 <View style={{alignItems: 'flex-end', padding: 10}}>
                   <Icon name="times" color={app.primaryColorDark} size={25} />
                 </View>
               </TouchableHighlight>
-              <View>
+              <View style={{paddingLeft: 5, paddingRight: 5}}>
                 <Formik
                   initialValues={{
                     name: '',
@@ -282,39 +286,43 @@ const index = React.memo(
           <TitleTop />
           {typeof props.navigation.state.params !== 'undefined' &&
             props.navigation.state.params.from === 'main' && (
-              <Picker
-                mode="dropdown"
-                iosHeader="Select your SIM"
-                iosIcon={
-                  <Icon
-                    name={
-                      Platform.OS === 'ios'
-                        ? 'arrow-down'
-                        : 'arrow-dropdown-circle' || 'arrow-down'
-                    }
-                    style={{
-                      color: app.primaryColorDark,
-                      fontSize: 25,
-                    }}
-                  />
-                }
-                accessibilityLabel="Select Business"
-                placeholderIconColor={app.primaryColorDark}
-                style={{
-                  width: '50%',
-                  color: app.primaryColorDark,
-                  alignSelf: 'flex-end',
-                }}
-                selectedValue={selectedValue}
-                removeClippedSubviews
-                onValueChange={onPickerChangeValue}>
-                {currentUserOrganisations.data.map(element => (
-                  <Picker.Item
-                    label={element.organisationname}
-                    key={shortid.generate()}
-                  />
-                ))}
-              </Picker>
+              <View style={{flex: 0.1}}>
+                <Picker
+                  mode="dropdown"
+                  iosHeader="Select business"
+                  iosIcon={
+                    <Icon
+                      name={
+                        Platform.OS === 'ios'
+                          ? 'arrow-down'
+                          : 'arrow-dropdown-circle' || 'arrow-down'
+                      }
+                      style={{
+                        color: app.primaryColorLight,
+                        fontSize: 15,
+                        paddingRight: 10,
+                      }}
+                    />
+                  }
+                  placeholder="Select Business"
+                  accessibilityLabel="Select Business"
+                  placeholderIconColor={app.primaryColorDark}
+                  style={{
+                    width: '50%',
+                    color: app.primaryColorDark,
+                    alignSelf: 'flex-end',
+                  }}
+                  selectedValue={selectedValue}
+                  removeClippedSubviews
+                  onValueChange={onPickerChangeValue}>
+                  {currentUserOrganisations.data.map(element => (
+                    <Picker.Item
+                      label={element.organisationname}
+                      key={shortid.generate()}
+                    />
+                  ))}
+                </Picker>
+              </View>
             )}
           <View
             style={{
@@ -507,85 +515,108 @@ const index = React.memo(
                         title="Items"
                         textStyle={{fontSize: 25, color: 'rgba(0,0,0,0.7)'}}
                       />
-                      <View style={{flexDirection: 'row', flexShrink: 0.1}}>
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          flexShrink: 0.1,
+                          marginTop: 10,
+                          marginBottom: 15,
+                        }}>
                         <TouchableWithoutFeedback
                           onPressIn={() => fetchItems(selectedOrganisation.id)}>
-                          <View
-                            style={{
-                              flexDirection: 'row',
-                              alignItems: 'baseline',
-                              marginTop: 20,
-                            }}></View>
-                        </TouchableWithoutFeedback>
-                      </View>
-                    </View>
-                    {/* 
-                    <View style={{marginTop: 30, marginBottom: 50}}>
-                      <TopTitle
-                        title="Items"
-                        textStyle={{fontSize: 25, color: 'rgba(0,0,0,0.7)'}}
-                      />
-                      <View style={{flexDirection: 'row', flexShrink: 0.1}}>
-                        <TouchableWithoutFeedback
-                          onPressIn={() => fetchItems(selectedOrganisation.id)}>
-                          <View
-                            style={{
-                              flexDirection: 'row',
-                              alignItems: 'baseline',
-                              marginTop: 20,
-                            }}>
-                            {fetchingItem ? (
-                              <ActivityIndicator
-                                color={app.primaryColorDark}
-                                style={{top: -15, left: 5}}
-                              />
-                            ) : (
-                              <Icon
-                                name="cart-plus"
-                                size={20}
-                                color={app.primaryColorDark}
-                                style={{
-                                  top: -10,
-                                  paddingLeft: 12,
-                                }}
-                              />
-                            )}
-                            <Picker
-                              mode="dropdown"
-                              iosHeader="Select an item"
-                              iosIcon={
+                          <View style={{width: '45%'}}>
+                            <Text
+                              style={{
+                                ...style.dateTitleStyle,
+                                color: 'rgba(0,0,0,0.7)',
+                                alignSelf: 'center',
+                              }}>
+                              Add item
+                            </Text>
+                            <View
+                              style={{
+                                flexDirection: 'row',
+                                alignItems: 'baseline',
+                              }}>
+                              {fetchingItem && Platform.OS !== 'ios' ? (
+                                <ActivityIndicator
+                                  color={app.primaryColorDark}
+                                  style={{top: -15, left: 5}}
+                                />
+                              ) : Platform.OS !== 'ios' ? (
                                 <Icon
-                                  // name="arrow-dropdown-circle"
+                                  name="cart-plus"
+                                  size={20}
+                                  color={app.primaryColorDark}
                                   style={{
-                                    color: app.primaryColorDark,
-                                    fontSize: 25,
+                                    top: -10,
+                                    paddingLeft: 12,
                                   }}
                                 />
-                              }
-                              enabled={!fetchingItem}
-                              accessibilityLabel="Select Business"
-                              placeholderIconColor={app.primaryColorDark}
-                              style={{
-                                ...style.input,
-                                width: width / 2.5,
-                              }}
-                              selectedValue={
-                                selectedItem.name !== null && selectedItem
-                              }
-                              onValueChange={onItemPicked}>
-                              <Picker.Item label="Pick Item" value="key0" />
-                              {fetchingItem ? (
-                                <Picker.Item label="fetching" value="key0" />
                               ) : (
-                                itemData.map((element, index) => (
-                                  <Picker.Item
-                                    label={element.name}
-                                    key={shortid.generate()}
-                                    value={element}
-                                  />
-                                ))
+                                <></>
                               )}
-                            </Picker>
+                              <Picker
+                                mode="dropdown"
+                                iosHeader="Select an item"
+                                iosIcon={
+                                  <View
+                                    style={{
+                                      justifyContent: 'center',
+                                      alignItems: 'center',
+                                      alignSelf: 'center',
+                                    }}>
+                                    {fetchingItem ? (
+                                      <ActivityIndicator
+                                        color={app.primaryColorDark}
+                                        style={{top: 0, left: 5}}
+                                      />
+                                    ) : Platform.OS === 'ios' ? (
+                                      <Icon
+                                        name="cart-plus"
+                                        size={20}
+                                        color={app.primaryColorDark}
+                                      />
+                                    ) : (
+                                      <></>
+                                    )}
+                                  </View>
+                                }
+                                placeholder="Select an item"
+                                importantForAccessibility="yes"
+                                shouldRasterizeIOS
+                                enabled={!fetchingItem}
+                                accessibilityLabel="Select Business"
+                                placeholderIconColor={app.primaryColorDark}
+                                style={{
+                                  ...style.input,
+                                  backgroundColor:
+                                    (Platform.OS === 'ios' &&
+                                      'rgba(0,0,0,0.1)') ||
+                                    'transparent',
+                                  borderWidth: 0.2,
+                                  alignItems: 'center',
+                                  paddingRight: 15,
+                                  top: 5,
+                                }}
+                                selectedValue={
+                                  selectedItem.name !== null && selectedItem
+                                }
+                                onValueChange={onItemPicked}>
+                                <Picker.Item label="Pick Item" value="key0" />
+                                {fetchingItem ? (
+                                  <Picker.Item label="fetching" value="key0" />
+                                ) : (
+                                  itemData.map((element, index) => (
+                                    <Picker.Item
+                                      label={element.name}
+                                      key={shortid.generate()}
+                                      value={element}
+                                    />
+                                  ))
+                                )}
+                              </Picker>
+                            </View>
                           </View>
                         </TouchableWithoutFeedback>
                         <View style={{alignItems: 'center'}}>
@@ -663,7 +694,6 @@ const index = React.memo(
                           inputStyle={{
                             ...style.input,
                             textAlign: 'left',
-                            width: width / 2,
                           }}
                           handleChange={handleChange}
                         />
@@ -672,6 +702,9 @@ const index = React.memo(
                         placeholder="Description"
                         style={style.descriptionArea}
                         onChangeText={textChange}
+                        scrollEnabled
+                        autoCorrect
+                        underline
                       />
                       <View style={{marginTop: 15}}>
                         <View style={style.taxContainer}>
@@ -733,7 +766,7 @@ const index = React.memo(
                             break;
                         }
                       }}
-                    /> */}
+                    />
                     <Button
                       disable={!isValid}
                       loading={ItemSubmitting}
