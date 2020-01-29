@@ -63,6 +63,7 @@ interface Props {
   duedate: any;
   selectedValue: String;
   attachmentCount?: number;
+  selectedOrganisationId?: number;
   attachments?: Array;
   setDate: Function;
   showDateTime: Function;
@@ -106,6 +107,7 @@ const index = React.memo(
     onPickerChangeValue,
     itemData,
     fetchingItem,
+    selectedOrganisationId,
     ...props
   }: Props) => {
     const {width, height} = Dimensions.get('window');
@@ -116,33 +118,10 @@ const index = React.memo(
 
     // control description on chnage text
     const textChange = value => setstate({...state, description: value});
-    const {selectedOrganisation} = props.screenProps.appstate.state;
     const {currentUserOrganisations} = props.screenProps.appstate.state;
 
     //format our issued and due date
     const format = (year, month, day) => `${year}/${month}/${day}`;
-
-    const AutoInput = autoInputProps => (
-      <View style={style.inputContainer}>
-        <Autocomplete
-          key={shortid.generate()}
-          style={{
-            maxHeight: 100,
-          }}
-          inputStyle={{
-            ...style.input,
-            width,
-          }}
-          minimumCharactersCount={2}
-          highlightText
-          valueExtractor={item => item.name}
-          rightContent
-          {...autoInputProps}
-        />
-
-        {autoInputProps.rightIcon || <></>}
-      </View>
-    );
 
     const renderAddItemModal = () => {
       return (
@@ -175,7 +154,7 @@ const index = React.memo(
                     tax: 0,
                   }}
                   onSubmit={values => {
-                    values.id = selectedOrganisation.id;
+                    values.id = selectedOrganisationId;
                     addItem(values);
                   }}>
                   {({handleChange, handleBlur, handleSubmit, values}) => (
@@ -312,13 +291,13 @@ const index = React.memo(
                     color: app.primaryColorDark,
                     alignSelf: 'flex-end',
                   }}
-                  selectedValue={selectedValue}
+                  selectedValue={selectedOrganisationId}
                   removeClippedSubviews
                   onValueChange={onPickerChangeValue}>
                   {currentUserOrganisations.data.map(element => (
                     <Picker.Item
                       label={element.organisationname}
-                      key={shortid.generate()}
+                      key={element.id}
                     />
                   ))}
                 </Picker>
@@ -357,7 +336,7 @@ const index = React.memo(
                   duedate.dayOfYear(),
                 );
                 values.attachments = attachments;
-                values.id = selectedOrganisation.id;
+                values.id = selectedOrganisationId;
                 values.amountPaid = parseFloat(values.amountPaid);
                 values.totalExTax = parseFloat(values.totalExTax);
 
@@ -523,7 +502,7 @@ const index = React.memo(
                           marginBottom: 15,
                         }}>
                         <TouchableWithoutFeedback
-                          onPressIn={() => fetchItems(selectedOrganisation.id)}>
+                          onPressIn={() => fetchItems(selectedOrganisationId)}>
                           <View style={{width: '45%'}}>
                             <Text
                               style={{

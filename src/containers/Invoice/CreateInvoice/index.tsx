@@ -24,6 +24,13 @@ const CreateInvoice = lazy(() =>
 );
 
 export default class extends PureComponent {
+  // selectedOrganisationId: any;
+  constructor(props) {
+    super(props);
+    // this.selectedOrganisationId =
+    //   this.props.screenProps.appstate.state.selectedOrganisation.id ||
+    //   this.props.screenProps.appstate.state.currentUserOrganisations.data[0].id;
+  }
   invoiceService = new InvoiceService();
   state = {
     mode: 'date',
@@ -32,6 +39,9 @@ export default class extends PureComponent {
     issuedate: moment(new Date()),
     duedate: moment(new Date()),
     selectedValue: 'key0',
+    selectedOrganisationId:
+      this.props.screenProps.appstate.state.selectedOrganisation.id ||
+      this.props.screenProps.appstate.state.currentUserOrganisations.data[0].id,
     attachmentCount: 0,
     attachments: [],
     showAddItemModal: false,
@@ -40,14 +50,8 @@ export default class extends PureComponent {
     fetchingItem: true,
     seletedItem: {},
   };
-
   componentDidMount = () => {
-    typeof this.props.screenProps.appstate.state.selectedOrganisation.id !==
-      'undefined' || this.state.selectedValue[0];
-    this.fetchItems(
-      this.props.screenProps.appstate.state.selectedOrganisation.id ||
-        this.state.selectedValue[0].id,
-    );
+    this.fetchItems(this.state.selectedOrganisationId);
   };
 
   setItemData = item => {
@@ -65,9 +69,8 @@ export default class extends PureComponent {
     });
   };
 
-  onPickerChangeValue = value => {
-    this.setState({...this.state, selectedValue: value});
-  };
+  onPickerChangeValue = value =>
+    this.setState({...this.state, selectedOrganisationId: value});
   //set the dates
   setDate = (event, date) => {
     date = this.state.isIssue
@@ -134,6 +137,7 @@ export default class extends PureComponent {
 
   //add items to business id
   addItem = async (values: CreateItemProps) => {
+    console.log(values);
     this.setState({
       ...this.state,
       ItemSubmitting: true,
@@ -275,6 +279,7 @@ export default class extends PureComponent {
             itemData={this.state.ItemData}
             fetchingItem={this.state.fetchingItem}
             createInvoice={this.createInvoice}
+            selectedOrganisationId={this.state.selectedOrganisationId}
           />
         </Root>
       </Suspense>

@@ -89,6 +89,7 @@ const DashbordContent = React.memo(
                 break;
             }
 
+            // console.log(props);
             if (props.hasOwnProperty('props'))
               return props.props.navigation.navigate(Route, {from: 'main'});
             props.navigation.navigate(Route);
