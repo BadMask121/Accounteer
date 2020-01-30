@@ -14,8 +14,6 @@ const InvoicesRoute = createAppContainer(
     {
       Invoices: {
         screen: props => {
-          // if (_.isEmpty(props.screenProps.appstate.state.selectedOrganisation))
-          //   return props.navigation.navigate(app.ROUTES.DASHBOARD);
           return <Invoices {...props} />;
         },
         navigationOptions: ({navigation}) => ({
@@ -25,8 +23,6 @@ const InvoicesRoute = createAppContainer(
       },
       ViewInvoice: {
         screen: props => {
-          // if (_.isEmpty(props.screenProps.appstate.state.selectedOrganisation))
-          //   return props.navigation.navigate(app.ROUTES.DASHBOARD);
           return <ViewInvoice {...props} />;
         },
         navigationOptions: ({navigation}) => ({
@@ -51,8 +47,6 @@ const index = createBottomTabNavigator(
   {
     BusinessDashboard: {
       screen: props => {
-        if (_.isEmpty(props.screenProps.appstate.state.selectedOrganisation))
-          return props.navigation.navigate(app.ROUTES.DASHBOARD);
         return <BusinessDashboard {...props} />;
       },
       navigationOptions: ({navigation}) => ({

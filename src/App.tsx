@@ -47,6 +47,7 @@ const App = React.memo((props: Props) => {
   React.useEffect(() => {
     setUserSession();
   }, []);
+
   return (
     <Fragment>
       <StatusBar translucent backgroundColor="#fff" barStyle="dark-content" />

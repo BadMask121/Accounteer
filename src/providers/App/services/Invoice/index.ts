@@ -11,7 +11,7 @@ export default class extends FirebaseAuthentication {
   public getInvoiceByBusinessId = async (id: any, offset, limit) => {
     const allInvoice: Array<any> = [];
     let index = 0;
-
+    let paginate;
     try {
       const checkIfItemExistsForBusiness = this.connector
         .collection(auth.COLLECTIONS.INVOICE)
@@ -25,26 +25,45 @@ export default class extends FirebaseAuthentication {
           }),
         );
 
-      const limitQuery = checkIfItemExistsForBusiness.limit(limit);
-      const paginate = await limitQuery.get().then(async snap => {
-        let last = snap.docs[snap.docs.length - 1];
+      const query = checkIfItemExistsForBusiness;
 
-        let next = await this.connector
-          .collection(auth.COLLECTIONS.INVOICE)
-          .orderBy('client')
-          .startAt(last.data().client)
-          .limit(limit + 1)
-          .get();
+      if (typeof limit !== 'undefined') {
+        paginate = await query.get().then(async snap => {
+          let last = snap.docs[snap.docs.length - 1];
+          console.log(last);
 
-        await new Promise((resolve, reject) => {
-          next.docs.forEach(doc => {
-            allInvoice.push(doc.data());
-            if (index === next.docs.length - 1) return resolve(allInvoice);
-            index++;
+          let next = await this.connector
+            .collection(auth.COLLECTIONS.INVOICE)
+            .orderBy('client')
+            .where('businessId', '==', id)
+            .startAt(last.data().client)
+            .limit(limit)
+            .get();
+
+          // console.log(next., 'HEre');
+
+          await new Promise((resolve, reject) => {
+            next.docs.forEach(doc => {
+              allInvoice.push(doc.data());
+              if (index === next.docs.length - 1) return resolve(allInvoice);
+              index++;
+            });
           });
+          return Promise.resolve(allInvoice);
         });
-        return Promise.resolve(allInvoice);
-      });
+      } else {
+        paginate = await query.get().then(async snap => {
+          await new Promise((resolve, reject) => {
+            snap.docs.forEach(doc => {
+              allInvoice.push(doc.data());
+              if (index === snap.docs.length - 1) return resolve(allInvoice);
+              index++;
+            });
+          });
+          return Promise.resolve(allInvoice);
+        });
+      }
+
       return Promise.resolve(paginate);
     } catch (error) {
       throw error;

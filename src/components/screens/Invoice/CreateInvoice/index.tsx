@@ -294,6 +294,7 @@ const index = React.memo(
                   {currentUserOrganisations.data.map(element => (
                     <Picker.Item
                       label={element.organisationname}
+                      value={element.organisationname}
                       key={element.id}
                     />
                   ))}

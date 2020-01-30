@@ -27,10 +27,6 @@ export default class extends PureComponent {
   // selectedOrganisationId: any;
   constructor(props) {
     super(props);
-
-    // this.selectedOrganisationId =
-    //   this.props.screenProps.appstate.state.selectedOrganisation.id ||
-    //   this.props.screenProps.appstate.state.currentUserOrganisations.data[0].id;
   }
   invoiceService = new InvoiceService();
   state = {
@@ -40,7 +36,7 @@ export default class extends PureComponent {
     issuedate: moment(new Date()),
     duedate: moment(new Date()),
     selectedValue: this.props.screenProps.appstate.state
-      .currentUserOrganisations.data[0].name,
+      .currentUserOrganisations.data[0].organisationname,
     selectedOrganisationId:
       this.props.screenProps.appstate.state.selectedOrganisation.id ||
       this.props.screenProps.appstate.state.currentUserOrganisations.data[0].id,
@@ -71,12 +67,17 @@ export default class extends PureComponent {
     });
   };
 
-  onPickerChangeValue = value =>
-    this.setState({
-      ...this.state,
-      selectedValue: value,
-      selectedOrganisationId: value,
-    });
+  onPickerChangeValue = value => {
+    const selectedValue = this.props.screenProps.appstate.state.currentUserOrganisations.data.filter(
+      el => el.organisationname === value,
+    );
+    typeof value !== 'undefined' &&
+      this.setState({
+        ...this.state,
+        selectedValue: selectedValue[0].organisationname,
+        selectedOrganisationId: selectedValue[0].id,
+      });
+  };
   //set the dates
   setDate = (event, date) => {
     date = this.state.isIssue

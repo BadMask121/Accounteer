@@ -18,15 +18,15 @@ const index = React.memo(props => {
 
   useEffect(() => {
     check().then(res => {
-      if (res === null)
-        setTimeout(() => {
-          getStarted();
-        }, 1000);
+      setTimeout(() => {
+        getStarted(res);
+      }, 1000);
     });
   }, []);
 
-  const getStarted = async () => {
-    props.navigation.navigate(app.ROUTES.AUTH, {
+  const getStarted = async res => {
+    const Route = !res ? app.ROUTES.AUTH : app.ROUTES.APP;
+    props.navigation.navigate(Route, {
       payload: {
         image: require('@assets/images/logo.png'),
       },

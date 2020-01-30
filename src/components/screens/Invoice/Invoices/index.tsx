@@ -9,6 +9,7 @@ import {
   ActivityIndicator,
   Image,
   SafeAreaView,
+  RefreshControl,
 } from 'react-native';
 import {FloatingAction} from 'react-native-floating-action';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -51,8 +52,12 @@ export default React.memo(
           {
             <Animated.FlatList
               data={InvoiceData}
-              onEndReached={
-                InvoiceData.length >= limit && fetchInvoice(id, 0, limit)
+              refreshControl={
+                <RefreshControl
+                  colors={['#9Bd35A', '#689F38']}
+                  refreshing={fetching}
+                  onRefresh={() => fetchInvoice(id, 0, limit)}
+                />
               }
               onEndReachedThreshold={0.7}
               ItemSeparatorComponent={({highlighted}) => (

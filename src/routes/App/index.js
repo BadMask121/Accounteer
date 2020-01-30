@@ -9,14 +9,7 @@ import {app} from 'helpers/constants';
 
 const index = createDrawerNavigator(
   {
-    Dashboard: {
-      screen: props => {
-        return <Dashboard {...props} />;
-      },
-      navigationOptions: ({}) => ({
-        drawerIcon: () => <Icon name="camera" size={20} color="#000" />,
-      }),
-    },
+    Dashboard,
     BusinessRoute: {
       screen: BusinessRoute,
       navigationOptions: ({navigation}) => ({

@@ -8,6 +8,7 @@ import {Root, Toast} from 'native-base';
 const Dashboard = lazy(() => import('../../components/screens/Dashboard'));
 
 class Index extends PureComponent {
+  static whyDidYouRender = true;
   userServ = new UserService();
   constructor(props: any) {
     super(props);

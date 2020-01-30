@@ -21,7 +21,6 @@ export default class extends PureComponent {
     this.fetchInvoice(
       this.props.screenProps.appstate.state.selectedOrganisation.id,
       100,
-      this.LIMIT,
     );
   };
 
@@ -43,6 +42,7 @@ export default class extends PureComponent {
         this.setState({...this.state, fetching: false, finished: true});
       })
       .catch(err => {
+        console.log(err);
         this.setState({...this.state, fetching: false, finished: true});
       });
   };

@@ -1,4 +1,4 @@
-import React, {lazy, Suspense, useState, useEffect} from 'react';
+import React, {lazy, Suspense, useState, useRef, useEffect} from 'react';
 import {View, Text} from 'native-base';
 import {
   Image,
@@ -88,11 +88,9 @@ const DashbordContent = React.memo(
               default:
                 break;
             }
-
-            // console.log(props);
-            if (props.hasOwnProperty('props'))
-              return props.props.navigation.navigate(Route, {from: 'main'});
-            props.navigation.navigate(Route);
+            return props.hasOwnProperty('props')
+              ? props.props.navigation.navigate(Route, {from: 'main'})
+              : props.navigation.navigate(Route);
           }}>
           <Icon name="plus" size={20} color={app.primaryColorLight} />
         </RippleView>

@@ -10,6 +10,7 @@ import AppComponent from './src/App';
 import {name as appName} from './app.json';
 // import whyDidYouRender from '@welldone-software/why-did-you-render';
 // whyDidYouRender(React);
+
 const App = () => {
   return (
     <Provider>
