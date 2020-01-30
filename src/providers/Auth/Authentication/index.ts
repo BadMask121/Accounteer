@@ -151,6 +151,7 @@ export class FirebaseAuthentication {
     Reflect.deleteProperty(values, 'organisation');
     Reflect.deleteProperty(values, 'organisationname');
     Reflect.deleteProperty(values, 'organisationlocation');
+    Reflect.deleteProperty(values, 'currency');
     const userDetails = {...values, avatar: await this.getUserDefaultImage()};
     delete userDetails.password;
 

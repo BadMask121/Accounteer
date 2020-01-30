@@ -20,6 +20,7 @@ export const AUTH_STATE = {
     organisationlocation: '',
     email: '',
     password: '',
+    currency: '',
   },
 
   login: {

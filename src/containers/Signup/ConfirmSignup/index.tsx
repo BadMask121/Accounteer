@@ -21,6 +21,7 @@ class index extends Component {
     signupValues.organisation = {
       organisationname: signupValues.organisationname,
       organisationlocation: signupValues.organisationlocation,
+      currency: signupValues.currency,
     };
     this.authstate
       .signup(signupValues)

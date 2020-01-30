@@ -63,10 +63,12 @@ export default React.memo(
             }}
             validateOnChange={signupValidationSchema}
             validationSchema={signupValidationSchema}
-            onSubmit={values => handleSubmit(values)}>
+            onSubmit={values => {
+              values.currency = state.selectedValue;
+              handleSubmit(values);
+            }}>
             {({handleChange, handleSubmit, values, errors}) => {
               const isFoundErrors = () => !_.isEmpty(errors);
-              values.currency = state.selectedValue;
               return (
                 <ScrollView>
                   <FormInput
