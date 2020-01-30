@@ -9,6 +9,7 @@ import {
   Container,
   Content,
   Toast,
+  Icon as NIcon,
 } from 'native-base';
 import {
   KeyboardAvoidingView,
@@ -270,15 +271,11 @@ const index = React.memo(
                   mode="dropdown"
                   iosHeader="Select business"
                   iosIcon={
-                    <Icon
-                      name={
-                        Platform.OS === 'ios'
-                          ? 'arrow-down'
-                          : 'arrow-dropdown-circle' || 'arrow-down'
-                      }
+                    <NIcon
+                      name="ios-arrow-dropdown"
                       style={{
                         color: app.primaryColorLight,
-                        fontSize: 15,
+                        fontSize: 20,
                         paddingRight: 10,
                       }}
                     />
@@ -291,7 +288,7 @@ const index = React.memo(
                     color: app.primaryColorDark,
                     alignSelf: 'flex-end',
                   }}
-                  selectedValue={selectedOrganisationId}
+                  selectedValue={selectedValue}
                   removeClippedSubviews
                   onValueChange={onPickerChangeValue}>
                   {currentUserOrganisations.data.map(element => (

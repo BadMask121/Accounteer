@@ -27,6 +27,7 @@ export default class extends PureComponent {
   // selectedOrganisationId: any;
   constructor(props) {
     super(props);
+
     // this.selectedOrganisationId =
     //   this.props.screenProps.appstate.state.selectedOrganisation.id ||
     //   this.props.screenProps.appstate.state.currentUserOrganisations.data[0].id;
@@ -38,7 +39,8 @@ export default class extends PureComponent {
     isIssue: true,
     issuedate: moment(new Date()),
     duedate: moment(new Date()),
-    selectedValue: 'key0',
+    selectedValue: this.props.screenProps.appstate.state
+      .currentUserOrganisations.data[0].name,
     selectedOrganisationId:
       this.props.screenProps.appstate.state.selectedOrganisation.id ||
       this.props.screenProps.appstate.state.currentUserOrganisations.data[0].id,
@@ -70,7 +72,11 @@ export default class extends PureComponent {
   };
 
   onPickerChangeValue = value =>
-    this.setState({...this.state, selectedOrganisationId: value});
+    this.setState({
+      ...this.state,
+      selectedValue: value,
+      selectedOrganisationId: value,
+    });
   //set the dates
   setDate = (event, date) => {
     date = this.state.isIssue
@@ -137,7 +143,6 @@ export default class extends PureComponent {
 
   //add items to business id
   addItem = async (values: CreateItemProps) => {
-    console.log(values);
     this.setState({
       ...this.state,
       ItemSubmitting: true,
