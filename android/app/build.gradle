@@ -146,9 +146,9 @@ android {
     signingConfigs {
         release {
             storeFile file('accounteer.keystore')
-            storePassword 'Wondery@2k'
-            keyAlias 'accounteer'
-            keyPassword 'Wondery@2k'
+            storePassword ${KEY}
+            keyAlias ${ALIAS}
+            keyPassword ${KEY_ALIAS}
         }
         debug {
             storeFile file('debug.keystore')
